@@ -1,4 +1,4 @@
-//Author: Travis Parks
+﻿//Author: Travis Parks
 //Debugging: Travis Parks
 using System.Collections;
 using System.Collections.Generic;
@@ -54,9 +54,6 @@ public class HandAnim : MonoBehaviour
     public bool getisCrouching(){
         return animator.GetBool("isCrouched");
     }
-    public void setisClimbing(bool plug){
-        animator.SetBool("isClimbing", plug);
-    }
     public bool getisClimbing(){
         return animator.GetBool("isClimbing");
     }
@@ -97,75 +94,40 @@ public class HandAnim : MonoBehaviour
         movement = sphere.GetComponent<Movement>();
         grab = GetComponent<Grab>();
     }
-
-    void startBarrage(){
-        animator.SetBool("barragePrep", false);
-        movement.isBarraging = true;
-        //flipflop2 = true;
-        //speedController.setFactor(.5f);
-        //Debug.Log("SPEED CUT");
-        //movement change here
-
-    }
-
-    void resetbarragePrep(){
-        barragePrep = false;
-        //speedController.setFactor(2f);
-        //Debug.Log("SPEED BOOSTED");
-        //movement restoration here
-    }
-
     void openGate(){
         blocker = true;
     }
     void closeGate(){
         blocker = true;
     }
-
-    void waveStartL(){
-        blocker = false;
-        flipflop = !flipflop;
-        animator.SetBool("isPunchingLeft", true);
-        Invoke("waveStop", .1f);
-    }
-    void waveStartR(){
-        blocker = false;
-        flipflop = !flipflop;
-        animator.SetBool("isPunchingRight", true);
-        Invoke("waveStop", .1f);
-
-    }
-    void waveStop(){
-        
-        animator.SetBool("isPunchingLeft", false);
-        animator.SetBool("isPunchingRight", false);
-        blocker = true;
-       
-    }
-
-    public void setIsHoldingFoodTrue(){
-        animator.SetFloat("isHoldingFood", 1);
-    }
-    public void setIsHoldingFoodFalse(){
-        animator.SetFloat("isHoldingFood", 0);
-    }
     void resetHoldingChange(){
         animator.SetBool("holdingChange", false);
     }
-    void resetEatFood(){
-        animator.SetBool("EatFood", false);
-    }
-    public void setEatFood(){
-        animator.SetBool("EatFood", true);
-        Invoke("resetEatFood", .1f);
-    }
     public void forceIdle(){
         animator.SetBool("isMoving", false);
-        animator.SetBool("isClimbing", false);
-        animator.SetBool("HungerDive", false);
         animator.SetBool("isSprinting", false);
         animator.SetBool("walkPressed", false);
     }
+	void waveStartL(){
+		blocker = false;
+		flipflop = !flipflop;
+		animator.SetBool("isPunchingLeft", true);
+		Invoke("waveStop", .1f);
+	}
+	void waveStartR(){
+		blocker = false;
+		flipflop = !flipflop;
+		animator.SetBool("isPunchingRight", true);
+		Invoke("waveStop", .1f);
+
+	}
+	void waveStop(){
+        
+		animator.SetBool("isPunchingLeft", false);
+		animator.SetBool("isPunchingRight", false);
+		blocker = true;
+       
+	}
 
     //Update() pausing by Brian Meginness
     // Update is called once per frame
@@ -179,20 +141,6 @@ public class HandAnim : MonoBehaviour
             }
             else if(!isOnSteep){
                 animator.SetBool("OnSteep", false);
-            }
-            if (movement.ClimbingADJ) {
-                animator.SetFloat("ClimbingX", movement.velocity.x);
-                animator.SetFloat("ClimbingY", movement.velocity.y);
-                animator.SetBool("isClimbing", true);
-            }
-            else if (!movement.ClimbingADJ) {
-                animator.SetBool("isClimbing", false);
-            }
-            if (movement.Diving) {
-                animator.SetBool("HungerDive", true);
-            }
-            else if (!movement.Diving) {
-                animator.SetBool("HungerDive", false);
             }
             if (Input.GetKeyDown(controls.keys["duck"])){
                 setisCrouching(true);
@@ -235,6 +183,16 @@ public class HandAnim : MonoBehaviour
             else {
                 animator.SetBool("walkPressed", false);
             }
+	        if (Input.GetKeyDown(controls.keys["throw"])) {
+		        if (blocker && !grab.isHolding) {
+			        if (flipflop) {
+				        Invoke("waveStartL", .1f);
+			        }
+			        else if (!flipflop) {
+				        Invoke("waveStartR", .1f);
+			        }
+		        }
+	        }
 
             playerSpeed = sphere.GetComponent<Rigidbody>().velocity.magnitude;
             if (playerSpeed < .001f) {
@@ -257,47 +215,6 @@ public class HandAnim : MonoBehaviour
                     playerSpeed = playerSpeed / 10f;
                     animator.SetFloat("walkBlend", playerSpeed);
                 }
-            }
-
-            //Barrage Attack
-           // if (Input.GetKeyDown("mouse 1")) {
-           //     if (flipflop2 && !movement.isBarraging && !grab.isHolding) {
-           //         animator.SetBool("barragePrep", true);
-           //         blocker = false;
-           //         flipflop2 = false;
-           //     }
-           //     else if (!flipflop2) {
-           //         movement.isBarraging = false;
-           //         animator.SetBool("barragePrep", false);
-           //         blocker = true;
-           //         flipflop2 = true;
-           //     }
-           // }
-
-
-            if (Input.GetKeyDown(controls.keys["throw"])) {
-                if (blocker && !grab.isHolding) {
-                    if (flipflop) {
-                        Invoke("waveStartL", .1f);
-                    }
-                    else if (!flipflop) {
-                        Invoke("waveStartR", .1f);
-                    }
-                }
-            }
-            if (Input.GetKey(controls.keys["throw"])) {
-                if (barragePrep) {
-                    animator.SetBool("charging", true);
-
-                }
-                else if (!barragePrep) {
-                    animator.SetBool("charging", false);
-                    movement.isBarraging = false;
-                }
-            }
-            else if (!Input.GetKey(controls.keys["throw"])) {
-                animator.SetBool("charging", false);
-                movement.isBarraging = false;
             }
         }
     }
