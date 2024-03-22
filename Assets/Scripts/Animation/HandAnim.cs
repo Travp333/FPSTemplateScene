@@ -12,10 +12,7 @@ public class HandAnim : MonoBehaviour
     [SerializeField]
     GameObject sphere;
     Movement movement;
-    [HideInInspector]
-    public bool barragePrep = false;
     bool flipflop = true;
-    //bool flipflop2 = true;
     bool blocker = true;
     float charge;
     public Animator animator;
@@ -53,9 +50,6 @@ public class HandAnim : MonoBehaviour
     }
     public bool getisCrouching(){
         return animator.GetBool("isCrouched");
-    }
-    public bool getisClimbing(){
-        return animator.GetBool("isClimbing");
     }
     public void setisThrowing(bool plug){
         animator.SetBool("grabCharge", !plug);

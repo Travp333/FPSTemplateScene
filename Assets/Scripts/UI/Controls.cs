@@ -1,4 +1,4 @@
-//Author: Brian Meginness
+﻿//Author: Brian Meginness
 //Debugging: Brian Meginness
 using System.Collections;
 using System.Collections.Generic;
@@ -24,7 +24,6 @@ public class Controls : MonoBehaviour
             //A dictionary containing game actions and associated keys
             keys = new Dictionary<string, KeyCode>()
             {
-                {"flashlight",KeyCode.T},
                 {"walkUp",KeyCode.W},
                 {"walkDown",KeyCode.S},
                 {"walkLeft",KeyCode.A},
@@ -32,11 +31,9 @@ public class Controls : MonoBehaviour
                 {"jump",KeyCode.Space},
                 {"duck",KeyCode.C},
                 {"sprint",KeyCode.LeftShift},
-                {"interact",KeyCode.F},
+                {"interact",KeyCode.E},
                 {"throw",KeyCode.Mouse0},
                 {"aim",KeyCode.Mouse1},
-                {"swimup",KeyCode.E},
-                {"swimdown",KeyCode.Q}
             };
 
             //Dictionary for what keys on the keyboard are in use

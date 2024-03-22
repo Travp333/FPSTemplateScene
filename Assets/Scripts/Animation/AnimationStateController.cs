@@ -17,12 +17,6 @@ public class AnimationStateController : MonoBehaviour
     int isJumpingHash;
     int onGroundHash;
     int isOnWallHash;
-    int isClimbingHash;
-    int isClimbingUpHash;
-    int isClimbingDownHash;
-    int isClimbingRightHash;
-    int isClimbingLeftHash;
-
     int isFallingHash;
     bool isOnGround;
     bool isOnWall;
@@ -60,11 +54,6 @@ public class AnimationStateController : MonoBehaviour
         isJumpingHash = Animator.StringToHash("isJumping");
         onGroundHash = Animator.StringToHash("OnGround");
         isOnWallHash = Animator.StringToHash("isOnWall");
-        isClimbingHash = Animator.StringToHash("isClimbing");
-        isClimbingUpHash = Animator.StringToHash("isClimbingUp");
-        isClimbingDownHash = Animator.StringToHash("isClimbingDown");
-        isClimbingLeftHash = Animator.StringToHash("isClimbingLeft");
-        isClimbingRightHash = Animator.StringToHash("isClimbingRight");
         isFallingHash = Animator.StringToHash("isFalling");
 
     }
@@ -100,12 +89,8 @@ public class AnimationStateController : MonoBehaviour
 		bool isWalking = animator.GetBool(isWalkingHash);
 		bool isSprinting = animator.GetBool(isSprintingHash);
         bool isJumping = animator.GetBool(isJumpingHash);
-        bool Climbing = sphere.Climbing;
-        float submergence = sphere.submergence;
 		bool SprintPressed = Input.GetKey(sphere.controls.keys["sprint"]);
         bool WalkPressed = Input.GetKey(sphere.controls.keys["duck"]);
-        bool swimUpPressed = Input.GetKey(sphere.controls.keys["swimup"]);
-        bool swimDownPressed = Input.GetKey(sphere.controls.keys["swimdown"]);
         bool forwardPressed = Input.GetKey(sphere.controls.keys["walkUp"]);
         bool leftPressed = Input.GetKey(sphere.controls.keys["walkLeft"]);
         bool rightPressed = Input.GetKey(sphere.controls.keys["walkRight"]);
@@ -114,76 +99,12 @@ public class AnimationStateController : MonoBehaviour
 
         if (isOnGround){
             animator.SetBool(onGroundHash, true);
-            animator.SetBool(isClimbingHash, false);
-            animator.SetBool(isClimbingLeftHash, false);
-            animator.SetBool(isClimbingRightHash, false);
-            animator.SetBool(isClimbingUpHash, false);
-            animator.SetBool(isClimbingDownHash, false);
         }
         else if (!isOnGround){
             animator.SetBool(onGroundHash, false);
         }
-
-        //if you are climbing, but not pressing any directions and are off the ground, enter climb idle
-        if (Climbing && !rightPressed && !leftPressed && !forwardPressed && !backPressed && !sphere.OnGround){
-            animator.SetBool(isJumpingHash, false);
-            animator.SetBool(onGroundHash, false);
-            animator.SetBool(isClimbingHash, true);
-            animator.SetBool(isClimbingUpHash, false);
-            animator.SetBool(isClimbingDownHash, false);
-            animator.SetBool(isClimbingRightHash, false);
-            animator.SetBool(isClimbingLeftHash, false);
-        }
-        // if you are not climbing then disable all climbing anim
-        if (!Climbing){
-            animator.SetBool(isClimbingHash, false);
-            animator.SetBool(isClimbingUpHash, false);
-            animator.SetBool(isClimbingDownHash, false);
-            animator.SetBool(isClimbingRightHash, false);
-            animator.SetBool(isClimbingLeftHash, false);
-        }
-        // climbing left
-        if (Climbing && leftPressed && !rightPressed && !forwardPressed && !backPressed&&!sphere.OnGround){
-            animator.SetBool(isJumpingHash, false);
-            animator.SetBool(onGroundHash, false);
-            animator.SetBool(isClimbingHash, true);
-            animator.SetBool(isClimbingUpHash, false);
-            animator.SetBool(isClimbingDownHash, false);
-            animator.SetBool(isClimbingRightHash, false);
-            animator.SetBool(isClimbingLeftHash, true);
-        }
-        //climbing right
-        if (Climbing && !leftPressed && rightPressed && !forwardPressed && !backPressed&&!sphere.OnGround){
-            animator.SetBool(isJumpingHash, false);
-            animator.SetBool(onGroundHash, false);
-            animator.SetBool(isClimbingHash, true);
-            animator.SetBool(isClimbingUpHash, false);
-            animator.SetBool(isClimbingDownHash, false);
-            animator.SetBool(isClimbingRightHash, true);
-            animator.SetBool(isClimbingLeftHash, false);
-        }
-        // climbing up
-        if (Climbing && !leftPressed && !rightPressed && forwardPressed && !backPressed&&!sphere.OnGround){
-            animator.SetBool(isJumpingHash, false);
-            animator.SetBool(onGroundHash, false);
-            animator.SetBool(isClimbingUpHash, true);
-            animator.SetBool(isClimbingHash, true);
-            animator.SetBool(isClimbingDownHash, false);
-            animator.SetBool(isClimbingRightHash, false);
-            animator.SetBool(isClimbingLeftHash, false);
-        }
-        // climbing down
-        if (Climbing && !leftPressed && !rightPressed && !forwardPressed && backPressed&&!sphere.OnGround){
-            animator.SetBool(isJumpingHash, false);
-            animator.SetBool(onGroundHash, false);
-            animator.SetBool(isClimbingHash, true);
-            animator.SetBool(isClimbingUpHash, false);
-            animator.SetBool(isClimbingDownHash, true);
-            animator.SetBool(isClimbingRightHash, false);
-            animator.SetBool(isClimbingLeftHash, false);
-        }
         //This makes jump stay true a little longer after you press it, dependent on "JumpBuffer"
-        if (JumpPressed && submergence < 1){
+        if (JumpPressed){
             if(JumpSwitch){
                 Jumpstopwatch = 0;
                 animator.SetBool(isJumpingHash, true);
@@ -197,7 +118,7 @@ public class AnimationStateController : MonoBehaviour
             }   
         }
         //this activates when jump is not pressed, counts until jumpbuffer, then disables jump
-        if(!JumpPressed || submergence == 1){
+        if(!JumpPressed){
             JumpSwitch = true;
             Jumpstopwatch += Time.deltaTime;
             if(Jumpstopwatch >= JumpBuffer){
@@ -206,7 +127,7 @@ public class AnimationStateController : MonoBehaviour
         }
         
         // if you are in the air, adding timer to give a little time before the falling animation plays
-        if (!isOnGroundADJ && !isOnSteep && !Climbing){
+        if (!isOnGroundADJ && !isOnSteep){
             jumpCount += Time.deltaTime;
             if(jumpCount > jumpCap){
                 animator.SetBool(isFallingHash, true);
@@ -217,7 +138,7 @@ public class AnimationStateController : MonoBehaviour
             }
 
         }
-        else if(isOnGroundADJ || isOnSteep  || Climbing){
+        else if(isOnGroundADJ || isOnSteep ){
             jumpCount = 0f;
         }
 

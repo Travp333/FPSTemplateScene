@@ -18,7 +18,10 @@ public class Interact : MonoBehaviour
     public Rigidbody propRB;
     [SerializeField]
     [Tooltip("where a grabbed prop attaches")]
-    Transform dummy;
+	Transform holdPoint;
+	[SerializeField]
+	[Tooltip("where a interact raycast points to")]
+	Transform castPoint;
     [SerializeField]
     [Tooltip("where the throwing force originates from")]
     public GameObject origin;
@@ -61,7 +64,7 @@ public class Interact : MonoBehaviour
     //If not already holding an object, get object components, pass to Grab to do the work
     public void pickUp(GameObject obj){
         if (!grab.isHolding) { 
-            
+	        castPoint.gameObject.GetComponent<heldObjectReferenceHolder>().HeldObjectReference = obj;
             prop = obj.GetComponent<Transform>();
             propParent = prop.transform.root;
 	        propRB = obj.GetComponent<Rigidbody>();
@@ -83,7 +86,7 @@ public class Interact : MonoBehaviour
                     }
                 }
             }
-            grab.pickUp(dummy, prop, propRB, obj);
+            grab.pickUp(holdPoint, prop, propRB, obj);
  
         }
 
@@ -94,11 +97,12 @@ public class Interact : MonoBehaviour
 	    colTog.clear();
         hand.setisHolding(false);
         if(prop.gameObject.tag == "ragdoll"){
-            dummy.GetChild(5).SetParent(ragdollParent);
+	        castPoint.gameObject.GetComponent<heldObjectReferenceHolder>().HeldObjectReference.transform.SetParent(ragdollParent);
         }
         else{
-            dummy.GetChild(5).SetParent(null);
+	        castPoint.gameObject.GetComponent<heldObjectReferenceHolder>().HeldObjectReference.transform.SetParent(null);
         }
+	    castPoint.gameObject.GetComponent<heldObjectReferenceHolder>().HeldObjectReference = null;
         //opposite of the pick up section, just undoing all of that back to its default state
         grab.isgrabCharging = false;
         propRB.isKinematic=(false);
@@ -130,8 +134,10 @@ public class Interact : MonoBehaviour
                 {
                     RaycastHit hit;
                     //IF a raycast hits something
-                    if (Physics.SphereCast(origin.transform.position, .2f, (dummy.position - origin.transform.position), out hit, distance, mask))
+                    if (Physics.SphereCast(origin.transform.position, .2f, (castPoint.position - origin.transform.position), out hit, distance, mask))
                     {
+                    	Debug.DrawRay(origin.transform.position, (castPoint.position - origin.transform.position), Color.green, 5f);
+                    	Debug.DrawLine(origin.transform.position, hit.point, Color.red, 5f);
                         //Get the properties of the something you hit
                         propRB = hit.rigidbody;
                         prop = hit.transform;
@@ -147,6 +153,7 @@ public class Interact : MonoBehaviour
 	                    //IF the thing you hit has a rigidbody that is light enough for the player to hold
                         if (hit.transform.gameObject.GetComponent<Rigidbody>() != null && hit.transform.gameObject.GetComponent<Rigidbody>().isKinematic == false && hit.transform.gameObject.GetComponent<Rigidbody>().mass <= grab.strength && !grab.justThrew)
                         {
+                        	Debug.Log("HIT!!");
                             //Pick it up
                             pickUp(prop.gameObject);
                         }

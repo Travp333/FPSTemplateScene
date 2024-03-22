@@ -9,11 +9,6 @@ using UnityEngine;
 // reflect that they are holding something. This script also handles the logic for throwing objects, including charging up and releasing
 public class Grab : MonoBehaviour
 {
-
-    [SerializeField]
-    AudioSource[] pickUpAudioSource;
-    [SerializeField]
-    AudioSource[] throwAudioSource;
     //Components
     HandAnim hand;
     Movement movement;
@@ -35,31 +30,24 @@ public class Grab : MonoBehaviour
     bool highorLow = true;
     [HideInInspector]
     public float throwingTemp;
-
     [SerializeField]
     [Tooltip("the heaviest possible object the player can pick up")]
     public float strength;
-    
     [SerializeField]
     [Tooltip("the maximum force the player can throw an object at, when fully charged")]
     float maxThrowingForce;
-    
     [SerializeField]
     [Tooltip("the rate at which the players throw charges")]
     float chargeRate;
     [HideInInspector]
     public bool isgrabCharging = false;
-
     //Object sizes
     public enum objectSizes{tiny, small, medium, large, none};
     [HideInInspector]
     public objectSizes sizes;
-
     public Interact interact;
-
     [HideInInspector]
     public bool justThrew;
-
     void Start() {
         //Set components
         controls = GameObject.Find("Data").GetComponentInChildren<Controls>();
@@ -68,18 +56,14 @@ public class Grab : MonoBehaviour
         movement = transform.root.GetComponent<Movement>();
         hand = GetComponent<HandAnim>();
     }
-
     void setisThrowingFalse(){
         hand.setisThrowing(false);
     }
     void resetJustThrew(){
         justThrew = false;
     }
-
     public void pickUp(Transform dummy, Transform prop, Rigidbody propRB, GameObject propGame)
-    {    
-        int index = Random.Range(0, pickUpAudioSource.Length - 1);
-        pickUpAudioSource[index].Play();  
+    {      
         //Get size of held object
         if(propGame.GetComponent<objectSize>().sizes == objectSize.objectSizes.large){
             sizes = objectSizes.large;
@@ -118,21 +102,18 @@ public class Grab : MonoBehaviour
         if (!FindObjectOfType<PauseMenu>().isPaused)
         {
             //IF Left Mouse released and is holding an object
-            if (Input.GetKeyUp(controls.keys["throw"]) && isHolding && !hand.barragePrep && !movement.isBarraging && !justThrew)
+	        if (Input.GetKeyUp(controls.keys["throw"]) && isHolding && !justThrew)
             {
-                int index = Random.Range(0, throwAudioSource.Length - 1);
-                throwAudioSource[index].Play(); 
-                
                 //Remove from grip
                 interact.detach();
                 //Add appropriate force to object
                 if (highorLow)
                 {
-                    interact.propRB.AddForce((HighthrowingPoint.position - interact.origin.transform.position) * throwingforce, ForceMode.Impulse);
+	                interact.propRB.AddForce((HighthrowingPoint.position - interact.origin.transform.position).normalized * throwingforce, ForceMode.Impulse);
                 }
                 else
                 {
-                    interact.propRB.AddForce((LowthrowingPoint.position - interact.origin.transform.position) * throwingforce, ForceMode.Impulse);
+	                interact.propRB.AddForce(this.transform.forward * throwingforce, ForceMode.Impulse);
                 }
                 // trigger animation
                 hand.setisThrowing(true);
@@ -144,7 +125,7 @@ public class Grab : MonoBehaviour
                 Invoke("resetJustThrew", .5f);
             }
             //IF Left Mouse pressed and is holding an object
-            if (Input.GetKey(controls.keys["throw"]) && isHolding && !hand.barragePrep && !movement.isBarraging && !justThrew)
+            if (Input.GetKey(controls.keys["throw"]) && isHolding && !justThrew)
             {
                 // Start incrementing throwing force
                 if (throwingforce <= maxThrowingForce)
@@ -154,6 +135,7 @@ public class Grab : MonoBehaviour
                 }
                 if (throwingforce > maxThrowingForce)
                 {
+                	throwingforce = maxThrowingForce;
                     isgrabCharging = false;
                     highorLow = false;
                 }

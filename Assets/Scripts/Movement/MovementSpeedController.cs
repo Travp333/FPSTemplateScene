@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 //this script is meant to control the character's speed and allow other scripts to place boosts or limits upon it.
@@ -10,7 +10,7 @@ public class MovementSpeedController : MonoBehaviour
 
     [SerializeField, Range(0f, 100f)]
 	[Tooltip("speeds of the character, these states represent the speed when your character is jogging, sprinting, walking, swimming, and climbing")]
-	public float baseSpeed = 10f, sprintSpeed = 15f, maxClimbSpeed = 2f, maxSwimSpeed = 5f, walkSpeed = 7f;
+	public float baseSpeed = 10f, sprintSpeed = 15f, walkSpeed = 7f;
     // Start is called before the first frame update
     public float currentSpeed;
     [SerializeField]
@@ -36,7 +36,7 @@ public class MovementSpeedController : MonoBehaviour
     }
     void MovementState(float factor){
 		//change movement speeds universally
-        bool duckPressed = movement.divingPrep;
+        bool duckPressed = movement.crouching;
 		bool SprintPressed = Input.GetKey(controls.keys["sprint"]);
 		bool moving = Input.GetKey(controls.keys["walkUp"]) || Input.GetKey(controls.keys["walkDown"]) || Input.GetKey(controls.keys["walkLeft"]) || Input.GetKey(controls.keys["walkRight"]);
 		// default situation
@@ -48,12 +48,9 @@ public class MovementSpeedController : MonoBehaviour
 			currentSpeed = sprintSpeed;
         }
 		//walking / crouching
-		if (moving && duckPressed && !SprintPressed && movement.OnGround && !movement.ClimbingADJ){
+		if (moving && duckPressed && !SprintPressed && movement.OnGround){
 			currentSpeed = walkSpeed;
 		}
-        else if (duckPressed && !movement.OnGround && movement.ClimbingADJ){
-            currentSpeed  = maxClimbSpeed;
-        }
         if(!movement.OnGround){
             currentSpeed = baseSpeed;
         }
@@ -65,8 +62,6 @@ public class MovementSpeedController : MonoBehaviour
             sprintSpeed *= factor;
             baseSpeed *= factor;
             currentSpeed *= factor;		
-            maxClimbSpeed *= factor;
-            maxSwimSpeed *= factor;
             lastFactor = factor;
         }
 	}
