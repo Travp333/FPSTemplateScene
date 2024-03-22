@@ -74,10 +74,11 @@ public class HandAnim : MonoBehaviour
         }
     }
     void resetInteract(){
-        animator.SetBool("Interact", false);
+	    animator.SetBool("Interact", false);
     }
-    public void interact(){
-        animator.SetBool("Interact", true);
+	public void interact(){
+		animator.Play("InteractBlend");
+	    //animator.SetBool("Interact", true);
         Invoke("resetInteract", .1f);
     }
     void Start()

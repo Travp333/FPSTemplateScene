@@ -134,7 +134,7 @@ public class Interact : MonoBehaviour
                 {
                     RaycastHit hit;
                     //IF a raycast hits something
-                    if (Physics.SphereCast(origin.transform.position, .2f, (castPoint.position - origin.transform.position), out hit, distance, mask))
+	                if (Physics.SphereCast(origin.transform.position, 1f, (castPoint.position - origin.transform.position), out hit, distance, mask))
                     {
                     	Debug.DrawRay(origin.transform.position, (castPoint.position - origin.transform.position), Color.green, 5f);
                     	Debug.DrawLine(origin.transform.position, hit.point, Color.red, 5f);
@@ -161,21 +161,17 @@ public class Interact : MonoBehaviour
 	                    //Maybe revise this to just be a generic "Interactable"?
                         
 	                    //IF the the thing you hit is a button
-	                    /*
+	                    
                         if (hit.transform.gameObject.GetComponent<buttonPush>() != null)
                         {
                             //Get the button object
                             buttonPush button = hit.transform.gameObject.GetComponent<buttonPush>();
-                            if ((button.oneTime && button.anim.GetBool("onePush") == false && button.door.subGate == false) || (button.door != null && button.door.subGate == false) || !button.blocker)
-                            {
-                                button.press();
-                            }
-                            if ((button.oneTime && button.anim.GetBool("onePush") == false && button.belt.subGate == false) || (button.belt != null && button.belt.subGate == false) || !button.blocker)
+	                        if (!button.blocker)
                             {
                                 button.press();
                             }
 	                    }
-	                    */
+	                    
                    
                     }
                 }
