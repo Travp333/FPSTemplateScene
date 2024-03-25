@@ -22,7 +22,7 @@ public class SimpleCameraMovement : MonoBehaviour
 			Cursor.visible = false;
 		}
 	}
-	void FixedUpdate()
+	void Update()
 	{
 		UpdateMouseLook();
 	}
