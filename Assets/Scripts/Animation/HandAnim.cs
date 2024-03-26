@@ -7,7 +7,8 @@ using UnityEngine;
 //this script controls all the animations tied to the character, such as when certain animations should be played and how they should be played.
 public class HandAnim : MonoBehaviour
 {
-    Controls controls;
+	public List<string> animNames = new List<string>();
+	Controls controls;
     MovementSpeedController speedController;
     [SerializeField]
     GameObject sphere;
@@ -20,20 +21,16 @@ public class HandAnim : MonoBehaviour
     float playerSpeed2;
     float tempSpeed;
     float tempSpeed2;
-
     bool isOnGround;
     bool isOnSteep;
-
     [HideInInspector]
     public bool isOnGroundADJ;
-
     [SerializeField]
     [Tooltip("how long you need to be in the air before the 'onGround' bool triggers")]
     float OnGroundBuffer = .5f;
     float Groundstopwatch = 0;
     bool JumpPressed;
     bool holdingDummy;
-
     Grab grab;
     // Start is called before the first frame update
     public bool getisThrowing(){
@@ -55,7 +52,15 @@ public class HandAnim : MonoBehaviour
         animator.SetBool("grabCharge", !plug);
         animator.SetBool("isThrowing", plug);
     }
-
+	public void ReplaceAnimationClips(int layer, List<AnimationClip> anims){
+		foreach(AnimationClip a in anims){
+			foreach(string s in animNames){
+				if(a.name == s){
+					
+				}
+			}
+		}
+	}
     void BoolAdjuster(){
         isOnGround = movement.OnGround;
         isOnSteep = movement.OnSteep;
@@ -80,9 +85,22 @@ public class HandAnim : MonoBehaviour
 		animator.Play("InteractBlend");
 	    //animator.SetBool("Interact", true);
         Invoke("resetInteract", .1f);
-    }
+	}
+	void FillAnimNames(){
+		animNames.Add("Idle");
+		animNames.Add("Walk");
+		animNames.Add("Run");
+		animNames.Add("Jump");
+		animNames.Add("Falling");
+		animNames.Add("Landing");
+		animNames.Add("Fire");
+		animNames.Add("Reload");
+		animNames.Add("PutAway");
+		animNames.Add("Draw");
+	}
     void Start()
-    {
+	{
+		FillAnimNames();
         controls = GameObject.Find("Data").GetComponentInChildren<Controls>();
         speedController = sphere.GetComponent<MovementSpeedController>();
         //animator = GetComponent<Animator>();

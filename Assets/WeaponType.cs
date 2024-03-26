@@ -6,7 +6,12 @@ public class WeaponType : MonoBehaviour
 {
 	[SerializeField]
 	Weapon weapon;
+	//[SerializeField]
+	//AnimationClip Idle, Walk, Run, Reload, Fire, Falling, Jump, Draw, PutAway, Landing;
 	[SerializeField]
-	AnimationClip Idle, Walk, Run, Reload, Fire, Falling, Jump, Draw, PutAway, Landing;
-	
+	public List<AnimationClip> animationClips = new List<AnimationClip>();
+
+	void Start(){
+		
+	}
 }

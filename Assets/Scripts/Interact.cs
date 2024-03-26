@@ -63,7 +63,7 @@ public class Interact : MonoBehaviour
 
     //If not already holding an object, get object components, pass to Grab to do the work
     public void pickUp(GameObject obj){
-        if (!grab.isHolding) { 
+	    if (!grab.isHolding) {
 	        castPoint.gameObject.GetComponent<heldObjectReferenceHolder>().HeldObjectReference = obj;
             prop = obj.GetComponent<Transform>();
             propParent = prop.transform.root;
@@ -73,7 +73,6 @@ public class Interact : MonoBehaviour
             
             if(prop.gameObject.tag == "ragdoll"){
                 ragdollParent = prop.parent;
-                
                 foreach(Transform G in obj.transform.root.GetComponentsInChildren<Transform>()){
                     G.gameObject.layer = 16;
                 }
@@ -151,7 +150,7 @@ public class Interact : MonoBehaviour
                             }
                         }
 	                    //IF the thing you hit has a rigidbody that is light enough for the player to hold
-                        if (hit.transform.gameObject.GetComponent<Rigidbody>() != null && hit.transform.gameObject.GetComponent<Rigidbody>().isKinematic == false && hit.transform.gameObject.GetComponent<Rigidbody>().mass <= grab.strength && !grab.justThrew)
+		                else if (hit.transform.gameObject.GetComponent<Rigidbody>() != null && hit.transform.gameObject.GetComponent<Rigidbody>().isKinematic == false && hit.transform.gameObject.GetComponent<Rigidbody>().mass <= grab.strength && !grab.justThrew)
                         {
                         	Debug.Log("HIT!!");
                             //Pick it up
@@ -162,7 +161,7 @@ public class Interact : MonoBehaviour
                         
 	                    //IF the the thing you hit is a button
 	                    
-                        if (hit.transform.gameObject.GetComponent<buttonPush>() != null)
+		                else if (hit.transform.gameObject.GetComponent<buttonPush>() != null)
                         {
                             //Get the button object
                             buttonPush button = hit.transform.gameObject.GetComponent<buttonPush>();
@@ -170,7 +169,12 @@ public class Interact : MonoBehaviour
                             {
                                 button.press();
                             }
-	                    }
+                        }
+		                else if(hit.transform.gameObject.GetComponent<WeaponType>() != null){
+		                	WeaponType wep = hit.transform.gameObject.GetComponent<WeaponType>();
+		                	
+		                	//hand
+		                }
 	                    
                    
                     }
