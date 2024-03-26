@@ -335,6 +335,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 11400000, guid: 854d6a362b2ef6542b03a91b6a177d1b, type: 2}
+  Idle: {fileID: 7400000, guid: 5d79038ace74a66479bbcf6c554d6158, type: 2}
+  Walk: {fileID: 7400000, guid: 40e8797812fbda946a90a8c04884ae64, type: 2}
+  Run: {fileID: 7400000, guid: a3fa7fda48dc01044a28061cb36791a4, type: 2}
+  Reload: {fileID: 7400000, guid: 0e5b105e537a5c249baba7bdee0cd526, type: 2}
+  Fire: {fileID: 7400000, guid: 0e20fcccce84ca743a9979f109b5534f, type: 2}
+  Falling: {fileID: 7400000, guid: 7a08257792bcab34cbaf994272587789, type: 2}
+  Jump: {fileID: 7400000, guid: d784f809825af9540af6fd2620f12164, type: 2}
+  Draw: {fileID: 7400000, guid: cfa41e1ce44a30d468f5ccca308d9a7d, type: 2}
+  PutAway: {fileID: 7400000, guid: 1b9c4b3eab932dd47b6cd254983a2c03, type: 2}
+  Landing: {fileID: 7400000, guid: 0f9a6cb0d8d50e5448dad5aab87703ba, type: 2}
 --- !u!1001 &165229720
 PrefabInstance:
   m_ObjectHideFlags: 0
