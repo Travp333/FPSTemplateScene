@@ -7,7 +7,7 @@ using UnityEngine;
 //this script controls all the animations tied to the character, such as when certain animations should be played and how they should be played.
 public class HandAnim : MonoBehaviour
 {
-	public List<string> animNames = new List<string>();
+	private List<string> animNames = new List<string>();
 	Controls controls;
     MovementSpeedController speedController;
     [SerializeField]
@@ -32,7 +32,7 @@ public class HandAnim : MonoBehaviour
     bool JumpPressed;
     bool holdingDummy;
     Grab grab;
-    // Start is called before the first frame update
+	// Start is called before the first frame update
     public bool getisThrowing(){
         return animator.GetBool("isThrowing");
     }
@@ -168,7 +168,8 @@ public class HandAnim : MonoBehaviour
                 animator.SetBool("grabCharge", false);
             }
             BoolAdjuster();
-            bool JumpPressed = Input.GetKey(controls.keys["jump"]);
+	        bool JumpPressed = Input.GetKey(controls.keys["jump"]);
+	        animator.SetBool("JumpPressed", JumpPressed);
             isOnGround = isOnGroundADJ;
             //this OnGround stays true for a little bit after you leave the ground, hence ADJ
             if (isOnGround) {
@@ -177,7 +178,9 @@ public class HandAnim : MonoBehaviour
             else if (!isOnGround) {
                 animator.SetBool("isOnGroundADJ", false);
             }
-
+	        if(JumpPressed && isOnGround){
+	        	animator.SetBool("isJumping", true);
+	        }
             if (Input.GetKey(controls.keys["walkUp"]) || Input.GetKey(controls.keys["walkLeft"]) || Input.GetKey(controls.keys["walkDown"]) || Input.GetKey(controls.keys["walkRight"])) {
                 animator.SetBool("isMoving", true);
             }
