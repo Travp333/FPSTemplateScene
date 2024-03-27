@@ -7,6 +7,8 @@ using UnityEngine;
 //this script controls all the animations tied to the character, such as when certain animations should be played and how they should be played.
 public class HandAnim : MonoBehaviour
 {
+	public bool holdingWeapon;
+	public bool canShoot;
 	private List<string> animNames = new List<string>();
 	Controls controls;
     MovementSpeedController speedController;
@@ -78,6 +80,9 @@ public class HandAnim : MonoBehaviour
             isOnGroundADJ = true;
         }
     }
+	void resetIsJumping(){
+		animator.SetBool("isJumping", false);
+	}
     void resetInteract(){
 	    animator.SetBool("Interact", false);
     }
@@ -142,7 +147,6 @@ public class HandAnim : MonoBehaviour
        
 	}
 
-    //Update() pausing by Brian Meginness
     // Update is called once per frame
     void Update()
     {
@@ -168,8 +172,8 @@ public class HandAnim : MonoBehaviour
                 animator.SetBool("grabCharge", false);
             }
             BoolAdjuster();
-	        bool JumpPressed = Input.GetKey(controls.keys["jump"]);
-	        animator.SetBool("JumpPressed", JumpPressed);
+	        //bool JumpPressed = Input.GetKey(controls.keys["jump"]);
+	        //animator.SetBool("JumpPressed", JumpPressed);
             isOnGround = isOnGroundADJ;
             //this OnGround stays true for a little bit after you leave the ground, hence ADJ
             if (isOnGround) {
@@ -178,8 +182,9 @@ public class HandAnim : MonoBehaviour
             else if (!isOnGround) {
                 animator.SetBool("isOnGroundADJ", false);
             }
-	        if(JumpPressed && isOnGround){
+	        if(Input.GetKeyDown(controls.keys["jump"]) && isOnGround){
 	        	animator.SetBool("isJumping", true);
+	        	Invoke("resetIsJumping", .1f);
 	        }
             if (Input.GetKey(controls.keys["walkUp"]) || Input.GetKey(controls.keys["walkLeft"]) || Input.GetKey(controls.keys["walkDown"]) || Input.GetKey(controls.keys["walkRight"])) {
                 animator.SetBool("isMoving", true);
@@ -194,12 +199,15 @@ public class HandAnim : MonoBehaviour
                 animator.SetBool("isSprinting", false);
             }
             if (Input.GetKey(controls.keys["duck"])) {
-                animator.SetBool("walkPressed", true);
+	            animator.SetBool("walkPressed", true);
             }
             else {
                 animator.SetBool("walkPressed", false);
             }
 	        if (Input.GetKeyDown(controls.keys["throw"])) {
+	        	if(holdingWeapon && canShoot){
+	        		animator.SetBool("isFiring", true);
+	        	}
 		        if (blocker && !grab.isHolding) {
 			        if (flipflop) {
 				        Invoke("waveStartL", .1f);
