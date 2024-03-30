@@ -57,7 +57,7 @@ public class Grab : MonoBehaviour
         hand = GetComponent<HandAnim>();
     }
     void setisThrowingFalse(){
-        hand.setisThrowing(false);
+        hand.setisThrowingFalse();
     }
     void resetJustThrew(){
         justThrew = false;
@@ -78,7 +78,7 @@ public class Grab : MonoBehaviour
             sizes = objectSizes.tiny;
         }              
         //trigger animation
-        hand.setisHolding(true);
+        hand.setisHoldingTrue();
         // move the hit object to the grab point
         prop.position = dummy.transform.position;
         // set the hit object to be a child of the grab point
@@ -116,7 +116,7 @@ public class Grab : MonoBehaviour
 	                interact.propRB.AddForce(this.transform.forward * throwingforce, ForceMode.Impulse);
                 }
                 // trigger animation
-                hand.setisThrowing(true);
+                hand.setisThrowingTrue();
                 //prepare to reset animation
                 Invoke("setisThrowingFalse", .1f);
                 throwingforce = throwingTemp;

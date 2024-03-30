@@ -38,8 +38,12 @@ public class HandAnim : MonoBehaviour
     public bool getisThrowing(){
         return animator.GetBool("isThrowing");
     }
-    public void setisHolding(bool plug){
-        animator.SetBool("isHolding", plug);
+    public void setisHoldingTrue(){
+        animator.Play("Grab", 0);
+        animator.SetBool("isHolding", true);
+    }
+    public void setisHoldingFalse(){
+        animator.SetBool("isHolding", false);
     }
     public bool getisHolding(){
         return animator.GetBool("isHolding");
@@ -50,9 +54,14 @@ public class HandAnim : MonoBehaviour
     public bool getisCrouching(){
         return animator.GetBool("isCrouched");
     }
-    public void setisThrowing(bool plug){
-        animator.SetBool("grabCharge", !plug);
-        animator.SetBool("isThrowing", plug);
+    public void setisThrowingTrue(){
+        animator.Play("Throw",0);
+        animator.SetBool("grabCharge", false);
+        animator.SetBool("isThrowing", true);
+    }
+    public void setisThrowingFalse(){
+        animator.SetBool("grabCharge", true);
+        animator.SetBool("isThrowing", false);
     }
 	public void ReplaceAnimationClips(int layer, List<AnimationClip> anims){
 		foreach(AnimationClip a in anims){
@@ -87,7 +96,8 @@ public class HandAnim : MonoBehaviour
 	    animator.SetBool("Interact", false);
     }
 	public void interact(){
-		animator.Play("InteractBlend");
+		animator.Play("Interact", 0);
+        animator.Play("Interact", 1);
 	    //animator.SetBool("Interact", true);
         Invoke("resetInteract", .1f);
 	}
@@ -118,9 +128,6 @@ public class HandAnim : MonoBehaviour
     void closeGate(){
         blocker = true;
     }
-    void resetHoldingChange(){
-        animator.SetBool("holdingChange", false);
-    }
     public void forceIdle(){
         animator.SetBool("isMoving", false);
         animator.SetBool("isSprinting", false);
@@ -129,28 +136,25 @@ public class HandAnim : MonoBehaviour
 	void waveStartL(){
 		blocker = false;
 		flipflop = !flipflop;
-		animator.SetBool("isPunchingLeft", true);
+        animator.Play("Left Hook", 0);
+		//animator.SetBool("isPunchingLeft", true);
 		Invoke("waveStop", .1f);
 	}
 	void waveStartR(){
 		blocker = false;
 		flipflop = !flipflop;
-		animator.SetBool("isPunchingRight", true);
+        animator.Play("Right Hook", 0);
+		//animator.SetBool("isPunchingRight", true);
 		Invoke("waveStop", .1f);
-
 	}
 	void waveStop(){
-        
 		animator.SetBool("isPunchingLeft", false);
 		animator.SetBool("isPunchingRight", false);
 		blocker = true;
-       
 	}
-
     // Update is called once per frame
     void Update()
     {
-        
         //IF not paused
         if (!FindObjectOfType<PauseMenu>().isPaused) {
             if(isOnSteep){
@@ -172,17 +176,22 @@ public class HandAnim : MonoBehaviour
                 animator.SetBool("grabCharge", false);
             }
             BoolAdjuster();
-	        //bool JumpPressed = Input.GetKey(controls.keys["jump"]);
-	        //animator.SetBool("JumpPressed", JumpPressed);
-            isOnGround = isOnGroundADJ;
             //this OnGround stays true for a little bit after you leave the ground, hence ADJ
             if (isOnGround) {
-                animator.SetBool("isOnGroundADJ", true);
+                animator.SetBool("isOnGround", true);
             }
             else if (!isOnGround) {
+                animator.SetBool("isOnGround", false);
+            }
+            if (isOnGroundADJ) {
+                animator.SetBool("isOnGroundADJ", true);
+            }
+            else if (!isOnGroundADJ) {
                 animator.SetBool("isOnGroundADJ", false);
             }
-	        if(Input.GetKeyDown(controls.keys["jump"]) && isOnGround){
+	        if(Input.GetKeyDown(controls.keys["jump"]) && (isOnGroundADJ || isOnSteep)&& !grab.isHolding){
+                animator.Play("Jump", 0);
+                animator.Play("Jump", 1);
 	        	animator.SetBool("isJumping", true);
 	        	Invoke("resetIsJumping", .1f);
 	        }
@@ -206,7 +215,7 @@ public class HandAnim : MonoBehaviour
             }
 	        if (Input.GetKeyDown(controls.keys["throw"])) {
 	        	if(holdingWeapon && canShoot){
-	        		animator.SetBool("isFiring", true);
+                    animator.Play("Fire", 1);
 	        	}
 		        if (blocker && !grab.isHolding) {
 			        if (flipflop) {

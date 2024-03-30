@@ -94,7 +94,7 @@ public class Interact : MonoBehaviour
     public void detach(){
 	    grab.sizes = Grab.objectSizes.none;
 	    colTog.clear();
-        hand.setisHolding(false);
+        hand.setisHoldingFalse();
         if(prop.gameObject.tag == "ragdoll"){
 	        castPoint.gameObject.GetComponent<heldObjectReferenceHolder>().HeldObjectReference.transform.SetParent(ragdollParent);
         }
@@ -152,7 +152,7 @@ public class Interact : MonoBehaviour
 	                    //IF the thing you hit has a rigidbody that is light enough for the player to hold
 		                else if (hit.transform.gameObject.GetComponent<Rigidbody>() != null && hit.transform.gameObject.GetComponent<Rigidbody>().isKinematic == false && hit.transform.gameObject.GetComponent<Rigidbody>().mass <= grab.strength && !grab.justThrew)
                         {
-                        	Debug.Log("HIT!!");
+                        	//Debug.Log("HIT!!");
                             //Pick it up
                             pickUp(prop.gameObject);
                         }
