@@ -59,7 +59,7 @@ public class CameraFlipper : MonoBehaviour
 		if (this == null || !this.gameObject.activeInHierarchy)
 			return;
 
-		GL.invertCulling = flipHorizontal ^ flipVertical;
+		//GL.invertCulling = flipHorizontal ^ flipVertical;
 
 		// update is aspect ratio changed
 		if (Mathf.Abs(aspectRatio - Camera.aspect) > 0.01f)
