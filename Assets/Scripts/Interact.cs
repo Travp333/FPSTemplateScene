@@ -7,6 +7,9 @@ using UnityEngine;
 //this script handles interacting with various objects, such as a button, a lever, a pickupable object, etc. essentially just pressing e on something
 public class Interact : MonoBehaviour
 {
+	GameObject gun;
+	[SerializeField]
+	public GameObject GunGrabPoint;
     //Components
     Controls controls;
     Movement movement;
@@ -150,7 +153,7 @@ public class Interact : MonoBehaviour
                             }
                         }
 	                    //IF the thing you hit has a rigidbody that is light enough for the player to hold
-		                else if (hit.transform.gameObject.GetComponent<Rigidbody>() != null && hit.transform.gameObject.GetComponent<Rigidbody>().isKinematic == false && hit.transform.gameObject.GetComponent<Rigidbody>().mass <= grab.strength && !grab.justThrew)
+                        else if (hit.transform.gameObject.GetComponent<WeaponType>() == null && hit.transform.gameObject.GetComponent<Rigidbody>() != null && hit.transform.gameObject.GetComponent<Rigidbody>().isKinematic == false && hit.transform.gameObject.GetComponent<Rigidbody>().mass <= grab.strength && !grab.justThrew)
                         {
                         	//Debug.Log("HIT!!");
                             //Pick it up
@@ -172,7 +175,11 @@ public class Interact : MonoBehaviour
                         }
 		                else if(hit.transform.gameObject.GetComponent<WeaponType>() != null){
 		                	WeaponType wep = hit.transform.gameObject.GetComponent<WeaponType>();
-		                	
+		                	hand.PickUpWeapon();
+		                	hand.gunAnim = hit.transform.gameObject.GetComponent<GunAnim>();
+		                	gun = Instantiate(wep.worldModel, GunGrabPoint.transform.position, GunGrabPoint.transform.localRotation);
+		                	gun.transform.parent = GunGrabPoint.transform;
+		                	Destroy(hit.transform.gameObject);
 		                	//hand
 		                }
 	                    

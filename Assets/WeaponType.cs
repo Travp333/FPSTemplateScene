@@ -10,7 +10,8 @@ public class WeaponType : MonoBehaviour
 	//AnimationClip Idle, Walk, Run, Reload, Fire, Falling, Jump, Draw, PutAway, Landing;
 	[SerializeField]
 	public List<AnimationClip> animationClips = new List<AnimationClip>();
-
+	[SerializeField]
+	public GameObject worldModel;
 	void Start(){
 		
 	}

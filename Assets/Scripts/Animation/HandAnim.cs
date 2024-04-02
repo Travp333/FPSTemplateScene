@@ -7,6 +7,7 @@ using UnityEngine;
 //this script controls all the animations tied to the character, such as when certain animations should be played and how they should be played.
 public class HandAnim : MonoBehaviour
 {
+	public GunAnim gunAnim;
 	public bool holdingWeapon;
 	public bool canShoot;
 	private List<string> animNames = new List<string>();
@@ -35,10 +36,22 @@ public class HandAnim : MonoBehaviour
     bool holdingDummy;
     Grab grab;
 	// Start is called before the first frame update
+	public void PickUpWeapon(){
+		animator.SetLayerWeight(1,1);
+		animator.Play("Draw", 1);
+		if(gunAnim != null){
+			gunAnim.PlayDraw();	
+		}
+		holdingWeapon = true;
+	}
     public bool getisThrowing(){
         return animator.GetBool("isThrowing");
     }
-    public void setisHoldingTrue(){
+	public void setisHoldingTrue(){
+		if(holdingWeapon){
+			
+			
+		}
         animator.Play("Grab", 0);
         animator.SetBool("isHolding", true);
     }
@@ -215,7 +228,10 @@ public class HandAnim : MonoBehaviour
             }
 	        if (Input.GetKeyDown(controls.keys["throw"])) {
 	        	if(holdingWeapon && canShoot){
-                    animator.Play("Fire", 1);
+		        	animator.Play("Fire", 1);
+		        	if(gunAnim != null){
+		        		gunAnim.PlayFire();
+		        	}
 	        	}
 		        if (blocker && !grab.isHolding) {
 			        if (flipflop) {
