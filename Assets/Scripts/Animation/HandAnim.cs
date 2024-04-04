@@ -3,15 +3,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 //this script controls all the animations tied to the character, such as when certain animations should be played and how they should be played.
 public class HandAnim : MonoBehaviour
 {
+	public InputAction attackAction;
+	Interact inter;
 	public GunAnim gunAnim;
 	public bool holdingWeapon;
 	public bool canShoot;
 	private List<string> animNames = new List<string>();
-	Controls controls;
     MovementSpeedController speedController;
     [SerializeField]
     GameObject sphere;
@@ -128,8 +129,9 @@ public class HandAnim : MonoBehaviour
 	}
     void Start()
 	{
+		attackAction = sphere.GetComponent<PlayerInput>().currentActionMap.FindAction("Attack");
+		inter = this.GetComponent<Interact>();
 		FillAnimNames();
-        controls = GameObject.Find("Data").GetComponentInChildren<Controls>();
         speedController = sphere.GetComponent<MovementSpeedController>();
         //animator = GetComponent<Animator>();
         movement = sphere.GetComponent<Movement>();
@@ -176,10 +178,10 @@ public class HandAnim : MonoBehaviour
             else if(!isOnSteep){
                 animator.SetBool("OnSteep", false);
             }
-            if (Input.GetKeyDown(controls.keys["duck"])){
+	        if (movement.crouching){
                 setisCrouching(true);
             }
-            if (Input.GetKeyUp(controls.keys["duck"])){
+	        if (!movement.crouching){
                 setisCrouching(false);
             }
             if (grab.isgrabCharging) {
@@ -202,31 +204,31 @@ public class HandAnim : MonoBehaviour
             else if (!isOnGroundADJ) {
                 animator.SetBool("isOnGroundADJ", false);
             }
-	        if(Input.GetKeyDown(controls.keys["jump"]) && (isOnGroundADJ || isOnSteep)&& !grab.isHolding){
+	        if(movement.jumpAction.WasPressedThisFrame() && (isOnGroundADJ || isOnSteep)&& !grab.isHolding){
                 animator.Play("Jump", 0);
                 animator.Play("Jump", 1);
 	        	animator.SetBool("isJumping", true);
 	        	Invoke("resetIsJumping", .1f);
 	        }
-            if (Input.GetKey(controls.keys["walkUp"]) || Input.GetKey(controls.keys["walkLeft"]) || Input.GetKey(controls.keys["walkDown"]) || Input.GetKey(controls.keys["walkRight"])) {
+	        if (movement.movementAction.ReadValue<Vector2>().magnitude > 0) {
                 animator.SetBool("isMoving", true);
             }
             else {
                 animator.SetBool("isMoving", false);
             }
-            if (Input.GetKey(controls.keys["sprint"])) {
+	        if (speedController.sprintAction.IsPressed()) {
                 animator.SetBool("isSprinting", true);
             }
             else {
                 animator.SetBool("isSprinting", false);
             }
-            if (Input.GetKey(controls.keys["duck"])) {
+	        if (movement.crouching) {
 	            animator.SetBool("walkPressed", true);
             }
             else {
                 animator.SetBool("walkPressed", false);
             }
-	        if (Input.GetKeyDown(controls.keys["throw"])) {
+	        if (attackAction.WasPressedThisFrame()) {
 	        	if(holdingWeapon && canShoot){
 		        	animator.Play("Fire", 1);
 		        	if(gunAnim != null){

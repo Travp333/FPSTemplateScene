@@ -1,9 +1,12 @@
 ﻿//Author: Travis Parks
 //Debugging: Travis Parks
 using UnityEngine;
+using UnityEngine.InputSystem;
 public class Movement : MonoBehaviour { 
 	//This script controls the movement of the character. Adapted from https://catlikecoding.com/unity/tutorials/movement/ by Travis Parks
-	//refrence to the grab script
+	public InputAction jumpAction;
+	public InputAction crouchAction;
+	public InputAction movementAction;
 	[HideInInspector]
 	public bool crouching;
 	public Grab grab;
@@ -109,7 +112,9 @@ public class Movement : MonoBehaviour {
     public Controls controls;
 	//runs when object becomes active
 	void Awake () {
-        controls = GameObject.Find("Data").GetComponentInChildren<Controls>();
+		movementAction = GetComponent<PlayerInput>().currentActionMap.FindAction("Move");
+		crouchAction = GetComponent<PlayerInput>().currentActionMap.FindAction("Crouch");
+		jumpAction = GetComponent<PlayerInput>().currentActionMap.FindAction("Jump");
 		grab = GetComponentInChildren<Grab>();
 		speedController = GetComponent<MovementSpeedController>();
 		//get the rigidbody
@@ -122,7 +127,7 @@ public class Movement : MonoBehaviour {
 	//runs every frame
 	void Update () {
 		//responds to the duck keybind by playing the appripriate animation and setting the dive prep bool
-        if(Input.GetKeyDown(controls.keys["duck"]) && !FindObjectOfType<PauseMenu>().isPaused && !moveBlocked)
+		if(crouchAction.IsPressed() && !FindObjectOfType<PauseMenu>().isPaused && !moveBlocked)
         { 
         	crouching = true;
 			if((standingBean != null) && (smolBean != null)){
@@ -130,7 +135,7 @@ public class Movement : MonoBehaviour {
 				smolBean.SetActive(true);
 			}
         }
-        if(Input.GetKeyUp(controls.keys["duck"]) && !FindObjectOfType<PauseMenu>().isPaused && !moveBlocked)
+		if(!crouchAction.IsPressed() && !FindObjectOfType<PauseMenu>().isPaused && !moveBlocked)
         {
         	crouching = false;
 			if((standingBean != null) && (smolBean != null)){
@@ -139,11 +144,10 @@ public class Movement : MonoBehaviour {
 			}
         }
 		//responds to the jump keybind to allow jumping
-		desiredJump |= Input.GetKeyDown(controls.keys["jump"]) && !FindObjectOfType<PauseMenu>().isPaused && !moveBlocked;
-		//stores the horizontal and vertical input axes
+		desiredJump |= jumpAction.WasPressedThisFrame() && !moveBlocked;
 		if(!moveBlocked){
-			playerInput.x = (Input.GetKey(controls.keys["walkRight"])? 1 : 0) - (Input.GetKey(controls.keys["walkLeft"])? 1: 0);
-			playerInput.y = (Input.GetKey(controls.keys["walkUp"]) ? 1 : 0) - (Input.GetKey(controls.keys["walkDown"]) ? 1 : 0);
+			playerInput.x = movementAction.ReadValue<Vector2>().x;
+			playerInput.y = movementAction.ReadValue<Vector2>().y;
 			playerInput = Vector3.ClampMagnitude(playerInput, 1f);
 		}
 		//redirects the characters input to be relative to a "playerinputspace" object, if it is given. usually, this will be the camera

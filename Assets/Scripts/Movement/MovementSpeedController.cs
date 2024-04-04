@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 //this script is meant to control the character's speed and allow other scripts to place boosts or limits upon it.
 //Travis Parks
 public class MovementSpeedController : MonoBehaviour
 {
+	public InputAction sprintAction;
     Movement movement;
-    Controls controls;
-
     [SerializeField, Range(0f, 100f)]
 	[Tooltip("speeds of the character, these states represent the speed when your character is jogging, sprinting, walking, swimming, and climbing")]
 	public float baseSpeed = 10f, sprintSpeed = 15f, walkSpeed = 7f;
@@ -31,24 +31,18 @@ public class MovementSpeedController : MonoBehaviour
     }
 
     void Start() {
-        movement = GetComponent<Movement>();
-        controls = GameObject.Find("Data").GetComponent<Controls>();
+	    movement = GetComponent<Movement>();
+	    sprintAction = GetComponent<PlayerInput>().currentActionMap.FindAction("Sprint");
     }
     void MovementState(float factor){
-		//change movement speeds universally
-        bool duckPressed = movement.crouching;
-		bool SprintPressed = Input.GetKey(controls.keys["sprint"]);
-		bool moving = Input.GetKey(controls.keys["walkUp"]) || Input.GetKey(controls.keys["walkDown"]) || Input.GetKey(controls.keys["walkLeft"]) || Input.GetKey(controls.keys["walkRight"]);
-		// default situation
-		if ((!SprintPressed) && moving && !duckPressed ){
+	    bool moving = movement.movementAction.ReadValue<Vector2>().magnitude > 0;
+		if ((!sprintAction.IsPressed()) && moving && !movement.crouching ){
 			currentSpeed = baseSpeed;
 		}
-		//sprinting
-        if (moving && SprintPressed && movement.velocity.magnitude >= 5f && !duckPressed && movement.OnGround){
+        if (moving && sprintAction.IsPressed() && movement.velocity.magnitude >= 5f && !movement.crouching && movement.OnGround){
 			currentSpeed = sprintSpeed;
         }
-		//walking / crouching
-		if (moving && duckPressed && !SprintPressed && movement.OnGround){
+		if (moving && movement.crouching && !sprintAction.IsPressed() && movement.OnGround){
 			currentSpeed = walkSpeed;
 		}
         if(!movement.OnGround){

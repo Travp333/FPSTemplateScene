@@ -3,7 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 // This script deals with holding objects after you have interacted with an object that has a rigidbody, is tagged as pickupable, and isn't over your max carrying weight.
 // It pins that object to an empty tied to the player, creates a collider to represent that object while it is in your hands, and switches the player to an animation set to 
 // reflect that they are holding something. This script also handles the logic for throwing objects, including charging up and releasing
@@ -12,8 +12,7 @@ public class Grab : MonoBehaviour
     //Components
     HandAnim hand;
     Movement movement;
-    Controls controls;
-
+	public InputAction attackAction;
     [HideInInspector]
     public bool isHolding = false;
     [SerializeField]
@@ -48,12 +47,13 @@ public class Grab : MonoBehaviour
     public Interact interact;
     [HideInInspector]
     public bool justThrew;
-    void Start() {
+	void Start() {
         //Set components
-        controls = GameObject.Find("Data").GetComponentInChildren<Controls>();
         interact = GetComponent<Interact>();
         throwingTemp = throwingforce;
-        movement = transform.root.GetComponent<Movement>();
+		movement = transform.root.GetComponent<Movement>();
+		attackAction = movement.GetComponent<PlayerInput>().currentActionMap.FindAction("Attack");
+
         hand = GetComponent<HandAnim>();
     }
     void setisThrowingFalse(){
@@ -102,7 +102,7 @@ public class Grab : MonoBehaviour
         if (!FindObjectOfType<PauseMenu>().isPaused)
         {
             //IF Left Mouse released and is holding an object
-	        if (Input.GetKeyUp(controls.keys["throw"]) && isHolding && !justThrew)
+	        if (attackAction.WasReleasedThisFrame() && isHolding && !justThrew)
             {
                 //Remove from grip
                 interact.detach();
@@ -125,7 +125,7 @@ public class Grab : MonoBehaviour
                 Invoke("resetJustThrew", .5f);
             }
             //IF Left Mouse pressed and is holding an object
-            if (Input.GetKey(controls.keys["throw"]) && isHolding && !justThrew)
+	        if (attackAction.IsPressed() && isHolding && !justThrew)
             {
                 // Start incrementing throwing force
                 if (throwingforce <= maxThrowingForce)

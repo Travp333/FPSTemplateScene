@@ -1024,50 +1024,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -32.451}
---- !u!1 &708281008
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 708281010}
-  - component: {fileID: 708281009}
-  m_Layer: 0
-  m_Name: Data
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &708281009
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 708281008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 085f7d8351487f247892ca4bac0775cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &708281010
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 708281008}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.571581, y: 5.079772, z: -6.6842318}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1259,6 +1215,11 @@ PrefabInstance:
       propertyPath: GunGrabPoint
       value: 
       objectReference: {fileID: 346828873}
+    - target: {fileID: 2336594996463805830, guid: 6bb6677300d607d488e6ee96dc019bb8,
+        type: 3}
+      propertyPath: interactAction.m_Name
+      value: Interact
+      objectReference: {fileID: 0}
     - target: {fileID: 2540138649135766597, guid: 6bb6677300d607d488e6ee96dc019bb8,
         type: 3}
       propertyPath: m_Layer
@@ -1670,6 +1631,11 @@ PrefabInstance:
       propertyPath: holdingWeapon
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7197834581697023857, guid: 6bb6677300d607d488e6ee96dc019bb8,
+        type: 3}
+      propertyPath: attackAction.m_Name
+      value: Attack
+      objectReference: {fileID: 0}
     - target: {fileID: 7197834581697023858, guid: 6bb6677300d607d488e6ee96dc019bb8,
         type: 3}
       propertyPath: m_Controller
@@ -1689,6 +1655,11 @@ PrefabInstance:
         type: 3}
       propertyPath: maxThrowingForce
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7197834581697023859, guid: 6bb6677300d607d488e6ee96dc019bb8,
+        type: 3}
+      propertyPath: attackAction.m_Name
+      value: Attack
       objectReference: {fileID: 0}
     - target: {fileID: 7197834581697023859, guid: 6bb6677300d607d488e6ee96dc019bb8,
         type: 3}
@@ -1814,7 +1785,7 @@ PrefabInstance:
         type: 3}
       propertyPath: controls
       value: 
-      objectReference: {fileID: 708281009}
+      objectReference: {fileID: 0}
     - target: {fileID: 7197834583306505051, guid: 6bb6677300d607d488e6ee96dc019bb8,
         type: 3}
       propertyPath: maxAirJumps
@@ -1837,6 +1808,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7197834583306505051, guid: 6bb6677300d607d488e6ee96dc019bb8,
         type: 3}
+      propertyPath: jumpAction.m_Name
+      value: Jump
+      objectReference: {fileID: 0}
+    - target: {fileID: 7197834583306505051, guid: 6bb6677300d607d488e6ee96dc019bb8,
+        type: 3}
       propertyPath: stairsMask.m_Bits
       value: 256
       objectReference: {fileID: 0}
@@ -1844,6 +1820,16 @@ PrefabInstance:
         type: 3}
       propertyPath: maxAirAcceleration
       value: 27.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7197834583306505051, guid: 6bb6677300d607d488e6ee96dc019bb8,
+        type: 3}
+      propertyPath: crouchAction.m_Name
+      value: Crouch
+      objectReference: {fileID: 0}
+    - target: {fileID: 7197834583306505051, guid: 6bb6677300d607d488e6ee96dc019bb8,
+        type: 3}
+      propertyPath: movementAction.m_Name
+      value: Movement
       objectReference: {fileID: 0}
     - target: {fileID: 7197834583306505052, guid: 6bb6677300d607d488e6ee96dc019bb8,
         type: 3}
@@ -2085,6 +2071,11 @@ PrefabInstance:
       propertyPath: sprintSpeed
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 8997915682440978713, guid: 6bb6677300d607d488e6ee96dc019bb8,
+        type: 3}
+      propertyPath: sprintAction.m_Name
+      value: Sprint
+      objectReference: {fileID: 0}
     - target: {fileID: 9103934593585604900, guid: 6bb6677300d607d488e6ee96dc019bb8,
         type: 3}
       propertyPath: m_Layer
@@ -2112,6 +2103,10 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1068114656}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7197834583306505045, guid: 6bb6677300d607d488e6ee96dc019bb8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1889221389}
     - targetCorrespondingSourceObject: {fileID: 7197834582348623817, guid: 6bb6677300d607d488e6ee96dc019bb8,
         type: 3}
       insertIndex: -1
@@ -3350,6 +3345,37 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 903919674}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1889221389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1889221388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 38b133fce1e313a47b7b6f2f2a3e7459,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Keyboard&Mouse
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1001 &1989682237
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5420,7 +5446,6 @@ SceneRoots:
   - {fileID: 903919674}
   - {fileID: 549130206}
   - {fileID: 1989682237}
-  - {fileID: 708281010}
   - {fileID: 673156741}
   - {fileID: 1252424661}
   - {fileID: 24015406}

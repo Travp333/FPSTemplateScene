@@ -3,15 +3,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
+ 
 //this script handles interacting with various objects, such as a button, a lever, a pickupable object, etc. essentially just pressing e on something
 public class Interact : MonoBehaviour
 {
+	public InputAction interactAction;
 	GameObject gun;
 	[SerializeField]
 	public GameObject GunGrabPoint;
     //Components
-    Controls controls;
     Movement movement;
     Grab grab;
     HandAnim hand;
@@ -41,10 +42,10 @@ public class Interact : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
+	{
         //Assign components
-        controls = GameObject.Find("Data").GetComponentInChildren<Controls>();
-        movement = transform.root.GetComponent<Movement>();
+		movement = transform.root.GetComponent<Movement>();
+		interactAction = movement.GetComponent<PlayerInput>().currentActionMap.FindAction("Interact");
         grab = GetComponent<Grab>();
         hand = GetComponent<HandAnim>();
 	    colTog = GetComponentInChildren<heldItemColliderToggle>();
@@ -129,7 +130,7 @@ public class Interact : MonoBehaviour
         //IF not paused
         if (!FindObjectOfType<PauseMenu>().isPaused) {
             //IF e pressed
-            if (Input.GetKeyDown(controls.keys["interact"]))
+	        if (interactAction.WasPressedThisFrame())
             {
 	            // if you are not holding anything
                 if (!grab.isHolding)
@@ -176,9 +177,9 @@ public class Interact : MonoBehaviour
 		                else if(hit.transform.gameObject.GetComponent<WeaponType>() != null){
 		                	WeaponType wep = hit.transform.gameObject.GetComponent<WeaponType>();
 		                	hand.PickUpWeapon();
-		                	hand.gunAnim = hit.transform.gameObject.GetComponent<GunAnim>();
-		                	gun = Instantiate(wep.worldModel, GunGrabPoint.transform.position, GunGrabPoint.transform.localRotation);
+		                	gun = Instantiate(wep.worldModel, GunGrabPoint.transform.position, origin.transform.rotation);
 		                	gun.transform.parent = GunGrabPoint.transform;
+		                	hand.gunAnim = gun.GetComponent<GunAnim>();
 		                	Destroy(hit.transform.gameObject);
 		                	//hand
 		                }
