@@ -7,11 +7,15 @@ using UnityEngine.InputSystem;
 //this script controls all the animations tied to the character, such as when certain animations should be played and how they should be played.
 public class HandAnim : MonoBehaviour
 {
+	public bool reloading;
+	public bool firing;
+	public InputAction reloadAction;
 	public InputAction attackAction;
 	Interact inter;
 	public GunAnim gunAnim;
 	public bool holdingWeapon;
-	public bool canShoot;
+	public bool canShoot = true;
+	public bool canReload = true;
 	private List<string> animNames = new List<string>();
     MovementSpeedController speedController;
     [SerializeField]
@@ -134,7 +138,8 @@ public class HandAnim : MonoBehaviour
 		FillAnimNames();
         speedController = sphere.GetComponent<MovementSpeedController>();
         //animator = GetComponent<Animator>();
-        movement = sphere.GetComponent<Movement>();
+		movement = sphere.GetComponent<Movement>();
+		reloadAction = movement.GetComponent<PlayerInput>().currentActionMap.FindAction("Reload");
         grab = GetComponent<Grab>();
     }
     void openGate(){
@@ -166,6 +171,16 @@ public class HandAnim : MonoBehaviour
 		animator.SetBool("isPunchingLeft", false);
 		animator.SetBool("isPunchingRight", false);
 		blocker = true;
+	}
+	void ResetCanShoot(){
+		canShoot = true;
+		reloading = false;
+		firing = false;
+	}
+	void ResetCanReload(){
+		canReload = true;
+		reloading = false;
+		firing = false;
 	}
     // Update is called once per frame
     void Update()
@@ -204,7 +219,7 @@ public class HandAnim : MonoBehaviour
             else if (!isOnGroundADJ) {
                 animator.SetBool("isOnGroundADJ", false);
             }
-	        if(movement.jumpAction.WasPressedThisFrame() && (isOnGroundADJ || isOnSteep)&& !grab.isHolding){
+	        if(movement.jumpAction.WasPressedThisFrame() && (isOnGroundADJ || isOnSteep)&& !grab.isHolding && !reloading && !firing){
                 animator.Play("Jump", 0);
                 animator.Play("Jump", 1);
 	        	animator.SetBool("isJumping", true);
@@ -230,9 +245,15 @@ public class HandAnim : MonoBehaviour
             }
 	        if (attackAction.WasPressedThisFrame()) {
 	        	if(holdingWeapon && canShoot){
-		        	animator.Play("Fire", 1);
 		        	if(gunAnim != null){
+			        	canShoot = false;
+			        	canReload = false;
+			        	animator.Play("Fire", 1);
 		        		gunAnim.PlayFire();
+			        	reloading = false;
+		        		firing = true;
+			        	Invoke("ResetCanShoot", gunAnim.fireCooldown);
+		        		Invoke("ResetCanReload", gunAnim.fireCooldown);
 		        	}
 	        	}
 		        if (blocker && !grab.isHolding) {
@@ -243,6 +264,22 @@ public class HandAnim : MonoBehaviour
 				        Invoke("waveStartR", .1f);
 			        }
 		        }
+	        }
+	        if (reloadAction.WasPressedThisFrame())
+	        {
+	        	//&& ammo < max ammo?
+	        	if(holdingWeapon && canReload){
+		        	if(gunAnim != null){
+			        	canShoot = false;
+			        	canReload = false;
+			        	animator.Play("Reload", 1);
+		        		gunAnim.PlayReload();
+		        		reloading = true;
+		        		firing = false;
+		        		Invoke("ResetCanShoot", gunAnim.reloadFireCooldown);
+		        		Invoke("ResetCanReload", gunAnim.reloadCooldown);
+		        	}
+	        	}
 	        }
 
             playerSpeed = sphere.GetComponent<Rigidbody>().velocity.magnitude;

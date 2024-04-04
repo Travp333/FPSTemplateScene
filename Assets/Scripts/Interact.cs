@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 //this script handles interacting with various objects, such as a button, a lever, a pickupable object, etc. essentially just pressing e on something
 public class Interact : MonoBehaviour
 {
+	[SerializeField]
+	public Transform MagGrabPoint;
 	public InputAction interactAction;
 	GameObject gun;
 	[SerializeField]
@@ -176,10 +178,10 @@ public class Interact : MonoBehaviour
                         }
 		                else if(hit.transform.gameObject.GetComponent<WeaponType>() != null){
 		                	WeaponType wep = hit.transform.gameObject.GetComponent<WeaponType>();
-		                	hand.PickUpWeapon();
 		                	gun = Instantiate(wep.worldModel, GunGrabPoint.transform.position, origin.transform.rotation);
 		                	gun.transform.parent = GunGrabPoint.transform;
 		                	hand.gunAnim = gun.GetComponent<GunAnim>();
+		                	hand.PickUpWeapon();
 		                	Destroy(hit.transform.gameObject);
 		                	//hand
 		                }

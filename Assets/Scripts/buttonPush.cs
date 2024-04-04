@@ -36,61 +36,67 @@ public class buttonPush : MonoBehaviour
         anim.SetBool("Pushed", false);
     }
 
-    void fullPress(){
-        intObj.Press();
+	void fullPress(){
+		if(!hand.reloading && !hand.firing && !hand.GetComponent<Grab>().isHolding){
+			intObj.Press();
+		}
     }
 
-    void fullPressOrRelease(){
-        if(!flipflop){
-            intObj.Press();
-        }
-        else{
-            intObj.Release();
-        }
+	void fullPressOrRelease(){
+		if(!hand.reloading && !hand.firing && !hand.GetComponent<Grab>().isHolding){
+	        if(!flipflop){
+	            intObj.Press();
+	        }
+	        else{
+	            intObj.Release();
+	        }
+		}
 
     }
 
 
-    public void press(){
-        if(oneTime){
-            if(!anim.GetBool("onePush")){
-                anim.SetBool("onePush", true);
-                intObj.Press();
-                hand.interact();
-            }
-        }
-        else{
-            if(!blocker){
-                if(!flipflopButton){
-                    anim.SetBool("Pushed", true);
-                    Invoke("resetPushed", .05f);
-                    intObj.Press();
-                    hand.interact();
-                    blocker = true;
-                    Invoke("resetblocker", 2f);
-                }
-                else {
-                    if(flipflop){
-                        anim.SetBool("Pushed", true);
-                        Invoke("resetPushed", .05f);
-                        flipflop = false;
-                        intObj.Press();
-                        hand.interact();
-                        blocker = true;
-                        Invoke("resetblocker", 2f);
-                    }
-                    else{
-                        anim.SetBool("Pushed", true);
-                        Invoke("resetPushed", .05f);
-                        flipflop = true;
-                        intObj.Release();
-                        hand.interact();
-                        blocker = true;
-                        Invoke("resetblocker", 2f);
-                    }
-                }
-            }
-        }
+	public void press(){
+		if(!hand.reloading && !hand.firing && !hand.GetComponent<Grab>().isHolding){
+	        if(oneTime){
+	            if(!anim.GetBool("onePush")){
+	                anim.SetBool("onePush", true);
+	                intObj.Press();
+	                hand.interact();
+	            }
+	        }
+	        else{
+	            if(!blocker){
+	                if(!flipflopButton){
+	                    anim.SetBool("Pushed", true);
+	                    Invoke("resetPushed", .05f);
+	                    intObj.Press();
+	                    hand.interact();
+	                    blocker = true;
+	                    Invoke("resetblocker", 2f);
+	                }
+	                else {
+	                    if(flipflop){
+	                        anim.SetBool("Pushed", true);
+	                        Invoke("resetPushed", .05f);
+	                        flipflop = false;
+	                        intObj.Press();
+	                        hand.interact();
+	                        blocker = true;
+	                        Invoke("resetblocker", 2f);
+	                    }
+	                    else{
+	                        anim.SetBool("Pushed", true);
+	                        Invoke("resetPushed", .05f);
+	                        flipflop = true;
+	                        intObj.Release();
+	                        hand.interact();
+	                        blocker = true;
+	                        Invoke("resetblocker", 2f);
+	                    }
+	                }
+	            }
+	        }
+		}
     }
 
 }
