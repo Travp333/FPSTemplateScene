@@ -156,7 +156,7 @@ public class Interact : MonoBehaviour
                             }
                         }
 	                    //IF the thing you hit has a rigidbody that is light enough for the player to hold
-                        else if (hit.transform.gameObject.GetComponent<WeaponType>() == null && hit.transform.gameObject.GetComponent<Rigidbody>() != null && hit.transform.gameObject.GetComponent<Rigidbody>().isKinematic == false && hit.transform.gameObject.GetComponent<Rigidbody>().mass <= grab.strength && !grab.justThrew)
+                        else if (hit.transform.gameObject.GetComponent<WeaponType>() == null && hit.transform.gameObject.GetComponent<Rigidbody>() != null && hit.transform.gameObject.GetComponent<Rigidbody>().isKinematic == false && hit.transform.gameObject.GetComponent<Rigidbody>().mass <= grab.strength && !grab.justThrew && !hand.holdingWeapon)
                         {
                         	//Debug.Log("HIT!!");
                             //Pick it up

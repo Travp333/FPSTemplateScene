@@ -16,7 +16,6 @@ public class HandAnim : MonoBehaviour
 	public bool holdingWeapon;
 	public bool canShoot = true;
 	public bool canReload = true;
-	private List<string> animNames = new List<string>();
     MovementSpeedController speedController;
     [SerializeField]
     GameObject sphere;
@@ -80,15 +79,6 @@ public class HandAnim : MonoBehaviour
         animator.SetBool("grabCharge", true);
         animator.SetBool("isThrowing", false);
     }
-	public void ReplaceAnimationClips(int layer, List<AnimationClip> anims){
-		foreach(AnimationClip a in anims){
-			foreach(string s in animNames){
-				if(a.name == s){
-					
-				}
-			}
-		}
-	}
     void BoolAdjuster(){
         isOnGround = movement.OnGround;
         isOnSteep = movement.OnSteep;
@@ -117,23 +107,10 @@ public class HandAnim : MonoBehaviour
 	    //animator.SetBool("Interact", true);
         Invoke("resetInteract", .1f);
 	}
-	void FillAnimNames(){
-		animNames.Add("Idle");
-		animNames.Add("Walk");
-		animNames.Add("Run");
-		animNames.Add("Jump");
-		animNames.Add("Falling");
-		animNames.Add("Landing");
-		animNames.Add("Fire");
-		animNames.Add("Reload");
-		animNames.Add("PutAway");
-		animNames.Add("Draw");
-	}
     void Start()
 	{
 		attackAction = sphere.GetComponent<PlayerInput>().currentActionMap.FindAction("Attack");
 		inter = this.GetComponent<Interact>();
-		FillAnimNames();
         speedController = sphere.GetComponent<MovementSpeedController>();
         //animator = GetComponent<Animator>();
 		movement = sphere.GetComponent<Movement>();
