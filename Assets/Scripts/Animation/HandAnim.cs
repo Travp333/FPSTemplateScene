@@ -42,8 +42,7 @@ public class HandAnim : MonoBehaviour
     Grab grab;
 	// Start is called before the first frame update
 	public void PickUpWeapon(){
-		animator.SetLayerWeight(1,1);
-		animator.Play("Draw", 1);
+		animator.Play("Draw");
 		if(gunAnim != null){
 			gunAnim.PlayDraw();	
 		}
@@ -57,7 +56,7 @@ public class HandAnim : MonoBehaviour
 			
 			
 		}
-        animator.Play("Grab", 0);
+        animator.Play("Grab");
         animator.SetBool("isHolding", true);
     }
     public void setisHoldingFalse(){
@@ -73,7 +72,7 @@ public class HandAnim : MonoBehaviour
         return animator.GetBool("isCrouched");
     }
     public void setisThrowingTrue(){
-        animator.Play("Throw",0);
+        animator.Play("Throw");
         animator.SetBool("grabCharge", false);
         animator.SetBool("isThrowing", true);
     }
@@ -114,8 +113,7 @@ public class HandAnim : MonoBehaviour
 	    animator.SetBool("Interact", false);
     }
 	public void interact(){
-		animator.Play("Interact", 0);
-        animator.Play("Interact", 1);
+		animator.Play("Interact");
 	    //animator.SetBool("Interact", true);
         Invoke("resetInteract", .1f);
 	}
@@ -156,14 +154,14 @@ public class HandAnim : MonoBehaviour
 	void waveStartL(){
 		blocker = false;
 		flipflop = !flipflop;
-        animator.Play("Left Hook", 0);
+        animator.Play("Left Hook");
 		//animator.SetBool("isPunchingLeft", true);
 		Invoke("waveStop", .1f);
 	}
 	void waveStartR(){
 		blocker = false;
 		flipflop = !flipflop;
-        animator.Play("Right Hook", 0);
+        animator.Play("Right Hook");
 		//animator.SetBool("isPunchingRight", true);
 		Invoke("waveStop", .1f);
 	}
@@ -220,8 +218,7 @@ public class HandAnim : MonoBehaviour
                 animator.SetBool("isOnGroundADJ", false);
             }
 	        if(movement.jumpAction.WasPressedThisFrame() && (isOnGroundADJ || isOnSteep)&& !grab.isHolding && !reloading && !firing){
-                animator.Play("Jump", 0);
-                animator.Play("Jump", 1);
+                animator.Play("Jump");
 	        	animator.SetBool("isJumping", true);
 	        	Invoke("resetIsJumping", .1f);
 	        }
@@ -248,7 +245,7 @@ public class HandAnim : MonoBehaviour
 		        	if(gunAnim != null){
 			        	canShoot = false;
 			        	canReload = false;
-			        	animator.Play("Fire", 1);
+			        	animator.Play("Fire");
 		        		gunAnim.PlayFire();
 			        	reloading = false;
 		        		firing = true;
@@ -256,7 +253,7 @@ public class HandAnim : MonoBehaviour
 		        		Invoke("ResetCanReload", gunAnim.fireCooldown);
 		        	}
 	        	}
-		        if (blocker && !grab.isHolding) {
+		        else if (!holdingWeapon && blocker && !grab.isHolding) {
 			        if (flipflop) {
 				        Invoke("waveStartL", .1f);
 			        }
@@ -272,7 +269,7 @@ public class HandAnim : MonoBehaviour
 		        	if(gunAnim != null){
 			        	canShoot = false;
 			        	canReload = false;
-			        	animator.Play("Reload", 1);
+			        	animator.Play("Reload");
 		        		gunAnim.PlayReload();
 		        		reloading = true;
 		        		firing = false;

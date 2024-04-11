@@ -181,6 +181,10 @@ public class Interact : MonoBehaviour
 		                	gun = Instantiate(wep.worldModel, GunGrabPoint.transform.position, origin.transform.rotation);
 		                	gun.transform.parent = GunGrabPoint.transform;
 		                	hand.gunAnim = gun.GetComponent<GunAnim>();
+		                	hand.holdingWeapon = true;
+		                	hand.canShoot = true;
+		                	hand.canReload = true;
+		                	hand.animator.runtimeAnimatorController = hit.transform.gameObject.GetComponent<WeaponType>().animOverride;
 		                	hand.PickUpWeapon();
 		                	Destroy(hit.transform.gameObject);
 		                	//hand

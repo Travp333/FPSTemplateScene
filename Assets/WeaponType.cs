@@ -5,6 +5,8 @@ using UnityEngine;
 public class WeaponType : MonoBehaviour
 {
 	[SerializeField]
+	public AnimatorOverrideController animOverride;
+	[SerializeField]
 	Weapon weapon;
 	//[SerializeField]
 	//AnimationClip Idle, Walk, Run, Reload, Fire, Falling, Jump, Draw, PutAway, Landing;
