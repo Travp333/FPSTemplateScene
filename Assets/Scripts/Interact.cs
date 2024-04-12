@@ -212,7 +212,7 @@ public class Interact : MonoBehaviour
 		    	if(hand.holdingWeapon && !hand.firing && ! hand.reloading){
 		    		hand.DropWeapon();
 		    		Destroy (gun);
-		    		gun = Instantiate(hand.gunAnim.WorldModel, GunGrabPoint.transform.position, origin.transform.rotation);
+		    		gun = Instantiate(hand.gunAnim.WorldModel, holdPoint.transform.position, origin.transform.rotation);
 		    		gun.GetComponent<Rigidbody>().AddForce(this.transform.forward, ForceMode.Impulse);
 		    		hand.gunAnim = null;
 			    	hand.canShoot = false;

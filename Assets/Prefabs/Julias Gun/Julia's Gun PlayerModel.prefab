@@ -189,6 +189,11 @@ PrefabInstance:
       propertyPath: m_UpdateWhenOffscreen
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4519920785934961233, guid: a093245946530b848bd531e4e6c98b05,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2fb8d556ea127b048a8dd98719c3d758, type: 2}
     - target: {fileID: 5045676260495800678, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -269,6 +274,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 69.92
       objectReference: {fileID: 0}
+    - target: {fileID: 8305024964522021939, guid: a093245946530b848bd531e4e6c98b05,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2fb8d556ea127b048a8dd98719c3d758, type: 2}
     - target: {fileID: 8534595328754196904, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
       propertyPath: m_LocalRotation.w
