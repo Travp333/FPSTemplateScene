@@ -5,6 +5,8 @@ using UnityEngine;
 public class GunAnim : MonoBehaviour
 {
 	[SerializeField]
+	public GameObject WorldModel;
+	[SerializeField]
 	public float fireCooldown = .2f;
 	[SerializeField]
 	public float reloadCooldown = 2f;

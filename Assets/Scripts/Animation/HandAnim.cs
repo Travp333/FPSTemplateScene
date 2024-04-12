@@ -47,6 +47,10 @@ public class HandAnim : MonoBehaviour
 		}
 		holdingWeapon = true;
 	}
+	public void DropWeapon(){
+		animator.Play("Drop");
+		holdingWeapon = false;
+	}
     public bool getisThrowing(){
         return animator.GetBool("isThrowing");
     }

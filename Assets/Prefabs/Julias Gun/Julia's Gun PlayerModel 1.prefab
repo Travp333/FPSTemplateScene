@@ -401,6 +401,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 889c6286c0f5a574cb327c8c73bcb3b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WorldModel: {fileID: 3938916727546193671, guid: 551b75646b438cb44a4d18b5e47b5612,
+    type: 3}
   fireCooldown: 0.2
   reloadCooldown: 3
   reloadFireCooldown: 2

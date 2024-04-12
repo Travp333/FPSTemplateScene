@@ -9,8 +9,11 @@ using UnityEngine.InputSystem;
 public class Interact : MonoBehaviour
 {
 	[SerializeField]
+	AnimatorOverrideController baseOverride;
+	[SerializeField]
 	public Transform MagGrabPoint;
 	public InputAction interactAction;
+	public InputAction dropAction;
 	GameObject gun;
 	[SerializeField]
 	public GameObject GunGrabPoint;
@@ -40,13 +43,16 @@ public class Interact : MonoBehaviour
     [Tooltip("what objects can be picked up by the player")]
     LayerMask mask = default;
     Transform propParent;
-    Transform ragdollParent;
+	Transform ragdollParent;
+	PauseMenu pause;
 
     // Start is called before the first frame update
     void Start()
 	{
-        //Assign components
+		//Assign components
+		pause = FindObjectOfType<PauseMenu>();
 		movement = transform.root.GetComponent<Movement>();
+		dropAction = movement.GetComponent<PlayerInput>().currentActionMap.FindAction("Drop");
 		interactAction = movement.GetComponent<PlayerInput>().currentActionMap.FindAction("Interact");
         grab = GetComponent<Grab>();
         hand = GetComponent<HandAnim>();
@@ -130,7 +136,7 @@ public class Interact : MonoBehaviour
     void Update()
     {
         //IF not paused
-        if (!FindObjectOfType<PauseMenu>().isPaused) {
+	    if (!pause.isPaused) {
             //IF e pressed
 	        if (interactAction.WasPressedThisFrame())
             {
@@ -176,12 +182,11 @@ public class Interact : MonoBehaviour
                                 button.press();
                             }
                         }
-		                else if(hit.transform.gameObject.GetComponent<WeaponType>() != null){
+		                else if(hit.transform.gameObject.GetComponent<WeaponType>() != null && !hand.holdingWeapon){
 		                	WeaponType wep = hit.transform.gameObject.GetComponent<WeaponType>();
 		                	gun = Instantiate(wep.worldModel, GunGrabPoint.transform.position, origin.transform.rotation);
 		                	gun.transform.parent = GunGrabPoint.transform;
 		                	hand.gunAnim = gun.GetComponent<GunAnim>();
-		                	hand.holdingWeapon = true;
 		                	hand.canShoot = true;
 		                	hand.canReload = true;
 		                	hand.animator.runtimeAnimatorController = hit.transform.gameObject.GetComponent<WeaponType>().animOverride;
@@ -203,6 +208,18 @@ public class Interact : MonoBehaviour
                     grab.throwingforce = grab.throwingTemp;
                 }
             }
+		    if(dropAction.WasPressedThisFrame()){
+		    	if(hand.holdingWeapon && !hand.firing && ! hand.reloading){
+		    		hand.DropWeapon();
+		    		Destroy (gun);
+		    		gun = Instantiate(hand.gunAnim.WorldModel, GunGrabPoint.transform.position, origin.transform.rotation);
+		    		gun.GetComponent<Rigidbody>().AddForce(this.transform.forward, ForceMode.Impulse);
+		    		hand.gunAnim = null;
+			    	hand.canShoot = false;
+			    	hand.canReload = false;
+			    	hand.animator.runtimeAnimatorController = baseOverride;
+		    	}
+		    }
         }
     }
 }
