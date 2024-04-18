@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +10,13 @@ public class KillBullet : MonoBehaviour
         //Remove the bullet if it is below ground level
         if (transform.position.y < -10f)
         {
-            Destroy(gameObject);
+	        Destroy(gameObject);
         }
     }
+	public void Destroy(){
+		Destroy(gameObject);
+	}
+	public void DestroyAfterXTime(){
+		Invoke("Destroy", 5f);
+	}
 }

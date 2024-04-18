@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,7 +16,19 @@ public class CheckBulletHit : MonoBehaviour
         lastPos = transform.position;
     }
 
+	void DestroyBullet(){
+		GetComponent<KillBullet>().Destroy();
+	}
+	public void BulletHit(RaycastHit hit){
+		Debug.Log("Hit target!");
 
+		//Move the bullet to where we hit
+		transform.position = hit.point;
+
+		//Deactivate the script that moves the bullet, so we can see where it hit
+		GetComponent<MoveBullet>().enabled = false;
+		Invoke("DestroyBullet", 5f);
+	}
 
     //Did we hit a target
     void CheckHit()
@@ -31,15 +43,9 @@ public class CheckBulletHit : MonoBehaviour
 
         if (Physics.Raycast(currentPos, fireDirection, out hit, fireDistance))
         {
-            if (hit.collider.CompareTag("Target"))
+	        if (!hit.collider.CompareTag("BulletIgnore"))
             {
-                Debug.Log("Hit target!");
-
-                //Move the bullet to where we hit
-                transform.position = hit.point;
-
-                //Deactivate the script that moves the bullet, so we can see where it hit
-                GetComponent<MoveBullet>().enabled = false;
+		        BulletHit(hit);
             }
         }
     }

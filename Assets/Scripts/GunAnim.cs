@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GunAnim : MonoBehaviour
 {
+	Camera cam;
 	[SerializeField]
 	public GameObject WorldModel;
 	[SerializeField]
@@ -13,12 +14,49 @@ public class GunAnim : MonoBehaviour
 	[SerializeField]
 	public float reloadFireCooldown = 2f;
 	Animator anim;
+	[SerializeField]
+	GameObject bulletObj;
+	[SerializeField]
+	GameObject dudBulletObj;
+	public float bulletSpeed = 850f;
+	GameObject bulletParent;
+	[SerializeField]
+	Transform bulletSpawnPos;
+	[SerializeField]
+	float raycastDistance = 50f;
+	[SerializeField]
+	LayerMask mask;
 	protected void Start()
 	{
+		bulletParent = GameObject.Find("BulletParent");
+		cam = GameObject.Find("HandCam").GetComponent<Camera>();
 		anim = this.GetComponent<Animator>();
 	}
+
 	public void PlayFire(){
 		anim.Play("Fire");
+		//DO A RAYCAST FIRST, THEN CHECK IF HIT. IF HIT, REGISTER HIT, DUH
+		//IF NO HIT, THEN DO PROJECTILE STYLED BULLET
+		//GARBAJ STYLED HYBRID APPROACH
+		RaycastHit hit;
+		if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, raycastDistance, mask))
+		{
+			Debug.DrawLine(cam.transform.position, hit.point, Color.cyan, 5f);
+			Debug.Log("Using Raycast!");
+			GameObject newBullet = Instantiate(dudBulletObj) as GameObject;
+			newBullet.transform.position = hit.point;
+			newBullet.GetComponent<KillBullet>().DestroyAfterXTime();
+		}
+		else{
+			Debug.Log("Using Projectile!");
+			GameObject newBullet = Instantiate(bulletObj) as GameObject;
+			//Parent it to get a clean workspace
+			newBullet.transform.parent = bulletParent.transform;
+			//Give it speed and position
+			Vector3 startPos = bulletSpawnPos.transform.position;
+			Vector3 startDir = cam.transform.forward;
+			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir);
+		}
 	}
 	public void PlayReload(){
 		anim.Play("Reload");

@@ -340,17 +340,32 @@ PrefabInstance:
         type: 3}
       propertyPath: bulletObj
       value: 
-      objectReference: {fileID: 4274701299776518559, guid: 19883b92c891c594b974faff19f732f5,
+      objectReference: {fileID: 4274701299776518559, guid: 32108f726a548c046bd76ca8ddf31c90,
         type: 3}
     - target: {fileID: 4048071642376549310, guid: 064a20930e950984e8689da9f477dd9d,
         type: 3}
       propertyPath: bulletsParent
       value: 
       objectReference: {fileID: 1402307066}
+    - target: {fileID: 5099315778175273842, guid: 064a20930e950984e8689da9f477dd9d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5099315778175273842, guid: 064a20930e950984e8689da9f477dd9d,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 94dc4c29d3b5e4d4e837d4020bef8a4d, type: 2}
     - target: {fileID: 6456482737067889680, guid: 064a20930e950984e8689da9f477dd9d,
         type: 3}
       propertyPath: m_Name
       value: Gun
+      objectReference: {fileID: 0}
+    - target: {fileID: 6456482737067889680, guid: 064a20930e950984e8689da9f477dd9d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1874,7 +1889,7 @@ PrefabInstance:
     - target: {fileID: 7197834583306505052, guid: 6bb6677300d607d488e6ee96dc019bb8,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -197.6
+      value: 2.86
       objectReference: {fileID: 0}
     - target: {fileID: 7197834583306505052, guid: 6bb6677300d607d488e6ee96dc019bb8,
         type: 3}
@@ -1884,7 +1899,7 @@ PrefabInstance:
     - target: {fileID: 7197834583306505052, guid: 6bb6677300d607d488e6ee96dc019bb8,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 178.4
+      value: 5.32
       objectReference: {fileID: 0}
     - target: {fileID: 7197834583306505052, guid: 6bb6677300d607d488e6ee96dc019bb8,
         type: 3}

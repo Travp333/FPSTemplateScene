@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +6,7 @@ using UnityEngine;
 public class MoveBullet : MonoBehaviour
 {
     private Vector3 currentPos;
-    private Vector3 currentVel;
+	public Vector3 currentVel;
 
     private Vector3 newPos;
     private Vector3 newVel;

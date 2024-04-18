@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -59,7 +59,7 @@ public class FireBullets : MonoBehaviour
             newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir);
 
             //Wait 2 seconds until we fire another bullet
-            yield return new WaitForSeconds(2f);
+	        yield return new WaitForSeconds(.5f);
         }
     }
 }
