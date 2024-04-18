@@ -445,7 +445,6 @@ MonoBehaviour:
     type: 3}
   dudBulletObj: {fileID: 4274701299776518559, guid: 0a36b5dcfd1bd9a4da4a4da6b3291d3c,
     type: 3}
-  bulletSpeed: 0
   bulletSpawnPos: {fileID: 119116217536088603}
   raycastDistance: 25
   mask:

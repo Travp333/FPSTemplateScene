@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4274701299776518554}
   - component: {fileID: 4274701299776518555}
   - component: {fileID: 4274701299776518556}
-  - component: {fileID: 114926313403434866}
+  - component: {fileID: -1241484526982300469}
   m_Layer: 0
   m_Name: Bullet sniper 1 (DUD)
   m_TagString: Untagged
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &114926313403434866
+--- !u!114 &-1241484526982300469
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,6 +93,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 4274701299776518559}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d3140644198f7a408a2abf5d391df1a, type: 3}
+  m_Script: {fileID: 11500000, guid: cab03ffb44262e847b6bd8fbc0738703, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifeMin: 5
+  lifeMax: 10

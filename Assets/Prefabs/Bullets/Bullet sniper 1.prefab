@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 114275212102551320}
   - component: {fileID: 6076015400370991913}
   m_Layer: 0
-  m_Name: Bullet sniper
+  m_Name: Bullet sniper 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,9 +32,9 @@ Transform:
   m_GameObject: {fileID: 4274701299776518559}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.149446, y: -6.014309, z: -7.846713}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: -14.66444, y: -6.287705, z: -7.846713}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f950792508081a046a2e7f0f2351815f, type: 2}
+  - {fileID: 2100000, guid: 12f5c1ead15dfa041b76e4de60744b07, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -125,6 +125,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7b41df99becfc14aad324db6488c0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletObjectDud: {fileID: 4274701299776518559, guid: 0a36b5dcfd1bd9a4da4a4da6b3291d3c,
+    type: 3}
 --- !u!114 &114275212102551320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,10 +139,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 970cff6ad736f744eac729ff3b4fe529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  muzzleVelocity: 50
+  muzzleVelocity: 500
   mass: 0.2
   radius: 0.05
-  dragCoefficient: 0.2
+  dragCoefficient: 0.09
   liftCoefficient: 0.0001
   windSpeedVector: {x: 0, y: -9.81, z: 0}
   densityOfMedium: 1.225
@@ -165,7 +167,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f950792508081a046a2e7f0f2351815f, type: 2}
+  - {fileID: 2100000, guid: 12f5c1ead15dfa041b76e4de60744b07, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -186,7 +188,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.5
+  m_Time: 0.15
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -196,7 +198,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.3927208
+        value: 0.34341964
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -204,8 +206,8 @@ TrailRenderer:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.84390694
-        value: 0.2816925
+        time: 1
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 0

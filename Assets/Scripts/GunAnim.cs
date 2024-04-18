@@ -18,7 +18,6 @@ public class GunAnim : MonoBehaviour
 	GameObject bulletObj;
 	[SerializeField]
 	GameObject dudBulletObj;
-	public float bulletSpeed = 850f;
 	GameObject bulletParent;
 	[SerializeField]
 	Transform bulletSpawnPos;
@@ -45,13 +44,13 @@ public class GunAnim : MonoBehaviour
 			Debug.Log("Using Raycast!");
 			GameObject newBullet = Instantiate(dudBulletObj) as GameObject;
 			newBullet.transform.position = hit.point;
-			newBullet.GetComponent<KillBullet>().DestroyAfterXTime();
 		}
 		else{
 			Debug.Log("Using Projectile!");
+			Debug.DrawRay(cam.transform.position, cam.transform.forward * 5000f, Color.cyan, 5f);
 			GameObject newBullet = Instantiate(bulletObj) as GameObject;
 			//Parent it to get a clean workspace
-			newBullet.transform.parent = bulletParent.transform;
+			//newBullet.transform.parent = bulletParent.transform;
 			//Give it speed and position
 			Vector3 startPos = bulletSpawnPos.transform.position;
 			Vector3 startDir = cam.transform.forward;
