@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GunAnim : MonoBehaviour
 {
+	[SerializeField]
+	public bool fullAuto;
 	Camera cam;
 	[SerializeField]
 	public GameObject WorldModel;
@@ -33,7 +35,7 @@ public class GunAnim : MonoBehaviour
 	}
 
 	public void PlayFire(){
-		anim.Play("Fire");
+		anim.Play("Fire", 0, 0f);
 		//DO A RAYCAST FIRST, THEN CHECK IF HIT. IF HIT, REGISTER HIT, DUH
 		//IF NO HIT, THEN DO PROJECTILE STYLED BULLET
 		//GARBAJ STYLED HYBRID APPROACH

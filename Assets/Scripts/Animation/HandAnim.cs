@@ -221,9 +221,22 @@ public class HandAnim : MonoBehaviour
             else {
                 animator.SetBool("walkPressed", false);
             }
-	        if (attackAction.WasPressedThisFrame()) {
-	        	if(holdingWeapon && canShoot){
-		        	if(gunAnim != null){
+	        if(gunAnim != null){
+		        if(gunAnim.fullAuto && attackAction.IsPressed()){
+			        if(holdingWeapon && canShoot){
+			        	canShoot = false;
+			        	canReload = false;
+			        	//animator.Stop();
+			        	animator.Play("Fire", 0, 0f);
+		        		gunAnim.PlayFire();
+			        	reloading = false;
+		        		firing = true;
+			        	Invoke("ResetCanShoot", gunAnim.fireCooldown);
+		        		Invoke("ResetCanReload", gunAnim.fireCooldown);
+		        	}
+		        }
+		        if (attackAction.WasPressedThisFrame() && !gunAnim.fullAuto) {
+		        	if(holdingWeapon && canShoot){
 			        	canShoot = false;
 			        	canReload = false;
 			        	animator.Play("Fire");
@@ -233,16 +246,17 @@ public class HandAnim : MonoBehaviour
 			        	Invoke("ResetCanShoot", gunAnim.fireCooldown);
 		        		Invoke("ResetCanReload", gunAnim.fireCooldown);
 		        	}
-	        	}
-		        else if (!holdingWeapon && blocker && !grab.isHolding) {
-			        if (flipflop) {
-				        Invoke("waveStartL", .1f);
-			        }
-			        else if (!flipflop) {
-				        Invoke("waveStartR", .1f);
-			        }
 		        }
 	        }
+	        if (attackAction.WasPressedThisFrame() && !holdingWeapon && blocker && !grab.isHolding) {
+		        if (flipflop) {
+			        Invoke("waveStartL", .1f);
+		        }
+		        else if (!flipflop) {
+			        Invoke("waveStartR", .1f);
+		        }
+	        }
+	        
 	        if (reloadAction.WasPressedThisFrame())
 	        {
 	        	//&& ammo < max ammo?

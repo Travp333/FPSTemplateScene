@@ -8,11 +8,14 @@ public class CheckBulletHit : MonoBehaviour
     private Vector3 lastPos;
 	[SerializeField]
 	GameObject bulletObjectDud;
+	void Start()
+	{
+		lastPos = transform.position;
+	}
     void FixedUpdate()
-    {
+	{
         CheckHit();
-
-        lastPos = transform.position;
+		lastPos = transform.position;   
     }
 
 	void DestroyBullet(){
