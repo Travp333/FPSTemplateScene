@@ -447,8 +447,8 @@ MonoBehaviour:
   dudBulletObj: {fileID: 4274701299776518559, guid: 0a36b5dcfd1bd9a4da4a4da6b3291d3c,
     type: 3}
   bulletSpawnPos: {fileID: 673062548195180681}
-  raycastDistance: 10
-  projectileCheckDistance: 100
+  raycastDistance: 25
+  projectileCheckDistance: 500
   mask:
     serializedVersion: 2
     m_Bits: 4294967295

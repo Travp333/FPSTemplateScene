@@ -9,7 +9,7 @@ public class WeaponType : MonoBehaviour
 	[SerializeField]
 	Weapon weapon;
 	[SerializeField]
-	public GameObject worldModel;
+	public GameObject playerModel;
 	void Start(){
 		
 	}

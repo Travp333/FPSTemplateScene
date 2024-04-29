@@ -184,7 +184,7 @@ public class Interact : MonoBehaviour
                         }
 		                else if(hit.transform.gameObject.GetComponent<WeaponType>() != null && !hand.holdingWeapon){
 		                	WeaponType wep = hit.transform.gameObject.GetComponent<WeaponType>();
-		                	gun = Instantiate(wep.worldModel, GunGrabPoint.transform.position, origin.transform.rotation);
+		                	gun = Instantiate(wep.playerModel, GunGrabPoint.transform.position, origin.transform.rotation);
 		                	gun.transform.parent = GunGrabPoint.transform;
 		                	hand.gunAnim = gun.GetComponent<GunAnim>();
 		                	hand.canShoot = true;

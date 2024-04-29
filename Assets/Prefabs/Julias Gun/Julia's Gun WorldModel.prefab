@@ -247,7 +247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animOverride: {fileID: 22100000, guid: 1784784a588ed65459d35759075c0231, type: 2}
   weapon: {fileID: 11400000, guid: 854d6a362b2ef6542b03a91b6a177d1b, type: 2}
-  worldModel: {fileID: 2712949182256638126, guid: 884bc0786aee68b41b9caf55765d6c7b,
+  playerModel: {fileID: 2712949182256638126, guid: 884bc0786aee68b41b9caf55765d6c7b,
     type: 3}
 --- !u!1 &9026682837046788480 stripped
 GameObject:
