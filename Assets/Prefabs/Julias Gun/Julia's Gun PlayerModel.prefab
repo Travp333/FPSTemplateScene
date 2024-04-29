@@ -442,12 +442,13 @@ MonoBehaviour:
   fireCooldown: 0.1
   reloadCooldown: 3
   reloadFireCooldown: 2
-  bulletObj: {fileID: 4274701299776518559, guid: 32108f726a548c046bd76ca8ddf31c90,
+  bulletObj: {fileID: 4274701299776518559, guid: 1909757c61b096d468be7b97472598f5,
     type: 3}
-  dudBulletObj: {fileID: 4274701299776518559, guid: 8760be795a72c8e4ba0d327cf5686431,
+  dudBulletObj: {fileID: 4274701299776518559, guid: 0a36b5dcfd1bd9a4da4a4da6b3291d3c,
     type: 3}
   bulletSpawnPos: {fileID: 673062548195180681}
   raycastDistance: 10
+  projectileCheckDistance: 100
   mask:
     serializedVersion: 2
     m_Bits: 4294967295
