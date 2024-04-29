@@ -44,14 +44,14 @@ public class GunAnim : MonoBehaviour
 		RaycastHit hit;
 		if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, raycastDistance, mask))
 		{
-			Debug.DrawLine(cam.transform.position, hit.point, Color.cyan, 1f);
+			//Debug.DrawLine(cam.transform.position, hit.point, Color.cyan, 1f);
 			Debug.Log("Using Raycast!");
 			GameObject newBullet = Instantiate(dudBulletObj) as GameObject;
 			newBullet.transform.position = hit.point;
 		}
 		else if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, projectileCheckDistance, mask)){
 			Debug.Log("Using Projectile targeted at raycast position!");
-			Debug.DrawLine(cam.transform.position, hit.point * 5000f, Color.yellow, 1f);
+			//Debug.DrawLine(cam.transform.position, hit.point * 5000f, Color.yellow, 1f);
 			GameObject newBullet = Instantiate(bulletObj) as GameObject;
 			//Parent it to get a clean workspace
 			//newBullet.transform.parent = bulletParent.transform;
@@ -62,7 +62,7 @@ public class GunAnim : MonoBehaviour
 		}
 		else{
 			Debug.Log("Using Projectile!");
-			Debug.DrawLine(cam.transform.position, hit.point * 5000f, Color.red, 1f);
+			//Debug.DrawLine(cam.transform.position, hit.point * 5000f, Color.red, 1f);
 			GameObject newBullet = Instantiate(bulletObj) as GameObject;
 			//Parent it to get a clean workspace
 			//newBullet.transform.parent = bulletParent.transform;

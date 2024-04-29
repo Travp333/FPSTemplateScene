@@ -439,16 +439,16 @@ MonoBehaviour:
   fullAuto: 0
   WorldModel: {fileID: 3938916727546193671, guid: 551b75646b438cb44a4d18b5e47b5612,
     type: 3}
-  fireCooldown: 0.2
+  fireCooldown: 0.3
   reloadCooldown: 3
   reloadFireCooldown: 2
-  bulletObj: {fileID: 4274701299776518559, guid: 1909757c61b096d468be7b97472598f5,
+  bulletObj: {fileID: 4274701299776518559, guid: 32108f726a548c046bd76ca8ddf31c90,
     type: 3}
-  dudBulletObj: {fileID: 4274701299776518559, guid: 0a36b5dcfd1bd9a4da4a4da6b3291d3c,
+  dudBulletObj: {fileID: 4274701299776518559, guid: 8760be795a72c8e4ba0d327cf5686431,
     type: 3}
   bulletSpawnPos: {fileID: 119116217536088603}
-  raycastDistance: 25
-  projectileCheckDistance: 100
+  raycastDistance: 5
+  projectileCheckDistance: 50
   mask:
     serializedVersion: 2
     m_Bits: 4294967295

@@ -23,7 +23,7 @@ public class CheckBulletHit : MonoBehaviour
 	}
 	public void BulletHit(RaycastHit hit){
 		//Debug.Log("Hit target!");
-		Debug.DrawLine(GameObject.Find("HandCam").transform.position, hit.point, Color.magenta, 1f);
+		//Debug.DrawLine(GameObject.Find("HandCam").transform.position, hit.point, Color.magenta, 1f);
 		//Move the bullet to where we hit
 		transform.position = hit.point;
 		Instantiate(bulletObjectDud, hit.point, Quaternion.identity);
@@ -38,7 +38,7 @@ public class CheckBulletHit : MonoBehaviour
 
 
         float fireDistance = (currentPos - lastPos).magnitude;
-		Debug.DrawLine(lastPos, currentPos, Color.red, 1f);
+		//Debug.DrawLine(lastPos, currentPos, Color.red, 1f);
 
         RaycastHit hit;
 		//Debug.Log(currentPos + ", " + lastPos);
@@ -46,7 +46,7 @@ public class CheckBulletHit : MonoBehaviour
         {
 	        if (!hit.collider.CompareTag("BulletIgnore"))
 	        {
-	        	Debug.DrawRay(currentPos, fireDirection*fireDistance, Color.green, 1f);
+	        	//Debug.DrawRay(currentPos, fireDirection*fireDistance, Color.green, 1f);
 		        BulletHit(hit);
             }
         }

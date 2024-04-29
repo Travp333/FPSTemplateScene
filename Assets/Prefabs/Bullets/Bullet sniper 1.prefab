@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 970cff6ad736f744eac729ff3b4fe529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  muzzleVelocity: 1000
+  muzzleVelocity: 800
   mass: 0.2
   radius: 0.05
   dragCoefficient: 0.09
