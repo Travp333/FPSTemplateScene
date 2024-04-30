@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//Adpoted from https://www.habrador.com/tutorials/unity-realistic-bullets/
 //Will move a bullet with greater accuracy than if we move it with Unity's built-in rigidbody
 public class MoveBullet : MonoBehaviour
 {

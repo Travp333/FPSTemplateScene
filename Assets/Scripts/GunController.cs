@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//Adpoted from https://www.habrador.com/tutorials/unity-realistic-bullets/
 
 //Controlls a gun that fire bullets
 public class GunController : MonoBehaviour

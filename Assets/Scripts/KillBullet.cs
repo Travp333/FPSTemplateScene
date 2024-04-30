@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//Adpoted from https://www.habrador.com/tutorials/unity-realistic-bullets/
 
 //We fire bullets continuously, so we need to remove them 
 public class KillBullet : MonoBehaviour
