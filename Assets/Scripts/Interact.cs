@@ -184,13 +184,14 @@ public class Interact : MonoBehaviour
                         }
 		                else if(hit.transform.gameObject.GetComponent<WeaponType>() != null && !hand.holdingWeapon){
 		                	WeaponType wep = hit.transform.gameObject.GetComponent<WeaponType>();
-		                	gun = Instantiate(wep.playerModel, GunGrabPoint.transform.position, origin.transform.rotation);
-		                	gun.transform.parent = GunGrabPoint.transform;
-		                	hand.gunAnim = gun.GetComponent<GunAnim>();
-		                	hand.canShoot = true;
-		                	hand.canReload = true;
-		                	hand.animator.runtimeAnimatorController = hit.transform.gameObject.GetComponent<WeaponType>().animOverride;
-		                	hand.PickUpWeapon();
+                            gun = Instantiate(wep.playerModel, GunGrabPoint.transform.position, Quaternion.identity);                            
+                            gun.transform.parent = GunGrabPoint.transform;
+                            hand.gunAnim = gun.GetComponent<GunAnim>();
+                            hand.canShoot = true;
+                            hand.canReload = true;
+                            hand.animator.runtimeAnimatorController = hit.transform.gameObject.GetComponent<WeaponType>().animOverride;
+		                	gun.transform.rotation = origin.transform.rotation;
+                            hand.PickUpWeapon();
 		                	Destroy(hit.transform.gameObject);
 		                	//hand
 		                }

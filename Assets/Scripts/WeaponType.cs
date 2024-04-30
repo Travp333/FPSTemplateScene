@@ -5,6 +5,8 @@ using UnityEngine;
 public class WeaponType : MonoBehaviour
 {
 	[SerializeField]
+	public Vector3 initialSpawnRotation;
+	[SerializeField]
 	public AnimatorOverrideController animOverride;
 	[SerializeField]
 	Weapon weapon;
