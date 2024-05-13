@@ -607,7 +607,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: blendShape.Firing
-    path: SMG_Type100 Components
+    path: SMG_Type100 Mount Loop
     classID: 137
     script: {fileID: 0}
     flags: 0
