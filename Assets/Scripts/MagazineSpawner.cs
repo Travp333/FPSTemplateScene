@@ -20,7 +20,7 @@ public class MagazineSpawner : MonoBehaviour
 	}
 	// Start is called before the first frame update
 	public void RevealHandMag(){
-		handMag = Instantiate(magMesh, handBone.position, Quaternion.identity);
+		handMag = Instantiate(magMesh, handBone.position, handBone.rotation);
 		handMag.transform.parent = handBone;
 	}
 	public void HideHandMag(){
@@ -30,6 +30,8 @@ public class MagazineSpawner : MonoBehaviour
 	}
 	public void DropMagazine(){
 		Instantiate(spentMagazine, SpentMagSpawnPos.position, SpentMagSpawnPos.rotation);
+	}
+	public void HideMagazine(){
 		magazine.SetActive(false);
 	}
 	public void UnHideMagazine(){
