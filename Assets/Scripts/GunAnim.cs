@@ -1,9 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GunAnim : MonoBehaviour
 {
+	[SerializeField]
+	ParticleSystem muzzleFlare;
+	[SerializeField]
+	GameObject casing;
+	[SerializeField]
+	float casingVelocity = 50f;
+	public static List<Vector3> casingTorques = new List<Vector3>();
+	[SerializeField]
+	GameObject casingSpawnPoint;
 	[SerializeField]
 	public bool fullAuto;
 	Camera cam;
@@ -31,6 +41,12 @@ public class GunAnim : MonoBehaviour
 	LayerMask mask;
 	protected void Start()
 	{
+		//pre-calculates random rotation vectors for shell casings 
+		casingTorques.Add(new Vector3(Random.Range(0,20), Random.Range(0,20), Random.Range(0,20)));
+		casingTorques.Add(new Vector3(Random.Range(0,20), Random.Range(0,20), Random.Range(0,20)));
+		casingTorques.Add(new Vector3(Random.Range(0,20), Random.Range(0,20), Random.Range(0,20)));
+		casingTorques.Add(new Vector3(Random.Range(0,20), Random.Range(0,20), Random.Range(0,20)));
+
 		bulletParent = GameObject.Find("BulletParent");
 		cam = GameObject.Find("HandCam").GetComponent<Camera>();
 		anim = this.GetComponent<Animator>();
@@ -38,6 +54,12 @@ public class GunAnim : MonoBehaviour
 
 	public void PlayFire(){
 		anim.Play("Fire", 0, 0f);
+		muzzleFlare.Play();
+		GameObject newCasing = Instantiate(casing) as GameObject;
+		newCasing.transform.position = casingSpawnPoint.transform.position;
+		Rigidbody casingRigidBody = newCasing.GetComponent<Rigidbody>();
+		casingRigidBody.velocity = (this.transform.up + this.transform.right) * casingVelocity;
+		casingRigidBody.AddTorque(casingTorques[Random.Range(0,casingTorques.Count - 1)], ForceMode.Impulse);
 		//DO A RAYCAST FIRST, THEN CHECK IF HIT. IF HIT, REGISTER HIT, DUH
 		//IF NO HIT, THEN DO PROJECTILE STYLED BULLET
 		//GARBAJ STYLED HYBRID APPROACH
