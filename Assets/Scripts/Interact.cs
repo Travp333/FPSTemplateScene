@@ -187,6 +187,7 @@ public class Interact : MonoBehaviour
                             gun = Instantiate(wep.playerModel, GunGrabPoint.transform.position, Quaternion.identity);                            
                             gun.transform.parent = GunGrabPoint.transform;
                             hand.gunAnim = gun.GetComponent<GunAnim>();
+                            hand.ammomanager = gun.GetComponent<AmmoManager>();
                             hand.canShoot = true;
                             hand.canReload = true;
                             hand.animator.runtimeAnimatorController = hit.transform.gameObject.GetComponent<WeaponType>().animOverride;
@@ -216,6 +217,7 @@ public class Interact : MonoBehaviour
 		    		gun = Instantiate(hand.gunAnim.WorldModel, holdPoint.transform.position, origin.transform.rotation);
 		    		gun.GetComponent<Rigidbody>().AddForce(this.transform.forward, ForceMode.Impulse);
 		    		hand.gunAnim = null;
+                    hand.ammomanager = null;
 			    	hand.canShoot = false;
 			    	hand.canReload = false;
 			    	hand.animator.runtimeAnimatorController = baseOverride;

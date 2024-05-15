@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 //this script controls all the animations tied to the character, such as when certain animations should be played and how they should be played.
 public class HandAnim : MonoBehaviour
 {
+    public AmmoManager ammomanager;
 	public bool reloading;
 	public bool firing;
 	public InputAction reloadAction;
@@ -55,10 +56,6 @@ public class HandAnim : MonoBehaviour
         return animator.GetBool("isThrowing");
     }
 	public void setisHoldingTrue(){
-		if(holdingWeapon){
-			
-			
-		}
         animator.Play("Grab");
         animator.SetBool("isHolding", true);
     }
@@ -161,6 +158,30 @@ public class HandAnim : MonoBehaviour
 		reloading = false;
 		firing = false;
 	}
+    void Shoot(){
+        Debug.Log("Firing");
+        canShoot = false;
+        canReload = false;
+        animator.Play("Fire", 0, 0f);
+        gunAnim.PlayFire();
+        reloading = false;
+        firing = true;
+        Invoke("ResetCanShoot", gunAnim.fireCooldown);
+        Invoke("ResetCanReload", gunAnim.fireCooldown);
+    }
+    void ResetFireable(){
+        Debug.Log("Resetting ability to fire");
+        Invoke("ResetCanShoot", gunAnim.fireCooldown);
+        Invoke("ResetCanReload", gunAnim.fireCooldown);
+    }
+    void OutOfAmmoShoot(){
+        Debug.Log("Trying to fire, no ammo!");
+        canShoot = false;
+        canReload = false;
+        animator.Play("Fire", 0, 0f);
+        reloading = false;
+        firing = true;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -223,29 +244,48 @@ public class HandAnim : MonoBehaviour
             }
 	        if(gunAnim != null){
 		        if(gunAnim.fullAuto && attackAction.IsPressed()){
-			        if(holdingWeapon && canShoot){
-			        	canShoot = false;
-			        	canReload = false;
-			        	//animator.Stop();
-			        	animator.Play("Fire", 0, 0f);
-		        		gunAnim.PlayFire();
-			        	reloading = false;
-		        		firing = true;
-			        	Invoke("ResetCanShoot", gunAnim.fireCooldown);
-		        		Invoke("ResetCanReload", gunAnim.fireCooldown);
+			        if(holdingWeapon && canShoot && ammomanager.FireBullet()){
+			        	Shoot();
 		        	}
+                    else if (ammomanager.ammoInMag == 0){
+                        //I BELIEVE ISSUE IS HERE, RELOAD ANIM OVERRIDE ISNT WORKING, ALWAYS PLAYING DEFAULT ANIM
+                        if(gunAnim.anim.runtimeAnimatorController != gunAnim.noAmmoOverrideGun){
+                            Debug.Log("PING" + gunAnim.anim.runtimeAnimatorController);
+                            gunAnim.anim.runtimeAnimatorController = gunAnim.noAmmoOverrideGun;
+                            Debug.Log("PING" + gunAnim.anim.runtimeAnimatorController);
+                        }
+                        if(animator.runtimeAnimatorController != gunAnim.noAmmoOverrideHand){
+                            Debug.Log("PING" + animator.runtimeAnimatorController);                            
+                            animator.runtimeAnimatorController = gunAnim.noAmmoOverrideHand;
+                            Debug.Log("PING" + animator.runtimeAnimatorController);
+                        }
+                        if(canShoot){
+                            OutOfAmmoShoot();
+                        }
+                       
+                    }
 		        }
-		        if (attackAction.WasPressedThisFrame() && !gunAnim.fullAuto) {
-		        	if(holdingWeapon && canShoot){
-			        	canShoot = false;
-			        	canReload = false;
-			        	animator.Play("Fire");
-		        		gunAnim.PlayFire();
-			        	reloading = false;
-		        		firing = true;
-			        	Invoke("ResetCanShoot", gunAnim.fireCooldown);
-		        		Invoke("ResetCanReload", gunAnim.fireCooldown);
+                else if(gunAnim.fullAuto && attackAction.WasReleasedThisFrame()){
+                    ResetFireable();
+                }
+		        if (attackAction.WasPressedThisFrame() && !gunAnim.fullAuto ) {
+		        	if(holdingWeapon && canShoot && ammomanager.FireBullet()){
+			        	Shoot();
 		        	}
+                    else if (ammomanager.ammoInMag == 0){
+                        if(gunAnim.anim.runtimeAnimatorController != gunAnim.noAmmoOverrideGun){
+                            gunAnim.anim.runtimeAnimatorController = gunAnim.noAmmoOverrideGun;
+                            Debug.Log("PING");
+                        }
+                        if(animator.runtimeAnimatorController != gunAnim.noAmmoOverrideHand){
+                            animator.runtimeAnimatorController = gunAnim.noAmmoOverrideHand;
+                            Debug.Log("PING");
+                        }
+                        if(canShoot){
+                            OutOfAmmoShoot();
+                            ResetFireable();
+                        }
+                    }
 		        }
 	        }
 	        if (attackAction.WasPressedThisFrame() && !holdingWeapon && blocker && !grab.isHolding) {
@@ -259,17 +299,36 @@ public class HandAnim : MonoBehaviour
 	        
 	        if (reloadAction.WasPressedThisFrame())
 	        {
-	        	//&& ammo < max ammo?
 	        	if(holdingWeapon && canReload){
 		        	if(gunAnim != null){
-			        	canShoot = false;
-			        	canReload = false;
-			        	animator.Play("Reload");
-		        		gunAnim.PlayReload();
-		        		reloading = true;
-		        		firing = false;
-		        		Invoke("ResetCanShoot", gunAnim.reloadFireCooldown);
-		        		Invoke("ResetCanReload", gunAnim.reloadCooldown);
+                        if (ammomanager.CanReload()){
+                            Debug.Log("Can Reload!");
+                            if(ammomanager.ammoInMag == 0){
+                                Debug.Log("Doing No Ammo Reload!");
+                                animator.Play("Reload");
+                                gunAnim.PlayReload();
+                                canShoot = false;
+                                canReload = false;
+                                reloading = true;
+                                firing = false;
+                                Invoke("ResetCanShoot", gunAnim.noAmmoReloadFireCooldown);
+                                Invoke("ResetCanReload", gunAnim.noAmmoReloadCooldown);  
+                                gunAnim.anim.runtimeAnimatorController = gunAnim.baseOverrideGun;
+                                animator.runtimeAnimatorController = gunAnim.baseOverrideHand;
+                            }
+                            else{
+                                Debug.Log("Doing Reload!");
+                                animator.Play("Reload");
+                                gunAnim.PlayReload();
+                                canShoot = false;
+                                canReload = false;
+                                reloading = true;
+                                firing = false;
+                                Invoke("ResetCanShoot", gunAnim.reloadFireCooldown);
+                                Invoke("ResetCanReload", gunAnim.reloadCooldown);
+                            }
+
+                        }
 		        	}
 	        	}
 	        }

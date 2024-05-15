@@ -1,12 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class GunAnim : MonoBehaviour
 {
 	[SerializeField]
-	ParticleSystem muzzleFlare;
+	public AnimatorOverrideController noAmmoOverrideGun;
+	[SerializeField]
+	public AnimatorOverrideController baseOverrideGun;
+	[SerializeField]
+	public AnimatorOverrideController noAmmoOverrideHand;
+	[SerializeField]
+	public AnimatorOverrideController baseOverrideHand;
+	AmmoManager ammomanager;
+	[SerializeField]
+	ParticleSystem[] muzzleFlare;
 	[SerializeField]
 	GameObject casing;
 	[SerializeField]
@@ -22,10 +32,18 @@ public class GunAnim : MonoBehaviour
 	[SerializeField]
 	public float fireCooldown = .2f;
 	[SerializeField]
-	public float reloadCooldown = 2f;
+	[Tooltip("How long until you can reload again on a reload with a round still in the chamber")]
+	public float reloadCooldown = 1f;
 	[SerializeField]
-	public float reloadFireCooldown = 2f;
-	Animator anim;
+		[Tooltip("How long until you can fire again on a reload with a round still in the chamber")]
+	public float reloadFireCooldown = 1f;
+	[SerializeField]
+	[Tooltip("How long until you can reload again on a reload with a round not in the chamber")]
+	public float noAmmoReloadCooldown = 2f;
+	[SerializeField]
+	[Tooltip("How long until you can fire again on a reload with a round not in the chamber")]
+	public float noAmmoReloadFireCooldown = 2f;
+	public Animator anim;
 	[SerializeField]
 	GameObject bulletObj;
 	[SerializeField]
@@ -41,20 +59,25 @@ public class GunAnim : MonoBehaviour
 	LayerMask mask;
 	protected void Start()
 	{
+		ammomanager = GetComponent<AmmoManager>();
 		//pre-calculates random rotation vectors for shell casings 
-		casingTorques.Add(new Vector3(Random.Range(0,20), Random.Range(0,20), Random.Range(0,20)));
-		casingTorques.Add(new Vector3(Random.Range(0,20), Random.Range(0,20), Random.Range(0,20)));
-		casingTorques.Add(new Vector3(Random.Range(0,20), Random.Range(0,20), Random.Range(0,20)));
-		casingTorques.Add(new Vector3(Random.Range(0,20), Random.Range(0,20), Random.Range(0,20)));
+		casingTorques.Add(new Vector3(2, 13, 5));
+		casingTorques.Add(new Vector3(19, 0, 4));
+		casingTorques.Add(new Vector3(4, 0, 6));
+		casingTorques.Add(new Vector3(20, 19, 0));
 
 		bulletParent = GameObject.Find("BulletParent");
 		cam = GameObject.Find("HandCam").GetComponent<Camera>();
 		anim = this.GetComponent<Animator>();
 	}
 
+	public void FinishReload(){
+		ammomanager.Reload();
+	}
+
 	public void PlayFire(){
 		anim.Play("Fire", 0, 0f);
-		muzzleFlare.Play();
+		muzzleFlare[Random.Range(0,muzzleFlare.Count())].Play();
 		GameObject newCasing = Instantiate(casing) as GameObject;
 		newCasing.transform.position = casingSpawnPoint.transform.position;
 		Rigidbody casingRigidBody = newCasing.GetComponent<Rigidbody>();
@@ -67,12 +90,12 @@ public class GunAnim : MonoBehaviour
 		if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, raycastDistance, mask))
 		{
 			//Debug.DrawLine(cam.transform.position, hit.point, Color.cyan, 1f);
-			Debug.Log("Using Raycast!");
+			//Debug.Log("Using Raycast!");
 			GameObject newBullet = Instantiate(dudBulletObj) as GameObject;
 			newBullet.transform.position = hit.point;
 		}
 		else if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, projectileCheckDistance, mask)){
-			Debug.Log("Using Projectile targeted at raycast position!");
+			//Debug.Log("Using Projectile targeted at raycast position!");
 			//Debug.DrawLine(cam.transform.position, hit.point * 5000f, Color.yellow, 1f);
 			GameObject newBullet = Instantiate(bulletObj) as GameObject;
 			//Parent it to get a clean workspace
@@ -83,7 +106,7 @@ public class GunAnim : MonoBehaviour
 			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir);
 		}
 		else{
-			Debug.Log("Using Projectile!");
+			//Debug.Log("Using Projectile!");
 			//Debug.DrawLine(cam.transform.position, hit.point * 5000f, Color.red, 1f);
 			GameObject newBullet = Instantiate(bulletObj) as GameObject;
 			//Parent it to get a clean workspace
@@ -99,7 +122,7 @@ public class GunAnim : MonoBehaviour
 	}
 	public void PlayDraw(){
 		anim = this.GetComponent<Animator>();
-		Debug.Log("PLAY DRAW!");
+		//Debug.Log("PLAY DRAW!");
 		anim.Play("Draw");
 	}
 }
