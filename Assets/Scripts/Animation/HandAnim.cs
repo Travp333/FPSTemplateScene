@@ -178,7 +178,7 @@ public class HandAnim : MonoBehaviour
         Debug.Log("Trying to fire, no ammo!");
         canShoot = false;
         canReload = false;
-        animator.Play("Fire", 0, 0f);
+        animator.Play("OutOfAmmoFire", 0, 0f);
         reloading = false;
         firing = true;
     }
@@ -248,17 +248,10 @@ public class HandAnim : MonoBehaviour
 			        	Shoot();
 		        	}
                     else if (ammomanager.ammoInMag == 0){
-                        //I BELIEVE ISSUE IS HERE, RELOAD ANIM OVERRIDE ISNT WORKING, ALWAYS PLAYING DEFAULT ANIM
-                        if(gunAnim.anim.runtimeAnimatorController != gunAnim.noAmmoOverrideGun){
-                            Debug.Log("PING" + gunAnim.anim.runtimeAnimatorController);
-                            gunAnim.anim.runtimeAnimatorController = gunAnim.noAmmoOverrideGun;
-                            Debug.Log("PING" + gunAnim.anim.runtimeAnimatorController);
-                        }
-                        if(animator.runtimeAnimatorController != gunAnim.noAmmoOverrideHand){
-                            Debug.Log("PING" + animator.runtimeAnimatorController);                            
-                            animator.runtimeAnimatorController = gunAnim.noAmmoOverrideHand;
-                            Debug.Log("PING" + animator.runtimeAnimatorController);
-                        }
+
+                        gunAnim.anim.SetBool("OutofAmmo", true);
+
+
                         if(canShoot){
                             OutOfAmmoShoot();
                         }
@@ -273,14 +266,9 @@ public class HandAnim : MonoBehaviour
 			        	Shoot();
 		        	}
                     else if (ammomanager.ammoInMag == 0){
-                        if(gunAnim.anim.runtimeAnimatorController != gunAnim.noAmmoOverrideGun){
-                            gunAnim.anim.runtimeAnimatorController = gunAnim.noAmmoOverrideGun;
-                            Debug.Log("PING");
-                        }
-                        if(animator.runtimeAnimatorController != gunAnim.noAmmoOverrideHand){
-                            animator.runtimeAnimatorController = gunAnim.noAmmoOverrideHand;
-                            Debug.Log("PING");
-                        }
+
+                        gunAnim.anim.SetBool("OutofAmmo", true);
+
                         if(canShoot){
                             OutOfAmmoShoot();
                             ResetFireable();
@@ -305,16 +293,17 @@ public class HandAnim : MonoBehaviour
                             Debug.Log("Can Reload!");
                             if(ammomanager.ammoInMag == 0){
                                 Debug.Log("Doing No Ammo Reload!");
-                                animator.Play("Reload");
-                                gunAnim.PlayReload();
+                                animator.Play("OutOfAmmoReload");
+                                gunAnim.PlayOutOfAmmoReload();
                                 canShoot = false;
                                 canReload = false;
                                 reloading = true;
                                 firing = false;
                                 Invoke("ResetCanShoot", gunAnim.noAmmoReloadFireCooldown);
                                 Invoke("ResetCanReload", gunAnim.noAmmoReloadCooldown);  
-                                gunAnim.anim.runtimeAnimatorController = gunAnim.baseOverrideGun;
-                                animator.runtimeAnimatorController = gunAnim.baseOverrideHand;
+
+                                gunAnim.anim.SetBool("OutofAmmo", false);
+
                             }
                             else{
                                 Debug.Log("Doing Reload!");

@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 public class Interact : MonoBehaviour
 {
 	[SerializeField]
-	AnimatorOverrideController baseOverride;
+	public AnimatorOverrideController baseOverride;
 	[SerializeField]
 	public Transform MagGrabPoint;
 	public InputAction interactAction;

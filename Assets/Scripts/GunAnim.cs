@@ -6,14 +6,6 @@ using UnityEngine;
 
 public class GunAnim : MonoBehaviour
 {
-	[SerializeField]
-	public AnimatorOverrideController noAmmoOverrideGun;
-	[SerializeField]
-	public AnimatorOverrideController baseOverrideGun;
-	[SerializeField]
-	public AnimatorOverrideController noAmmoOverrideHand;
-	[SerializeField]
-	public AnimatorOverrideController baseOverrideHand;
 	AmmoManager ammomanager;
 	[SerializeField]
 	ParticleSystem[] muzzleFlare;
@@ -119,6 +111,9 @@ public class GunAnim : MonoBehaviour
 	}
 	public void PlayReload(){
 		anim.Play("Reload");
+	}
+	public void PlayOutOfAmmoReload(){
+		anim.Play("OutOfAmmoReload");
 	}
 	public void PlayDraw(){
 		anim = this.GetComponent<Animator>();
