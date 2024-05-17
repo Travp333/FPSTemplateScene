@@ -6,6 +6,10 @@ using UnityEngine;
 
 public class GunAnim : MonoBehaviour
 {
+	[SerializeField]
+	public float wallCollisionCheckSizeAdjust = 1.2f;
+	[SerializeField]
+	public float wallCollisionCheckPosAdjust = 1.2f;
 	AmmoManager ammomanager;
 	[SerializeField]
 	ParticleSystem[] muzzleFlare;
@@ -40,7 +44,7 @@ public class GunAnim : MonoBehaviour
 	GameObject bulletObj;
 	[SerializeField]
 	GameObject dudBulletObj;
-	GameObject bulletParent;
+	public GameObject bulletParent;
 	[SerializeField]
 	Transform bulletSpawnPos;
 	[SerializeField]
@@ -83,7 +87,9 @@ public class GunAnim : MonoBehaviour
 			Rigidbody casingRigidBody = newCasing.GetComponent<Rigidbody>();
 			casingRigidBody.velocity = (this.transform.up + this.transform.right) * casingVelocity;
 			casingRigidBody.AddTorque(casingTorques[Random.Range(0,casingTorques.Count - 1)], ForceMode.Impulse);
+			newCasing.transform.parent = bulletParent.transform;		
 		}
+
 
 
 		//DO A RAYCAST FIRST, THEN CHECK IF HIT. IF HIT, REGISTER HIT, DUH
@@ -96,13 +102,14 @@ public class GunAnim : MonoBehaviour
 			//Debug.Log("Using Raycast!");
 			GameObject newBullet = Instantiate(dudBulletObj) as GameObject;
 			newBullet.transform.position = hit.point;
+			newBullet.transform.parent = bulletParent.transform;
 		}
 		else if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, projectileCheckDistance, mask)){
 			//Debug.Log("Using Projectile targeted at raycast position!");
 			//Debug.DrawLine(cam.transform.position, hit.point * 5000f, Color.yellow, 1f);
 			GameObject newBullet = Instantiate(bulletObj) as GameObject;
 			//Parent it to get a clean workspace
-			//newBullet.transform.parent = bulletParent.transform;
+			newBullet.transform.parent = bulletParent.transform;
 			//Give it speed and position
 			Vector3 startPos = bulletSpawnPos.transform.position;
 			Vector3 startDir = (hit.point - bulletSpawnPos.transform.position).normalized;
@@ -113,12 +120,15 @@ public class GunAnim : MonoBehaviour
 			//Debug.DrawLine(cam.transform.position, hit.point * 5000f, Color.red, 1f);
 			GameObject newBullet = Instantiate(bulletObj) as GameObject;
 			//Parent it to get a clean workspace
-			//newBullet.transform.parent = bulletParent.transform;
+			newBullet.transform.parent = bulletParent.transform;
 			//Give it speed and position
 			Vector3 startPos = bulletSpawnPos.transform.position;
 			Vector3 startDir = cam.transform.forward;
 			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir);
 		}
+	}
+	public void PlayWallCollision(){
+
 	}
 	public void PlayReload(){
 		anim.Play("Reload");

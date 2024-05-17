@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 //this script handles interacting with various objects, such as a button, a lever, a pickupable object, etc. essentially just pressing e on something
 public class Interact : MonoBehaviour
 {
+    [SerializeField]
+    GameObject wallCollisionCheckBox;
 	[SerializeField]
 	public AnimatorOverrideController baseOverride;
 	[SerializeField]
@@ -57,6 +59,7 @@ public class Interact : MonoBehaviour
         grab = GetComponent<Grab>();
         hand = GetComponent<HandAnim>();
 	    colTog = GetComponentInChildren<heldItemColliderToggle>();
+
     }
 
     List<Transform> GetAllChilds(Transform _t)
@@ -187,6 +190,8 @@ public class Interact : MonoBehaviour
                             gun = Instantiate(wep.playerModel, GunGrabPoint.transform.position, Quaternion.identity);                            
                             gun.transform.parent = GunGrabPoint.transform;
                             hand.gunAnim = gun.GetComponent<GunAnim>();
+                            wallCollisionCheckBox.transform.localScale = new Vector3 (wallCollisionCheckBox.transform.localScale.x, wallCollisionCheckBox.transform.localScale.y, wallCollisionCheckBox.transform.localScale.z * hand.gunAnim.wallCollisionCheckSizeAdjust);
+                            wallCollisionCheckBox.transform.localPosition = new Vector3 (wallCollisionCheckBox.transform.localPosition.x, wallCollisionCheckBox.transform.localPosition.y, wallCollisionCheckBox.transform.localPosition.z * hand.gunAnim.wallCollisionCheckPosAdjust);
                             hand.ammomanager = gun.GetComponent<AmmoManager>();
                             hand.canShoot = true;
                             hand.canReload = true;
@@ -216,7 +221,9 @@ public class Interact : MonoBehaviour
 		    		Destroy (gun);
 		    		gun = Instantiate(hand.gunAnim.WorldModel, holdPoint.transform.position, origin.transform.rotation);
 		    		gun.GetComponent<Rigidbody>().AddForce(this.transform.forward, ForceMode.Impulse);
-		    		hand.gunAnim = null;
+                    wallCollisionCheckBox.transform.localScale = new Vector3 (wallCollisionCheckBox.transform.localScale.x, wallCollisionCheckBox.transform.localScale.y, wallCollisionCheckBox.transform.localScale.z / hand.gunAnim.wallCollisionCheckSizeAdjust);
+                    wallCollisionCheckBox.transform.localPosition = new Vector3 (wallCollisionCheckBox.transform.localPosition.x, wallCollisionCheckBox.transform.localPosition.y, wallCollisionCheckBox.transform.localPosition.z / hand.gunAnim.wallCollisionCheckPosAdjust);
+                    hand.gunAnim = null;
                     hand.ammomanager = null;
 			    	hand.canShoot = false;
 			    	hand.canReload = false;

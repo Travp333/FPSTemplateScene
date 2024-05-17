@@ -7,7 +7,7 @@ public class MagazineSpawner : MonoBehaviour
 	[SerializeField]
 	GameObject magMesh;
 	[SerializeField]
-	Transform handBone;
+	public Transform handBone;
 	[SerializeField]
 	Transform SpentMagSpawnPos;
 	[SerializeField]

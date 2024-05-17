@@ -14838,10 +14838,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 889c6286c0f5a574cb327c8c73bcb3b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noAmmoOverrideGun: {fileID: 22100000, guid: 507d5484918835b4b8802308b899815c, type: 2}
-  baseOverrideGun: {fileID: 22100000, guid: d2fd690f337e5ad46a47a0e9b354f440, type: 2}
-  noAmmoOverrideHand: {fileID: 22100000, guid: a8ceccc4fb64d134a82945b3a313a0c5, type: 2}
-  baseOverrideHand: {fileID: 22100000, guid: 2df3868e06a8c964aa9ddd2986a741ed, type: 2}
+  wallCollisionCheckSizeAdjust: 1.5
+  wallCollisionCheckPosAdjust: 1.4
   muzzleFlare:
   - {fileID: 663214507052172599}
   - {fileID: 1484885662450627199}
@@ -14862,6 +14860,7 @@ MonoBehaviour:
     type: 3}
   dudBulletObj: {fileID: 4274701299776518559, guid: 0a36b5dcfd1bd9a4da4a4da6b3291d3c,
     type: 3}
+  bulletParent: {fileID: 0}
   bulletSpawnPos: {fileID: 2215084607671402968}
   raycastDistance: 25
   projectileCheckDistance: 500
