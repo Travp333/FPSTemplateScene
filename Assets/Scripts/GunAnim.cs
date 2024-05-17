@@ -53,11 +53,12 @@ public class GunAnim : MonoBehaviour
 	{
 		ammomanager = GetComponent<AmmoManager>();
 		//pre-calculates random rotation vectors for shell casings 
-		casingTorques.Add(new Vector3(2, 13, 5));
-		casingTorques.Add(new Vector3(19, 0, 4));
-		casingTorques.Add(new Vector3(4, 0, 6));
-		casingTorques.Add(new Vector3(20, 19, 0));
-
+		if(casing != null){
+			casingTorques.Add(new Vector3(2, 13, 5));
+			casingTorques.Add(new Vector3(19, 0, 4));
+			casingTorques.Add(new Vector3(4, 0, 6));
+			casingTorques.Add(new Vector3(20, 19, 0));
+		}
 		bulletParent = GameObject.Find("BulletParent");
 		cam = GameObject.Find("HandCam").GetComponent<Camera>();
 		anim = this.GetComponent<Animator>();
@@ -68,13 +69,23 @@ public class GunAnim : MonoBehaviour
 	}
 
 	public void PlayFire(){
+		if(muzzleFlare.Count() > 0){
+			int randomMuzzleIndex = Random.Range(0,muzzleFlare.Count());
+			if(muzzleFlare[randomMuzzleIndex] != null){
+				muzzleFlare[randomMuzzleIndex].Play();
+			}
+		}
 		anim.Play("Fire", 0, 0f);
-		muzzleFlare[Random.Range(0,muzzleFlare.Count())].Play();
-		GameObject newCasing = Instantiate(casing) as GameObject;
-		newCasing.transform.position = casingSpawnPoint.transform.position;
-		Rigidbody casingRigidBody = newCasing.GetComponent<Rigidbody>();
-		casingRigidBody.velocity = (this.transform.up + this.transform.right) * casingVelocity;
-		casingRigidBody.AddTorque(casingTorques[Random.Range(0,casingTorques.Count - 1)], ForceMode.Impulse);
+		
+		if(casing != null){
+			GameObject newCasing = Instantiate(casing) as GameObject;
+			newCasing.transform.position = casingSpawnPoint.transform.position;
+			Rigidbody casingRigidBody = newCasing.GetComponent<Rigidbody>();
+			casingRigidBody.velocity = (this.transform.up + this.transform.right) * casingVelocity;
+			casingRigidBody.AddTorque(casingTorques[Random.Range(0,casingTorques.Count - 1)], ForceMode.Impulse);
+		}
+
+
 		//DO A RAYCAST FIRST, THEN CHECK IF HIT. IF HIT, REGISTER HIT, DUH
 		//IF NO HIT, THEN DO PROJECTILE STYLED BULLET
 		//GARBAJ STYLED HYBRID APPROACH

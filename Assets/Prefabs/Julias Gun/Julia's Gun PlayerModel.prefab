@@ -363,6 +363,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6365800938726413766}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a093245946530b848bd531e4e6c98b05,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6131149617013164039}
   m_SourcePrefab: {fileID: 100100000, guid: a093245946530b848bd531e4e6c98b05, type: 3}
 --- !u!1 &1564475057737530638 stripped
 GameObject:
@@ -436,12 +440,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 889c6286c0f5a574cb327c8c73bcb3b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  muzzleFlare: []
+  casing: {fileID: 0}
+  casingVelocity: 50
+  casingSpawnPoint: {fileID: 0}
   fullAuto: 1
   WorldModel: {fileID: 6942482238671944259, guid: 29bf3401606fe5746838668cef93eb07,
     type: 3}
   fireCooldown: 0.1
   reloadCooldown: 3
   reloadFireCooldown: 2
+  noAmmoReloadCooldown: 2
+  noAmmoReloadFireCooldown: 2
+  anim: {fileID: 0}
   bulletObj: {fileID: 4274701299776518559, guid: 1909757c61b096d468be7b97472598f5,
     type: 3}
   dudBulletObj: {fileID: 4274701299776518559, guid: 0a36b5dcfd1bd9a4da4a4da6b3291d3c,
@@ -470,6 +481,21 @@ MonoBehaviour:
   spentMagazine: {fileID: 5779178997245809235, guid: 25b7d4671f73da948b93d414ac881f10,
     type: 3}
   magazine: {fileID: 1564475057737530638}
+--- !u!114 &6131149617013164039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2712949182256638126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f4160dd2441e7146b5fe4491d1d42cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  magazineSize: 40
+  ammoInMag: 0
+  ammoCount: 100
 --- !u!4 &3381504326385512980 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a093245946530b848bd531e4e6c98b05,
