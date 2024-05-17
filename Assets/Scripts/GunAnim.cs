@@ -27,7 +27,7 @@ public class GunAnim : MonoBehaviour
 	[Tooltip("How long until you can reload again on a reload with a round still in the chamber")]
 	public float reloadCooldown = 1f;
 	[SerializeField]
-		[Tooltip("How long until you can fire again on a reload with a round still in the chamber")]
+	[Tooltip("How long until you can fire again on a reload with a round still in the chamber")]
 	public float reloadFireCooldown = 1f;
 	[SerializeField]
 	[Tooltip("How long until you can reload again on a reload with a round not in the chamber")]
