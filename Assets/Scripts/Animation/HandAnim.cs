@@ -242,7 +242,7 @@ public class HandAnim : MonoBehaviour
             else {
                 animator.SetBool("walkPressed", false);
             }
-	        if(gunAnim != null){
+	        if(gunAnim != null && !inter.isWallColliding){
 		        if(gunAnim.fullAuto && attackAction.IsPressed()){
 			        if(holdingWeapon && canShoot && ammomanager.FireBullet()){
 			        	Shoot();
@@ -285,7 +285,7 @@ public class HandAnim : MonoBehaviour
 		        }
 	        }
 	        
-	        if (reloadAction.WasPressedThisFrame())
+	        if (reloadAction.WasPressedThisFrame() && !inter.isWallColliding)
 	        {
 	        	if(holdingWeapon && canReload){
 		        	if(gunAnim != null){

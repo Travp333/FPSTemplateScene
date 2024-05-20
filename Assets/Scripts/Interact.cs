@@ -10,6 +10,7 @@ public class Interact : MonoBehaviour
 {
     [SerializeField]
     GameObject wallCollisionCheckBox;
+    public bool isWallColliding;
 	[SerializeField]
 	public AnimatorOverrideController baseOverride;
 	[SerializeField]

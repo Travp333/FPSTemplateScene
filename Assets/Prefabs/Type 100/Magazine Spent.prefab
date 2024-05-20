@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -5899591204094866826}
   m_Layer: 13
   m_Name: Magazine Spent
-  m_TagString: Untagged
+  m_TagString: Magazine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
