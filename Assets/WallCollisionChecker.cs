@@ -26,7 +26,9 @@ public class WallCollisionChecker : MonoBehaviour
             }
         }
     }
-    
+    void StopOverlapping(){
+        inter.isWallColliding = false;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag != "Player" && other.gameObject.tag != "Magazine"){
@@ -38,7 +40,11 @@ public class WallCollisionChecker : MonoBehaviour
     {
         if(other.gameObject.tag != "Player" && other.gameObject.tag != "Magazine"){
             handanim.animator.SetBool("WallCollision", false);
-            inter.isWallColliding = false;
+            Invoke("StopOverlapping", .2f);
+            if(handanim.holdingWeapon){
+                handanim.ResetFireable();
+            }
+            
         }
     }
 }

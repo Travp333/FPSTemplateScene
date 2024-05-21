@@ -1,4 +1,4 @@
-﻿//Author: Travis Parks
+//Author: Travis Parks
 //Debugging: Travis Parks
 using System.Collections;
 using System.Collections.Generic;
@@ -159,17 +159,17 @@ public class HandAnim : MonoBehaviour
 		firing = false;
 	}
     void Shoot(){
+        animator.Play("Fire", 0, 0f);
         Debug.Log("Firing");
         canShoot = false;
         canReload = false;
-        animator.Play("Fire", 0, 0f);
-        gunAnim.PlayFire();
         reloading = false;
         firing = true;
         Invoke("ResetCanShoot", gunAnim.fireCooldown);
         Invoke("ResetCanReload", gunAnim.fireCooldown);
+        gunAnim.PlayFire();
     }
-    void ResetFireable(){
+    public void ResetFireable(){
         Debug.Log("Resetting ability to fire");
         Invoke("ResetCanShoot", gunAnim.fireCooldown);
         Invoke("ResetCanReload", gunAnim.fireCooldown);
@@ -301,9 +301,7 @@ public class HandAnim : MonoBehaviour
                                 firing = false;
                                 Invoke("ResetCanShoot", gunAnim.noAmmoReloadFireCooldown);
                                 Invoke("ResetCanReload", gunAnim.noAmmoReloadCooldown);  
-
                                 gunAnim.anim.SetBool("OutofAmmo", false);
-
                             }
                             else{
                                 Debug.Log("Doing Reload!");

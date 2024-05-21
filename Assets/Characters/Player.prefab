@@ -3554,7 +3554,6 @@ GameObject:
   - component: {fileID: 7197834581697023857}
   - component: {fileID: 7197834581697023859}
   - component: {fileID: 2336594996463805830}
-  - component: {fileID: 730258548988203738}
   m_Layer: 6
   m_Name: Hands
   m_TagString: Untagged
@@ -3690,6 +3689,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallCollisionCheckBox: {fileID: 8644307166509626298}
+  isWallColliding: 0
   baseOverride: {fileID: 22100000, guid: ab2adab748377914e89cf701f30eeae4, type: 2}
   MagGrabPoint: {fileID: 2914770935154738290}
   interactAction:
@@ -3720,18 +3720,6 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 11265
---- !u!114 &730258548988203738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8008158505458239079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6368f2c9faaee784c8bdbb55af2f254f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8449082567159408093
 GameObject:
   m_ObjectHideFlags: 0

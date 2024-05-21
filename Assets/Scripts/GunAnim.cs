@@ -71,7 +71,11 @@ public class GunAnim : MonoBehaviour
 	public void FinishReload(){
 		ammomanager.Reload();
 	}
-
+	public void StopAllMuzzleFlares(){
+		foreach (ParticleSystem p in muzzleFlare){
+			p.Stop();
+		}
+	}
 	public void PlayFire(){
 		if(muzzleFlare.Count() > 0){
 			int randomMuzzleIndex = Random.Range(0,muzzleFlare.Count());
