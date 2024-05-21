@@ -7,6 +7,8 @@ using UnityEngine;
 public class GunAnim : MonoBehaviour
 {
 	[SerializeField]
+	public GameObject iKTarget;
+	[SerializeField]
 	public float wallCollisionCheckSizeAdjust = 1.2f;
 	[SerializeField]
 	public float wallCollisionCheckPosAdjust = 1.2f;
@@ -53,6 +55,8 @@ public class GunAnim : MonoBehaviour
 	float projectileCheckDistance = 100f;
 	[SerializeField]
 	LayerMask mask;
+	[SerializeField]
+	public bool offHandIK;
 	protected void Start()
 	{
 		ammomanager = GetComponent<AmmoManager>();
@@ -71,11 +75,7 @@ public class GunAnim : MonoBehaviour
 	public void FinishReload(){
 		ammomanager.Reload();
 	}
-	public void StopAllMuzzleFlares(){
-		foreach (ParticleSystem p in muzzleFlare){
-			p.Stop();
-		}
-	}
+
 	public void PlayFire(){
 		if(muzzleFlare.Count() > 0){
 			int randomMuzzleIndex = Random.Range(0,muzzleFlare.Count());

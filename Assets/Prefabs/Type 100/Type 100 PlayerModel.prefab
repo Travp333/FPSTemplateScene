@@ -9686,13 +9686,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5964210948148545461}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.6009582, y: -0.32991797, z: 0.043675333, w: 0.7267021}
-  m_LocalPosition: {x: -1.248, y: -0.89, z: 0.657}
+  m_LocalRotation: {x: -0.5402342, y: -0.25948352, z: 0.024281804, w: 0.8001411}
+  m_LocalPosition: {x: -1.3896195, y: -0.8672157, z: 0.862947}
   m_LocalScale: {x: -1.5191, y: -1.5191, z: -1.5191}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5143947750550346230}
-  m_LocalEulerAnglesHint: {x: -57.631, y: -83.565, z: 59.231}
+  m_LocalEulerAnglesHint: {x: -58.422, y: -57.465, z: 37.56}
 --- !u!1 &7427435276603431490
 GameObject:
   m_ObjectHideFlags: 0
@@ -14582,67 +14582,67 @@ PrefabInstance:
     - target: {fileID: -4141405387499639783, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 45.131107
+      value: 42.508366
       objectReference: {fileID: 0}
     - target: {fileID: -4141405387499639783, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 45.131107
+      value: 42.508366
       objectReference: {fileID: 0}
     - target: {fileID: -4141405387499639783, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 45.131107
+      value: 42.508366
       objectReference: {fileID: 0}
     - target: {fileID: -4141405387499639783, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.44
+      value: -0.445
       objectReference: {fileID: 0}
     - target: {fileID: -4141405387499639783, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.385
+      value: -0.353
       objectReference: {fileID: 0}
     - target: {fileID: -4141405387499639783, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.405
+      value: 0.385
       objectReference: {fileID: 0}
     - target: {fileID: -4141405387499639783, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8881453
+      value: 0.8899135
       objectReference: {fileID: 0}
     - target: {fileID: -4141405387499639783, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.36744025
+      value: -0.38110808
       objectReference: {fileID: 0}
     - target: {fileID: -4141405387499639783, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.2558283
+      value: -0.22749035
       objectReference: {fileID: 0}
     - target: {fileID: -4141405387499639783, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.10362167
+      value: -0.10516035
       objectReference: {fileID: 0}
     - target: {fileID: -4141405387499639783, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -44.886
+      value: -46.565
       objectReference: {fileID: 0}
     - target: {fileID: -4141405387499639783, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -32.27
+      value: -28.185
       objectReference: {fileID: 0}
     - target: {fileID: -4141405387499639783, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0.319
+      value: -1.148
       objectReference: {fileID: 0}
     - target: {fileID: -3260684701804398485, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
@@ -14873,6 +14873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 889c6286c0f5a574cb327c8c73bcb3b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iKTarget: {fileID: 5964210948148545461}
   wallCollisionCheckSizeAdjust: 1.5
   wallCollisionCheckPosAdjust: 1.4
   muzzleFlare:
@@ -14902,6 +14903,7 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 4294967295
+  offHandIK: 1
 --- !u!114 &5628826120335260515
 MonoBehaviour:
   m_ObjectHideFlags: 0

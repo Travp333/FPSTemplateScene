@@ -2,9 +2,8 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEditor;
 
-[RequireComponent(typeof(Camera))]
-[ExecuteInEditMode]
-//NEED to limit this to just the hands layer not inverting ALL normals
+//[RequireComponent(typeof(Camera))]
+//[ExecuteInEditMode]
 public class CameraFlipper : MonoBehaviour
 {
 	Camera _camera;

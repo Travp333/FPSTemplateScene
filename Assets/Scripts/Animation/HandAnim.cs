@@ -2,11 +2,14 @@
 //Debugging: Travis Parks
 using System.Collections;
 using System.Collections.Generic;
+using DitzelGames.FastIK;
 using UnityEngine;
 using UnityEngine.InputSystem;
 //this script controls all the animations tied to the character, such as when certain animations should be played and how they should be played.
 public class HandAnim : MonoBehaviour
 {
+    [SerializeField]
+    public FastIKFabric offHandIK;
     public AmmoManager ammomanager;
 	public bool reloading;
 	public bool firing;
@@ -41,7 +44,24 @@ public class HandAnim : MonoBehaviour
     bool holdingDummy;
     Grab grab;
 	// Start is called before the first frame update
+    public void EnableOffHandIK(){
+        if(gunAnim != null){
+            if(holdingWeapon && gunAnim.offHandIK){
+                offHandIK.enabled = true;
+                offHandIK.Target = gunAnim.iKTarget.transform;
+            }
+        }
+    }
+    public void DisableOffHandIK(){
+        if(gunAnim != null){
+            if(holdingWeapon && gunAnim.offHandIK){
+                offHandIK.enabled = false;
+                offHandIK.Target = null;
+            }
+        }
+    }
 	public void PickUpWeapon(){
+        EnableOffHandIK();
 		animator.Play("Draw");
 		if(gunAnim != null){
 			gunAnim.PlayDraw();	
@@ -49,6 +69,7 @@ public class HandAnim : MonoBehaviour
 		holdingWeapon = true;
 	}
 	public void DropWeapon(){
+        DisableOffHandIK();
 		animator.Play("Drop");
 		holdingWeapon = false;
 	}
