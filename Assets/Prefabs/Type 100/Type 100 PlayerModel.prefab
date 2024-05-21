@@ -14936,4 +14936,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   magazineSize: 30
   ammoInMag: 0
-  ammoCount: 50
+  ammoCount: 500
