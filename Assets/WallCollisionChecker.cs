@@ -20,9 +20,18 @@ public class WallCollisionChecker : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         if(!inter.isWallColliding){
-            if(other.gameObject.tag != "Player" && other.gameObject.tag != "Magazine"){
-                handanim.animator.SetBool("WallCollision", true);
-                inter.isWallColliding = true;
+            if(other.gameObject.tag != "Player" && other.gameObject.tag != "Magazine" && other.gameObject.tag != "Weapon"){
+                if(!handanim.reloading){
+                    handanim.animator.Play("IdleToWallCollideEntry", 0, 0f);
+                    handanim.animator.SetBool("WallCollision", true);
+                    inter.isWallColliding = true;
+                    handanim.forceIdle();
+                    handanim.canShoot = false;
+                    handanim.canReload = false;
+                }
+                else{
+                    handanim.animator.SetBool("WallCollision", false);
+                }
             }
         }
     }
@@ -31,19 +40,26 @@ public class WallCollisionChecker : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag != "Player" && other.gameObject.tag != "Magazine"){
-            handanim.animator.SetBool("WallCollision", true);
-            inter.isWallColliding = true;
+        if(other.gameObject.tag != "Player" && other.gameObject.tag != "Magazine" && other.gameObject.tag != "Weapon"){
+            if(!handanim.reloading){
+                handanim.animator.Play("IdleToWallCollideEntry", 0, 0f);
+                handanim.animator.SetBool("WallCollision", true);
+                inter.isWallColliding = true;
+                handanim.forceIdle();
+            }
+            else{
+                handanim.animator.SetBool("WallCollision", false);
+            }
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.tag != "Player" && other.gameObject.tag != "Magazine"){
+        if(other.gameObject.tag != "Player" && other.gameObject.tag != "Magazine" && other.gameObject.tag != "Weapon"){
             handanim.animator.SetBool("WallCollision", false);
             Invoke("StopOverlapping", .2f);
-            if(handanim.holdingWeapon){
-                handanim.ResetFireable();
-            }
+            //if(handanim.holdingWeapon){
+            //    handanim.ResetFireable();
+            //}
             
         }
     }

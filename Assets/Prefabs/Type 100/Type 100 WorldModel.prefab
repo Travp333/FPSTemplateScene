@@ -98,6 +98,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c6806a02bf8134d438d991b0e525e19a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Weapon
+      objectReference: {fileID: 0}
     - target: {fileID: 2273566684754477930, guid: c6806a02bf8134d438d991b0e525e19a,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

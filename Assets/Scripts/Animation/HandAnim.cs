@@ -203,6 +203,11 @@ public class HandAnim : MonoBehaviour
         reloading = false;
         firing = true;
     }
+    public void ForceGunAnimIdle(){
+        if(gunAnim != null){
+            gunAnim.anim.Play("Idle", 0, 0f);
+        }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -265,25 +270,23 @@ public class HandAnim : MonoBehaviour
             }
 	        if(gunAnim != null && !inter.isWallColliding){
 		        if(gunAnim.fullAuto && attackAction.IsPressed()){
-			        if(holdingWeapon && canShoot && ammomanager.FireBullet()){
+			        if(!reloading && holdingWeapon && canShoot && ammomanager.FireBullet()){
 			        	Shoot();
 		        	}
                     else if (ammomanager.ammoInMag == 0){
-
                         gunAnim.anim.SetBool("OutofAmmo", true);
-
-
                         if(canShoot){
                             OutOfAmmoShoot();
+                            canReload = true; 
                         }
                        
                     }
 		        }
-                else if(gunAnim.fullAuto && attackAction.WasReleasedThisFrame()){
+                else if(!reloading && gunAnim.fullAuto && attackAction.WasReleasedThisFrame()){
                     ResetFireable();
                 }
 		        if (attackAction.WasPressedThisFrame() && !gunAnim.fullAuto ) {
-		        	if(holdingWeapon && canShoot && ammomanager.FireBullet()){
+		        	if(!reloading && holdingWeapon && canShoot && ammomanager.FireBullet()){
 			        	Shoot();
 		        	}
                     else if (ammomanager.ammoInMag == 0){
@@ -292,7 +295,7 @@ public class HandAnim : MonoBehaviour
 
                         if(canShoot){
                             OutOfAmmoShoot();
-                            ResetFireable();
+                            canReload = true; 
                         }
                     }
 		        }

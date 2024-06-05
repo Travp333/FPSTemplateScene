@@ -77,13 +77,14 @@ public class GunAnim : MonoBehaviour
 	}
 
 	public void PlayFire(){
+		anim.Play("Fire", 0, 0f);
 		if(muzzleFlare.Count() > 0){
 			int randomMuzzleIndex = Random.Range(0,muzzleFlare.Count());
 			if(muzzleFlare[randomMuzzleIndex] != null){
 				muzzleFlare[randomMuzzleIndex].Play();
 			}
 		}
-		anim.Play("Fire", 0, 0f);
+		
 		
 		if(casing != null){
 			GameObject newCasing = Instantiate(casing) as GameObject;
