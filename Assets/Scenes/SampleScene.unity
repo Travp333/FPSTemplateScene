@@ -873,6 +873,74 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &592648790
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3938916727546193671, guid: 551b75646b438cb44a4d18b5e47b5612,
+        type: 3}
+      propertyPath: m_Name
+      value: Julia's Gun WorldModel (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459134588539403709, guid: 551b75646b438cb44a4d18b5e47b5612,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 19.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459134588539403709, guid: 551b75646b438cb44a4d18b5e47b5612,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459134588539403709, guid: 551b75646b438cb44a4d18b5e47b5612,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 15.649318
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459134588539403709, guid: 551b75646b438cb44a4d18b5e47b5612,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.0000020489094
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459134588539403709, guid: 551b75646b438cb44a4d18b5e47b5612,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00000008195638
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459134588539403709, guid: 551b75646b438cb44a4d18b5e47b5612,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459134588539403709, guid: 551b75646b438cb44a4d18b5e47b5612,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.70710677
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459134588539403709, guid: 551b75646b438cb44a4d18b5e47b5612,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459134588539403709, guid: 551b75646b438cb44a4d18b5e47b5612,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459134588539403709, guid: 551b75646b438cb44a4d18b5e47b5612,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 180
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 551b75646b438cb44a4d18b5e47b5612, type: 3}
 --- !u!4 &606188888 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 306452916347481400, guid: 6bb6677300d607d488e6ee96dc019bb8,
@@ -984,6 +1052,74 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &818786639
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2712949182256638126, guid: 8e5131f36f97386418bb7a5342d9a97b,
+        type: 3}
+      propertyPath: m_Name
+      value: Julia's Gun PlayerModel 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381504326385512980, guid: 8e5131f36f97386418bb7a5342d9a97b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 12.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381504326385512980, guid: 8e5131f36f97386418bb7a5342d9a97b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381504326385512980, guid: 8e5131f36f97386418bb7a5342d9a97b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5.860596
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381504326385512980, guid: 8e5131f36f97386418bb7a5342d9a97b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381504326385512980, guid: 8e5131f36f97386418bb7a5342d9a97b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381504326385512980, guid: 8e5131f36f97386418bb7a5342d9a97b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381504326385512980, guid: 8e5131f36f97386418bb7a5342d9a97b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381504326385512980, guid: 8e5131f36f97386418bb7a5342d9a97b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381504326385512980, guid: 8e5131f36f97386418bb7a5342d9a97b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381504326385512980, guid: 8e5131f36f97386418bb7a5342d9a97b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8e5131f36f97386418bb7a5342d9a97b, type: 3}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -2485,6 +2621,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2293417130576801333, guid: 5e7655ef130867b4696baad3dd492699,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -6.381211
+      objectReference: {fileID: 0}
+    - target: {fileID: 2293417130576801333, guid: 5e7655ef130867b4696baad3dd492699,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 107.76159
+      objectReference: {fileID: 0}
+    - target: {fileID: 2293417130576801333, guid: 5e7655ef130867b4696baad3dd492699,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -160.8648
+      objectReference: {fileID: 0}
+    - target: {fileID: 4761555709077438800, guid: 5e7655ef130867b4696baad3dd492699,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -7.016669e-15
+      objectReference: {fileID: 0}
     - target: {fileID: 5143947750550346230, guid: 5e7655ef130867b4696baad3dd492699,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3694,74 +3850,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44919f97e61469649bc4bf31512cf5ac, type: 3}
---- !u!1001 &5262651795819460215
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3938916727546193671, guid: 551b75646b438cb44a4d18b5e47b5612,
-        type: 3}
-      propertyPath: m_Name
-      value: Julia's Gun WorldModel (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4459134588539403709, guid: 551b75646b438cb44a4d18b5e47b5612,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 19.67
-      objectReference: {fileID: 0}
-    - target: {fileID: 4459134588539403709, guid: 551b75646b438cb44a4d18b5e47b5612,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 3.975
-      objectReference: {fileID: 0}
-    - target: {fileID: 4459134588539403709, guid: 551b75646b438cb44a4d18b5e47b5612,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 14.52
-      objectReference: {fileID: 0}
-    - target: {fileID: 4459134588539403709, guid: 551b75646b438cb44a4d18b5e47b5612,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.20404243
-      objectReference: {fileID: 0}
-    - target: {fileID: 4459134588539403709, guid: 551b75646b438cb44a4d18b5e47b5612,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.20404431
-      objectReference: {fileID: 0}
-    - target: {fileID: 4459134588539403709, guid: 551b75646b438cb44a4d18b5e47b5612,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.6770279
-      objectReference: {fileID: 0}
-    - target: {fileID: 4459134588539403709, guid: 551b75646b438cb44a4d18b5e47b5612,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.6770273
-      objectReference: {fileID: 0}
-    - target: {fileID: 4459134588539403709, guid: 551b75646b438cb44a4d18b5e47b5612,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 123.54401
-      objectReference: {fileID: 0}
-    - target: {fileID: 4459134588539403709, guid: 551b75646b438cb44a4d18b5e47b5612,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 4459134588539403709, guid: 551b75646b438cb44a4d18b5e47b5612,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 90
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 551b75646b438cb44a4d18b5e47b5612, type: 3}
 --- !u!4 &8644299320841884955 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2914770935154738290, guid: 6bb6677300d607d488e6ee96dc019bb8,
@@ -3788,9 +3876,10 @@ SceneRoots:
   - {fileID: 165229720}
   - {fileID: 1230038577}
   - {fileID: 267448648289006568}
-  - {fileID: 5262651795819460215}
   - {fileID: 1402307066}
   - {fileID: 58066731}
   - {fileID: 4579706006118192222}
   - {fileID: 1942755237}
   - {fileID: 1087665884}
+  - {fileID: 818786639}
+  - {fileID: 592648790}
