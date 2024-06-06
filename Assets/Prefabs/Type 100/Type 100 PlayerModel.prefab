@@ -14799,6 +14799,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1643291267358566261}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 051f49a57b72a474598eaeb1f9bb472e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4336171223938694441}
   m_SourcePrefab: {fileID: 100100000, guid: 051f49a57b72a474598eaeb1f9bb472e, type: 3}
 --- !u!1 &1321798583336404598 stripped
 GameObject:
@@ -14909,6 +14913,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   offHandIK: 1
+  gravity: -9.81
 --- !u!114 &5628826120335260515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14942,3 +14947,82 @@ MonoBehaviour:
   magazineSize: 30
   ammoInMag: 0
   ammoCount: 500
+--- !u!114 &4336171223938694441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5487963341727548236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 778d6b409a7ae794ab2d8c275f377535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponHeatList:
+  - heat: 0
+    recoilOffset: {x: 0, y: 0, z: 0}
+  - heat: 1
+    recoilOffset: {x: 0, y: 0, z: 0}
+  - heat: 2
+    recoilOffset: {x: 0, y: 0, z: 0}
+  - heat: 3
+    recoilOffset: {x: 0, y: 0.01, z: 0.01}
+  - heat: 4
+    recoilOffset: {x: 0, y: 0.01, z: 0.01}
+  - heat: 5
+    recoilOffset: {x: 0, y: 0.01, z: 0.01}
+  - heat: 6
+    recoilOffset: {x: 0, y: 0.01, z: 0.01}
+  - heat: 7
+    recoilOffset: {x: 0, y: 0.02, z: 0.02}
+  - heat: 8
+    recoilOffset: {x: 0, y: 0.02, z: 0.02}
+  - heat: 9
+    recoilOffset: {x: 0, y: 0.02, z: 0.02}
+  - heat: 10
+    recoilOffset: {x: 0, y: 0.05, z: 0.05}
+  - heat: 11
+    recoilOffset: {x: 0, y: 0.05, z: 0.05}
+  - heat: 12
+    recoilOffset: {x: 0, y: 0.06, z: 0.07}
+  - heat: 13
+    recoilOffset: {x: 0, y: 0.065, z: 0.08}
+  - heat: 14
+    recoilOffset: {x: 0, y: 0.07, z: 0.09}
+  - heat: 15
+    recoilOffset: {x: 0, y: 0.075, z: 0.1}
+  - heat: 16
+    recoilOffset: {x: 0, y: 0.08, z: 0.15}
+  - heat: 17
+    recoilOffset: {x: 0, y: 0.085, z: 0.25}
+  - heat: 18
+    recoilOffset: {x: 0, y: 0.09, z: 0.5}
+  - heat: 19
+    recoilOffset: {x: 0, y: 0.1, z: 0.8}
+  - heat: 20
+    recoilOffset: {x: 0, y: 0.15, z: 0.9}
+  - heat: 21
+    recoilOffset: {x: 0, y: 0.15, z: 0.8}
+  - heat: 22
+    recoilOffset: {x: 0, y: 0.15, z: 0.5}
+  - heat: 23
+    recoilOffset: {x: 0, y: 0.15, z: 0.25}
+  - heat: 24
+    recoilOffset: {x: 0, y: 0.15, z: -0.25}
+  - heat: 25
+    recoilOffset: {x: 0, y: 0.15, z: -0.5}
+  - heat: 26
+    recoilOffset: {x: 0, y: 0.15, z: -0.8}
+  - heat: 27
+    recoilOffset: {x: 0, y: 0.15, z: -0.9}
+  - heat: 28
+    recoilOffset: {x: 0, y: 0.15, z: -1}
+  - heat: 29
+    recoilOffset: {x: 0, y: 0.15, z: -1}
+  - heat: 30
+    recoilOffset: {x: 0, y: 0.15, z: -1}
+  weaponHeat: 0
+  maxHeat: 30
+  heatCooldownWait: 0.2
+  heatCooldown: 0.02

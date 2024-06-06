@@ -57,8 +57,12 @@ public class GunAnim : MonoBehaviour
 	LayerMask mask;
 	[SerializeField]
 	public bool offHandIK;
+	RecoilManager recoil;
+	[SerializeField]
+	float gravity = -9.81f;
 	protected void Start()
 	{
+		recoil = GetComponent<RecoilManager>();
 		ammomanager = GetComponent<AmmoManager>();
 		//pre-calculates random rotation vectors for shell casings 
 		if(casing != null){
@@ -97,10 +101,14 @@ public class GunAnim : MonoBehaviour
 			//Give it speed and position
 			Vector3 startPos = bulletSpawnPos.transform.position;
 			Vector3 startDir = (hit.point - bulletSpawnPos.transform.position).normalized;
-			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir);
+			Debug.DrawRay(startPos, startDir, Color.red, 5f);
+			Debug.Log("recoil offset is "+ recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.ToString("G") + " and heat value is " + recoil.weaponHeat);
+			Debug.DrawRay(startPos, recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.normalized, Color.green, 5f);
+			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, (startDir + transform.TransformDirection(recoil.weaponHeatList[recoil.weaponHeat].recoilOffset)));
+
 		}
 		else{
-			//Debug.Log("Using Projectile!");
+			//Debug.Log("Using Projectile launched straight forward!");
 			//Debug.DrawLine(cam.transform.position, hit.point * 5000f, Color.red, 1f);
 			GameObject newBullet = Instantiate(bulletObj) as GameObject;
 			//Parent it to get a clean workspace
@@ -108,11 +116,17 @@ public class GunAnim : MonoBehaviour
 			//Give it speed and position
 			Vector3 startPos = bulletSpawnPos.transform.position;
 			Vector3 startDir = cam.transform.forward;
-			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir);
+			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, (startDir + transform.TransformDirection(recoil.weaponHeatList[recoil.weaponHeat].recoilOffset)));
+			Debug.DrawRay(startPos, startDir, Color.red, 5f);
+			Debug.Log("recoil offset is "+ recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.ToString("G") + " and heat value is " + recoil.weaponHeat);
+			Debug.DrawRay(startPos, recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.normalized, Color.green, 5f);
+			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, (startDir + transform.TransformDirection(recoil.weaponHeatList[recoil.weaponHeat].recoilOffset)));
+
 		}
 	}
 
 	public void PlayFire(){
+		recoil.DetermineHeat();
 		anim.Play("Fire", 0, 0f);
 		if(muzzleFlare.Count() > 0){
 			int randomMuzzleIndex = Random.Range(0,muzzleFlare.Count());

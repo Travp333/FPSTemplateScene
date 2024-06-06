@@ -170,7 +170,7 @@ public class HandAnim : MonoBehaviour
 		blocker = true;
 	}
 	void ResetCanShoot(){
-        Debug.Log("Can Shoot Again!");
+        //Debug.Log("Can Shoot Again!");
 		canShoot = true;
 		reloading = false;
 		firing = false;
@@ -183,7 +183,7 @@ public class HandAnim : MonoBehaviour
     void Shoot(){
         if(canShoot){
             animator.Play("Fire", 0, 0f);
-            Debug.Log("Firing");
+            //Debug.Log("Firing");
             canShoot = false;
             canReload = false;
             reloading = false;
