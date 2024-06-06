@@ -46,6 +46,8 @@ public class WallCollisionChecker : MonoBehaviour
                 handanim.animator.SetBool("WallCollision", true);
                 inter.isWallColliding = true;
                 handanim.forceIdle();
+                handanim.canShoot = false;
+                handanim.canReload = false;
             }
             else{
                 handanim.animator.SetBool("WallCollision", false);

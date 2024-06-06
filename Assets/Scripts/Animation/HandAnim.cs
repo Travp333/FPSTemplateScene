@@ -46,7 +46,7 @@ public class HandAnim : MonoBehaviour
 	// Start is called before the first frame update
     public void EnableOffHandIK(){
         if(gunAnim != null){
-            if(holdingWeapon && gunAnim.offHandIK){
+            if(holdingWeapon && gunAnim.offHandIK && offHandIK.enabled == false){
                 offHandIK.enabled = true;
                 offHandIK.Target = gunAnim.iKTarget.transform;
             }
@@ -54,7 +54,7 @@ public class HandAnim : MonoBehaviour
     }
     public void DisableOffHandIK(){
         if(gunAnim != null){
-            if(holdingWeapon && gunAnim.offHandIK){
+            if(holdingWeapon && gunAnim.offHandIK && offHandIK.enabled == true){
                 offHandIK.enabled = false;
                 offHandIK.Target = null;
             }
@@ -170,6 +170,7 @@ public class HandAnim : MonoBehaviour
 		blocker = true;
 	}
 	void ResetCanShoot(){
+        Debug.Log("Can Shoot Again!");
 		canShoot = true;
 		reloading = false;
 		firing = false;
@@ -180,15 +181,17 @@ public class HandAnim : MonoBehaviour
 		firing = false;
 	}
     void Shoot(){
-        animator.Play("Fire", 0, 0f);
-        Debug.Log("Firing");
-        canShoot = false;
-        canReload = false;
-        reloading = false;
-        firing = true;
-        Invoke("ResetCanShoot", gunAnim.fireCooldown);
-        Invoke("ResetCanReload", gunAnim.fireCooldown);
-        gunAnim.PlayFire();
+        if(canShoot){
+            animator.Play("Fire", 0, 0f);
+            Debug.Log("Firing");
+            canShoot = false;
+            canReload = false;
+            reloading = false;
+            firing = true;
+            Invoke("ResetCanShoot", gunAnim.fireCooldown);
+            Invoke("ResetCanReload", gunAnim.fireCooldown);
+            gunAnim.PlayFire();
+        }
     }
     public void ResetFireable(){
         Debug.Log("Resetting ability to fire");

@@ -75,28 +75,7 @@ public class GunAnim : MonoBehaviour
 	public void FinishReload(){
 		ammomanager.Reload();
 	}
-
-	public void PlayFire(){
-		anim.Play("Fire", 0, 0f);
-		if(muzzleFlare.Count() > 0){
-			int randomMuzzleIndex = Random.Range(0,muzzleFlare.Count());
-			if(muzzleFlare[randomMuzzleIndex] != null){
-				muzzleFlare[randomMuzzleIndex].Play();
-			}
-		}
-		
-		
-		if(casing != null){
-			GameObject newCasing = Instantiate(casing) as GameObject;
-			newCasing.transform.position = casingSpawnPoint.transform.position;
-			Rigidbody casingRigidBody = newCasing.GetComponent<Rigidbody>();
-			casingRigidBody.velocity = (this.transform.up + this.transform.right) * casingVelocity;
-			casingRigidBody.AddTorque(casingTorques[Random.Range(0,casingTorques.Count - 1)], ForceMode.Impulse);
-			newCasing.transform.parent = bulletParent.transform;		
-		}
-
-
-
+	public void SpawnProjectile(){
 		//DO A RAYCAST FIRST, THEN CHECK IF HIT. IF HIT, REGISTER HIT, DUH
 		//IF NO HIT, THEN DO PROJECTILE STYLED BULLET
 		//GARBAJ STYLED HYBRID APPROACH
@@ -131,6 +110,25 @@ public class GunAnim : MonoBehaviour
 			Vector3 startDir = cam.transform.forward;
 			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir);
 		}
+	}
+
+	public void PlayFire(){
+		anim.Play("Fire", 0, 0f);
+		if(muzzleFlare.Count() > 0){
+			int randomMuzzleIndex = Random.Range(0,muzzleFlare.Count());
+			if(muzzleFlare[randomMuzzleIndex] != null){
+				muzzleFlare[randomMuzzleIndex].Play();
+			}
+		}
+		if(casing != null){
+			GameObject newCasing = Instantiate(casing) as GameObject;
+			newCasing.transform.position = casingSpawnPoint.transform.position;
+			Rigidbody casingRigidBody = newCasing.GetComponent<Rigidbody>();
+			casingRigidBody.velocity = (this.transform.up + this.transform.right) * casingVelocity;
+			casingRigidBody.AddTorque(casingTorques[Random.Range(0,casingTorques.Count - 1)], ForceMode.Impulse);
+			newCasing.transform.parent = bulletParent.transform;		
+		}
+
 	}
 	public void PlayWallCollision(){
 
