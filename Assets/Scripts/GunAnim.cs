@@ -60,6 +60,9 @@ public class GunAnim : MonoBehaviour
 	RecoilManager recoil;
 	[SerializeField]
 	float gravity = -9.81f;
+	Vector3 recoilVectorX;
+	Vector3 recoilVectorY;
+	Vector3 recoilVector;
 	protected void Start()
 	{
 		recoil = GetComponent<RecoilManager>();
@@ -104,7 +107,18 @@ public class GunAnim : MonoBehaviour
 			Debug.DrawRay(startPos, startDir, Color.red, 5f);
 			Debug.Log("recoil offset is "+ recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.ToString("G") + " and heat value is " + recoil.weaponHeat);
 			Debug.DrawRay(startPos, recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.normalized, Color.green, 5f);
-			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, (startDir + transform.TransformDirection(recoil.weaponHeatList[recoil.weaponHeat].recoilOffset)));
+			//Pull current x recoil offset value, dependent on current heat
+			recoilVectorX = bulletSpawnPos.transform.up * recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.x;
+			//randomization on x axis
+			recoilVectorX *= Random.Range(recoil.recoilRandomRangeXLower, recoil.recoilRandomRangeXUpper);
+			//Pull current y recoil offset value, dependent on current heat
+			recoilVectorY =  bulletSpawnPos.transform.right * recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.y;
+			//randomization on x axis
+			recoilVectorY *= Random.Range(recoil.recoilRandomRangeYLower, recoil.recoilRandomRangeYUpper);
+			//combine these vectors into one offset vector
+			recoilVector = recoilVectorX + recoilVectorY;
+			//add this vector onto the bullets trajectory path to offset it. 
+			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir + recoilVector);
 
 		}
 		else{
@@ -120,7 +134,7 @@ public class GunAnim : MonoBehaviour
 			Debug.DrawRay(startPos, startDir, Color.red, 5f);
 			Debug.Log("recoil offset is "+ recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.ToString("G") + " and heat value is " + recoil.weaponHeat);
 			Debug.DrawRay(startPos, recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.normalized, Color.green, 5f);
-			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, (startDir + transform.TransformDirection(recoil.weaponHeatList[recoil.weaponHeat].recoilOffset)));
+			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir + (bulletSpawnPos.transform.up * (recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.x * Random.Range(recoil.recoilRandomRangeXLower, recoil.recoilRandomRangeXUpper)) + bulletSpawnPos.transform.right * (recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.y * Random.Range(recoil.recoilRandomRangeYLower, recoil.recoilRandomRangeYUpper))));
 
 		}
 	}

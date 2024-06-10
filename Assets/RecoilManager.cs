@@ -14,6 +14,8 @@ public struct Heat {
 public class RecoilManager : MonoBehaviour
 {
     [SerializeField]
+    public float recoilRandomRangeXUpper, recoilRandomRangeXLower, recoilRandomRangeYUpper, recoilRandomRangeYLower;
+    [SerializeField]
     [Tooltip("List of Heat values and offsets, to determine how much a shot is offset depending on the heat")]
     public Heat[] weaponHeatList;
     [SerializeField]
@@ -42,17 +44,6 @@ public class RecoilManager : MonoBehaviour
             heatCooldownTimer = 0f;
             heatCooldownWaitTimer = 0f;
         }
-    }
-    public Vector3 ShiftVector(Vector3 forwardVector){
-        
-        forwardVector = transform.localToWorldMatrix * (new Vector3(weaponHeatList[weaponHeat].recoilOffset.x, weaponHeatList[weaponHeat].recoilOffset.y, 0));
-        return forwardVector;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame

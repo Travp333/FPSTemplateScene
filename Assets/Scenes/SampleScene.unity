@@ -2636,21 +2636,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -160.8648
       objectReference: {fileID: 0}
-    - target: {fileID: 4336171223938694441, guid: 5e7655ef130867b4696baad3dd492699,
-        type: 3}
-      propertyPath: weaponHeatList.Array.data[31].heat
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4336171223938694441, guid: 5e7655ef130867b4696baad3dd492699,
-        type: 3}
-      propertyPath: weaponHeatList.Array.data[31].recoilOffset.y
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 4336171223938694441, guid: 5e7655ef130867b4696baad3dd492699,
-        type: 3}
-      propertyPath: weaponHeatList.Array.data[31].recoilOffset.z
-      value: 0.05
-      objectReference: {fileID: 0}
     - target: {fileID: 4761555709077438800, guid: 5e7655ef130867b4696baad3dd492699,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
