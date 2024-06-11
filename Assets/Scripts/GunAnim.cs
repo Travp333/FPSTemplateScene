@@ -105,19 +105,28 @@ public class GunAnim : MonoBehaviour
 			Vector3 startPos = bulletSpawnPos.transform.position;
 			Vector3 startDir = (hit.point - bulletSpawnPos.transform.position).normalized;
 			Debug.DrawRay(startPos, startDir, Color.red, 5f);
-			Debug.Log("recoil offset is "+ recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.ToString("G") + " and heat value is " + recoil.weaponHeat);
-			Debug.DrawRay(startPos, recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.normalized, Color.green, 5f);
+			//Debug.Log("recoil offset is "+ recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.ToString("G") + " and heat value is " + recoil.weaponHeat);		
 			//Pull current x recoil offset value, dependent on current heat
 			recoilVectorX = bulletSpawnPos.transform.up * recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.x;
 			//randomization on x axis
-			recoilVectorX *= Random.Range(recoil.recoilRandomRangeXLower, recoil.recoilRandomRangeXUpper);
+			float randomNumber = Random.Range(recoil.recoilRandomRangeXLower, recoil.recoilRandomRangeXUpper);
+			Debug.Log("Recoil vector x is " + recoilVectorX + "And the random x number is "+ randomNumber);
+			recoilVectorX.x += randomNumber;
+			Debug.Log("Now Recoil vector x is " + recoilVectorX);
 			//Pull current y recoil offset value, dependent on current heat
 			recoilVectorY =  bulletSpawnPos.transform.right * recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.y;
-			//randomization on x axis
-			recoilVectorY *= Random.Range(recoil.recoilRandomRangeYLower, recoil.recoilRandomRangeYUpper);
+			//randomization on y axis
+			float randomNumber2 = Random.Range(recoil.recoilRandomRangeYLower, recoil.recoilRandomRangeYUpper);
+			Debug.Log("Recoil vector y is " + recoilVectorY + "And the random y number is "+ randomNumber2);
+			recoilVectorY.y += randomNumber2;
+			Debug.Log("Now Recoil vector y is " + recoilVectorY);
 			//combine these vectors into one offset vector
 			recoilVector = recoilVectorX + recoilVectorY;
+			Debug.Log("Full Recoil vector is " + recoilVector + "and starting vector is " + startDir);
 			//add this vector onto the bullets trajectory path to offset it. 
+			Debug.DrawRay(startPos, startDir + recoilVector, Color.magenta, 5f);
+			Debug.DrawRay(startPos, recoilVector, Color.green, 5f);
+			Debug.Log("Final Trajectory is " + (startDir + recoilVector));
 			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir + recoilVector);
 
 		}
@@ -133,9 +142,19 @@ public class GunAnim : MonoBehaviour
 			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, (startDir + transform.TransformDirection(recoil.weaponHeatList[recoil.weaponHeat].recoilOffset)));
 			Debug.DrawRay(startPos, startDir, Color.red, 5f);
 			Debug.Log("recoil offset is "+ recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.ToString("G") + " and heat value is " + recoil.weaponHeat);
-			Debug.DrawRay(startPos, recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.normalized, Color.green, 5f);
-			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir + (bulletSpawnPos.transform.up * (recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.x * Random.Range(recoil.recoilRandomRangeXLower, recoil.recoilRandomRangeXUpper)) + bulletSpawnPos.transform.right * (recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.y * Random.Range(recoil.recoilRandomRangeYLower, recoil.recoilRandomRangeYUpper))));
-
+			//Pull current x recoil offset value, dependent on current heat
+			recoilVectorX = bulletSpawnPos.transform.up * recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.x;
+			//randomization on x axis
+			recoilVectorX = new Vector3 (recoilVectorX.x + Random.Range(recoil.recoilRandomRangeXLower, recoil.recoilRandomRangeXUpper), recoilVectorX.y, recoilVectorX.z);
+			//Pull current y recoil offset value, dependent on current heat
+			recoilVectorY =  bulletSpawnPos.transform.right * recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.y;
+			//randomization on x axis
+			recoilVectorY = new Vector3 (recoilVectorY.x, recoilVectorY.y + Random.Range(recoil.recoilRandomRangeYLower, recoil.recoilRandomRangeYUpper), recoilVectorY.z);
+			//combine these vectors into one offset vector
+			recoilVector = recoilVectorX + recoilVectorY;
+			//add this vector onto the bullets trajectory path to offset it. 
+			Debug.DrawRay(startPos, recoilVector, Color.green, 5f);
+			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir + recoilVector);
 		}
 	}
 
