@@ -367,6 +367,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: -3148195271266027743}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a093245946530b848bd531e4e6c98b05,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2168004428207053829}
   m_SourcePrefab: {fileID: 100100000, guid: a093245946530b848bd531e4e6c98b05, type: 3}
 --- !u!1 &1564475057737530638 stripped
 GameObject:
@@ -440,6 +444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 889c6286c0f5a574cb327c8c73bcb3b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iKTarget: {fileID: 0}
   wallCollisionCheckSizeAdjust: 1.2
   wallCollisionCheckPosAdjust: 1.3
   muzzleFlare: []
@@ -466,6 +471,8 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 4294967295
+  offHandIK: 0
+  gravity: -9.81
 --- !u!114 &6365800938726413766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -499,6 +506,28 @@ MonoBehaviour:
   magazineSize: 15
   ammoInMag: 0
   ammoCount: 50
+--- !u!114 &-2168004428207053829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2712949182256638126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 778d6b409a7ae794ab2d8c275f377535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recoilAmount: 0
+  weaponHeatList:
+  - heat: 0
+    recoilOffset: {x: 0, y: 0, z: 0}
+  - heat: 1
+    recoilOffset: {x: 0, y: 0, z: 0}
+  weaponHeat: 0
+  maxHeat: 1
+  heatCooldownWait: 0
+  heatCooldown: 0.5
 --- !u!4 &3381504326385512980 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a093245946530b848bd531e4e6c98b05,
