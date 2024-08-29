@@ -110,8 +110,8 @@ public class GunAnim : MonoBehaviour
 			recoilVectorY =  bulletSpawnPos.transform.right * recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.y;
 			recoilVector = recoilVectorX + recoilVectorY;
 			//This is still not quite working
-			Vector3 recoil2 = this.transform.up * recoil.recoilAmount;
-			Vector3 rotation = Quaternion.AngleAxis(Random.Range(0,360), recoilVector) * recoil2;
+			Vector3 recoil2 = this.transform.up * (recoil.recoilAmount * Random.Range(-1f, 1f));
+			Vector3 rotation = Quaternion.AngleAxis(Random.Range(0,360), cam.transform.forward) * recoil2;
 			recoilVector += rotation;
 			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir + recoilVector);
 
@@ -133,7 +133,7 @@ public class GunAnim : MonoBehaviour
 
 
 			// this works correctly, but is just bloom recoil. Need to make it take the recoil pattern into account
-			recoilVector = this.transform.up * recoil.recoilAmount;
+			recoilVector = this.transform.up * (recoil.recoilAmount * Random.Range(-1f, 1f));
 			Vector3 rotation = Quaternion.AngleAxis(Random.Range(0,360), startDir) * recoilVector;
 			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir + rotation);
 		}
