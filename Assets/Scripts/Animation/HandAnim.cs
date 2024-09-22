@@ -285,7 +285,7 @@ public class HandAnim : MonoBehaviour
                        
                     }
 		        }
-                else if(!reloading && gunAnim.fullAuto && attackAction.WasReleasedThisFrame()){
+                else if(!reloading && gunAnim.fullAuto && attackAction.WasReleasedThisFrame() && holdingWeapon){
                     ResetFireable();
                 }
 		        if (attackAction.WasPressedThisFrame() && !gunAnim.fullAuto ) {

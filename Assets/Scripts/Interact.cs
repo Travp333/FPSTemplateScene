@@ -49,9 +49,45 @@ public class Interact : MonoBehaviour
 	Transform ragdollParent;
 	PauseMenu pause;
 
+    //NEW STUFF FROM INVENTORY SYSTEM
+    tempHolder tempSlot;
+    [SerializeField]
+    Inven inv;
+    [SerializeField]
+	SimpleCameraMovement camScript = null; 
+    [SerializeField]
+	public List<GameObject> StorageInvenUI = new List<GameObject>();
+    [SerializeField]
+	GameObject InventoryUI = null; //Inventory Canvas
+    //bool to track inventory being open and closed
+	bool invIsOpen = false;
+    bool distanceGate = false;
+	Transform storageObjectPos;
+    [SerializeField]
+	[Tooltip("The distance that the Inventory closes when walking away from an open storage object")]
+    float invRange;
+    //tracks if a storage device's inventory is open
+	public bool storageInvOpen = false;
+    public Transform cam;
+    [SerializeField]
+	[Tooltip("How wide the sphere is that is cast from the player when hitting e")]
+	float sphereCastRadius = .5f;
+    //raycast hit holder
+	RaycastHit hit;
+    // holder for inventory Items
+	Item item;
+    //NEW STUFF FROM INVENTORY SYSTEM
+
     // Start is called before the first frame update
     void Start()
 	{
+        //NEW STUFF FROM INVENTORY SYSTEM
+        //plugging references
+		tempSlot = this.gameObject.GetComponent<tempHolder>();
+		//disable all Inventory UI
+		HideAllInventories();
+        //NEW STUFF FROM INVENTORY SYSTEM
+
 		//Assign components
 		pause = FindObjectOfType<PauseMenu>();
 		movement = transform.root.GetComponent<Movement>();
@@ -60,8 +96,81 @@ public class Interact : MonoBehaviour
         grab = GetComponent<Grab>();
         hand = GetComponent<HandAnim>();
 	    colTog = GetComponentInChildren<heldItemColliderToggle>();
-
     }
+    //NEW STUFF FROM INVENTORY SYSTEM
+    public void HideAllInventories(){
+		//Loop through all the UIPlugger objects in the scene and add them to a list while also disabling them.
+		foreach(UiPlugger g in GameObject.FindObjectsOfType<UiPlugger>()){
+			//avoids adding duplicates
+			if(g.gameObject.transform.GetChild(0).gameObject.activeInHierarchy == true){
+				if(StorageInvenUI.Contains(g.gameObject.transform.GetChild(0).gameObject)){
+					//Debug.Log("Just hiding UI");
+					g.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+				}
+				else{
+					//Debug.Log("Hiding Ui and Adding to list");
+					StorageInvenUI.Add(g.gameObject.transform.GetChild(0).gameObject);
+					g.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+				}
+			}
+		}
+	}
+
+    public void HideAllNonPlayerInventories(){
+		//Loop through all the UIPlugger objects in the scene and add them to a list while also disabling them.
+		foreach(UiPlugger g in GameObject.FindObjectsOfType<UiPlugger>()){
+			//avoids adding duplicates
+			if(g.gameObject.tag != "Player"){
+				if(g.gameObject.transform.GetChild(0).gameObject.activeInHierarchy == true){
+					if(StorageInvenUI.Contains(g.gameObject.transform.GetChild(0).gameObject)){
+						//Debug.Log("Just hiding UI");
+						g.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+					}
+					else{
+						//Debug.Log("Hiding Ui and Adding to list");
+						StorageInvenUI.Add(g.gameObject.transform.GetChild(0).gameObject);
+						g.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+					}
+				}
+			}
+		}
+	}
+	void OpenInventory(){
+		//makes sure the temp slot is empty
+		tempSlot.ClearSlot();
+		//puts cursor on screen
+		Cursor.lockState = CursorLockMode.Confined; 
+		//unhides cursor
+		Cursor.visible = true;
+		//enables UI object
+		InventoryUI.SetActive(true);
+		//disable camera movement script
+		camScript.enabled = false;
+		invIsOpen = true;
+	}
+	void DistanceCheck(){
+		if(Vector3.Distance(this.transform.position, storageObjectPos.position) > invRange){
+			Debug.Log("TOO FAR!!!!!");
+			distanceGate = false;
+			storageObjectPos = null;
+			HideAllNonPlayerInventories();
+			tempSlot.ClearSlot();
+			storageInvOpen = false;
+		}
+	}
+	
+	//closes out the inventory and all open storage inventories, mostly just inverse of above
+	void CloseInventory(){
+		tempSlot.ClearSlot();
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
+		camScript.enabled = true;//enable camera movement script
+		invIsOpen = false;
+		HideAllInventories();
+		storageInvOpen = false;
+	}
+
+    //NEW STUFF FROM INVENTORY SYSTEM
 
     List<Transform> GetAllChilds(Transform _t)
     {
@@ -139,98 +248,184 @@ public class Interact : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //IF not paused
-	    if (!pause.isPaused) {
-            //IF e pressed
-	        if (interactAction.WasPressedThisFrame())
+        //NEW STUFF FROM INVENTORY SYSTEM 
+        //Debug.Log(inv.isPickedUp);
+        //Check Inventory
+        if (invIsOpen)
+        {
+        	//pressing tab with the inventory open 
+            if (Input.GetKeyDown("tab")) 
             {
-	            // if you are not holding anything
-                if (!grab.isHolding)
+	            CloseInventory();
+            }
+        }
+        else if (!invIsOpen) 
+        {
+            //NEW STUFF FROM INVENTORY SYSTEM 
+            //IF not paused
+            if (!pause.isPaused) {
+                //inventory is not open
+                if (Input.GetKeyDown("tab"))
                 {
-                    RaycastHit hit;
-                    //IF a raycast hits something
-	                if (Physics.SphereCast(origin.transform.position, 1f, (castPoint.position - origin.transform.position), out hit, distance, mask))
+                    OpenInventory();
+                }
+                //IF e pressed
+                if (interactAction.WasPressedThisFrame())
+                {
+                    // if you are not holding anything
+                    if (!grab.isHolding)
                     {
-                    	Debug.DrawRay(origin.transform.position, (castPoint.position - origin.transform.position), Color.green, 5f);
-                    	Debug.DrawLine(origin.transform.position, hit.point, Color.red, 5f);
-                        //Get the properties of the something you hit
-                        propRB = hit.rigidbody;
-                        prop = hit.transform;
-	                    // If the thing is an NPC start dialogue
-                        if(hit.transform.gameObject.tag == "NPC" && hit.transform.gameObject.GetComponent<Rigidbody>() == null){
-                            if(FindObjectOfType<DialogueManager>().dialogueBox.activeInHierarchy == false){
-                                hit.transform.parent.gameObject.GetComponent<NpcDialogue>().Begin();
-                            }
-                            else{
-                                FindObjectOfType<DialogueManager>().DisplayNextSentence();
-                            }
-                        }
-	                    //IF the thing you hit has a rigidbody that is light enough for the player to hold
-                        else if (hit.transform.gameObject.GetComponent<WeaponType>() == null && hit.transform.gameObject.GetComponent<Rigidbody>() != null && hit.transform.gameObject.GetComponent<Rigidbody>().isKinematic == false && hit.transform.gameObject.GetComponent<Rigidbody>().mass <= grab.strength && !grab.justThrew && !hand.holdingWeapon)
+                        RaycastHit hit;
+                        //IF a raycast hits something
+                        if (Physics.SphereCast(origin.transform.position, 1f, (castPoint.position - origin.transform.position), out hit, distance, mask))
                         {
-                        	//Debug.Log("HIT!!");
-                            //Pick it up
-                            pickUp(prop.gameObject);
-                        }
-                        
-	                    //Maybe revise this to just be a generic "Interactable"?
-                        
-	                    //IF the the thing you hit is a button
-	                    
-		                else if (hit.transform.gameObject.GetComponent<buttonPush>() != null)
-                        {
-                            //Get the button object
-                            buttonPush button = hit.transform.gameObject.GetComponent<buttonPush>();
-	                        if (!button.blocker)
+                            Debug.DrawRay(origin.transform.position, (castPoint.position - origin.transform.position), Color.green, 5f);
+                            Debug.DrawLine(origin.transform.position, hit.point, Color.red, 5f);
+                            //Get the properties of the something you hit
+                            propRB = hit.rigidbody;
+                            prop = hit.transform;
+                            // If the thing is an NPC start dialogue
+                            if(hit.transform.gameObject.tag == "NPC" && hit.transform.gameObject.GetComponent<Rigidbody>() == null){
+                                if(FindObjectOfType<DialogueManager>().dialogueBox.activeInHierarchy == false){
+                                    hit.transform.parent.gameObject.GetComponent<NpcDialogue>().Begin();
+                                }
+                                else{
+                                    FindObjectOfType<DialogueManager>().DisplayNextSentence();
+                                }
+                            }
+                            //-----------------------------------------------------------------------
+                            //hit a pickupable item?
+                            else if (hit.transform.gameObject.GetComponent<pickUpableItem>() != null)
                             {
-                                button.press();
+                                Debug.Log("HIT PICK UP ABLE ITEM! ");
+                                //store reference to the hit object
+                                item = hit.transform.gameObject.GetComponent<pickUpableItem>().item;
+                                //update UI
+                                int count;
+                                count = hit.transform.gameObject.GetComponent<pickUpableItem>().count;
+                                if(count > 1){
+                                    //does this stack contain multiple objects?
+                                    // if so, pick up x amount of times!
+                                    for (int i = 0; i < count; i++)
+                                    {
+                                        inv.SmartPickUp(item);
+                                    }
+                                }
+                                else{
+                                    inv.SmartPickUp(item);
+                                }
+                                //Checks if the object was successfully picked up
+                                if (inv.isPickedUp)
+                                {
+                                    //despawn object in the world
+                                    Destroy(hit.transform.gameObject);
+                                    inv.isPickedUp = false;
+                                    //Debug.Log("ispickedup set to "+ inv.isPickedUp);
+                                }
+                                //else, pickup failed
+                                else
+                                {
+                                    if(count > 1){
+                                        //Does this stack contain multiple objects?
+                                        //if so update prefab to have accurate count
+                                        GameObject it;
+                                        it = inv.SpawnItem(item.prefab);
+                                        it.GetComponent<pickUpableItem>().count = count;
+                                        Destroy(hit.transform.gameObject);
+                                        Debug.Log("Inventory full!");
+                                    }
+                                    else{
+                                        // normal drop
+                                        inv.SpawnItem(item.prefab);
+                                        Destroy(hit.transform.gameObject);
+                                        Debug.Log("Inventory full!");
+                                    }
+
+                                }
+                            }
+                            //if you did not hit a pickupable object, check if you hit a storage device
+                            else if(hit.transform.gameObject.GetComponent<Inven>() != null){
+                                Debug.Log("HIT PICKUPABBLE ITEM!!!");
+                                if(hit.transform.gameObject.tag != "Player"){
+                                    Inven inv = hit.transform.gameObject.GetComponent<Inven>();
+                                    //enable the relevant UI element
+                                    inv.UIPlugger.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+                                    storageInvOpen = true;
+                                    //force open the player's inventory
+                                    OpenInventory();
+                                    //Add distance check here
+                                    storageObjectPos = inv.gameObject.transform;
+                                    distanceGate = true;
+                                }
+                            }
+                            //--------------------------------------------------------------------------------
+                            //IF the thing you hit has a rigidbody that is light enough for the player to hold
+                            else if (hit.transform.gameObject.GetComponent<WeaponType>() == null && hit.transform.gameObject.GetComponent<Rigidbody>() != null && hit.transform.gameObject.GetComponent<Rigidbody>().isKinematic == false && hit.transform.gameObject.GetComponent<Rigidbody>().mass <= grab.strength && !grab.justThrew && !hand.holdingWeapon)
+                            {
+                                //Debug.Log("HIT!!");
+                                //Pick it up
+                                pickUp(prop.gameObject);
+                            }
+                            
+                            //Maybe revise this to just be a generic "Interactable"?
+                            
+                            else if (hit.transform.gameObject.GetComponent<buttonPush>() != null)
+                            {
+                                //Get the button object
+                                buttonPush button = hit.transform.gameObject.GetComponent<buttonPush>();
+                                if (!button.blocker)
+                                {
+                                    button.press();
+                                }
+                            }
+                            else if(hit.transform.gameObject.GetComponent<WeaponType>() != null && !hand.holdingWeapon){
+                                WeaponType wep = hit.transform.gameObject.GetComponent<WeaponType>();
+                                gun = Instantiate(wep.playerModel, GunGrabPoint.transform.position, Quaternion.identity);                            
+                                gun.transform.parent = GunGrabPoint.transform;
+                                hand.gunAnim = gun.GetComponent<GunAnim>();
+                                wallCollisionCheckBox.transform.localScale = new Vector3 (wallCollisionCheckBox.transform.localScale.x, wallCollisionCheckBox.transform.localScale.y, wallCollisionCheckBox.transform.localScale.z * hand.gunAnim.wallCollisionCheckSizeAdjust);
+                                wallCollisionCheckBox.transform.localPosition = new Vector3 (wallCollisionCheckBox.transform.localPosition.x, wallCollisionCheckBox.transform.localPosition.y, wallCollisionCheckBox.transform.localPosition.z * hand.gunAnim.wallCollisionCheckPosAdjust);
+                                hand.ammomanager = gun.GetComponent<AmmoManager>();
+                                hand.canShoot = true;
+                                hand.canReload = true;
+                                hand.animator.runtimeAnimatorController = hit.transform.gameObject.GetComponent<WeaponType>().animOverride;
+                                gun.transform.rotation = origin.transform.rotation;
+                                hand.PickUpWeapon();
+                                Destroy(hit.transform.gameObject);
+                                //hand
                             }
                         }
-		                else if(hit.transform.gameObject.GetComponent<WeaponType>() != null && !hand.holdingWeapon){
-		                	WeaponType wep = hit.transform.gameObject.GetComponent<WeaponType>();
-                            gun = Instantiate(wep.playerModel, GunGrabPoint.transform.position, Quaternion.identity);                            
-                            gun.transform.parent = GunGrabPoint.transform;
-                            hand.gunAnim = gun.GetComponent<GunAnim>();
-                            wallCollisionCheckBox.transform.localScale = new Vector3 (wallCollisionCheckBox.transform.localScale.x, wallCollisionCheckBox.transform.localScale.y, wallCollisionCheckBox.transform.localScale.z * hand.gunAnim.wallCollisionCheckSizeAdjust);
-                            wallCollisionCheckBox.transform.localPosition = new Vector3 (wallCollisionCheckBox.transform.localPosition.x, wallCollisionCheckBox.transform.localPosition.y, wallCollisionCheckBox.transform.localPosition.z * hand.gunAnim.wallCollisionCheckPosAdjust);
-                            hand.ammomanager = gun.GetComponent<AmmoManager>();
-                            hand.canShoot = true;
-                            hand.canReload = true;
-                            hand.animator.runtimeAnimatorController = hit.transform.gameObject.GetComponent<WeaponType>().animOverride;
-		                	gun.transform.rotation = origin.transform.rotation;
-                            hand.PickUpWeapon();
-		                	Destroy(hit.transform.gameObject);
-		                	//hand
-		                }
-	                    
-                   
+                            
+                    }
+                    // if you are already holding something, drop it. 
+                    else if (grab.isHolding)
+                    {
+                        detach();
+                        //clear the temps for next loop
+                        prop = null;
+                        propRB = null;
+                        grab.throwingforce = grab.throwingTemp;
                     }
                 }
-                // if you are already holding something, drop it. 
-                else if (grab.isHolding)
-                {
-                    detach();
-                    //clear the temps for next loop
-                    prop = null;
-                    propRB = null;
-                    grab.throwingforce = grab.throwingTemp;
+                if(dropAction.WasPressedThisFrame()){
+                    if(hand.holdingWeapon && !hand.firing && ! hand.reloading){
+                        hand.DropWeapon();
+                        Destroy (gun);
+                        gun = Instantiate(hand.gunAnim.WorldModel, holdPoint.transform.position, origin.transform.rotation);
+                        gun.GetComponent<Rigidbody>().AddForce(this.transform.forward, ForceMode.Impulse);
+                        wallCollisionCheckBox.transform.localScale = new Vector3 (wallCollisionCheckBox.transform.localScale.x, wallCollisionCheckBox.transform.localScale.y, wallCollisionCheckBox.transform.localScale.z / hand.gunAnim.wallCollisionCheckSizeAdjust);
+                        wallCollisionCheckBox.transform.localPosition = new Vector3 (wallCollisionCheckBox.transform.localPosition.x, wallCollisionCheckBox.transform.localPosition.y, wallCollisionCheckBox.transform.localPosition.z / hand.gunAnim.wallCollisionCheckPosAdjust);
+                        hand.gunAnim = null;
+                        hand.ammomanager = null;
+                        hand.canShoot = false;
+                        hand.canReload = false;
+                        hand.animator.runtimeAnimatorController = baseOverride;
+                    }
+                }
+                if(distanceGate){
+                    DistanceCheck();
                 }
             }
-		    if(dropAction.WasPressedThisFrame()){
-		    	if(hand.holdingWeapon && !hand.firing && ! hand.reloading){
-		    		hand.DropWeapon();
-		    		Destroy (gun);
-		    		gun = Instantiate(hand.gunAnim.WorldModel, holdPoint.transform.position, origin.transform.rotation);
-		    		gun.GetComponent<Rigidbody>().AddForce(this.transform.forward, ForceMode.Impulse);
-                    wallCollisionCheckBox.transform.localScale = new Vector3 (wallCollisionCheckBox.transform.localScale.x, wallCollisionCheckBox.transform.localScale.y, wallCollisionCheckBox.transform.localScale.z / hand.gunAnim.wallCollisionCheckSizeAdjust);
-                    wallCollisionCheckBox.transform.localPosition = new Vector3 (wallCollisionCheckBox.transform.localPosition.x, wallCollisionCheckBox.transform.localPosition.y, wallCollisionCheckBox.transform.localPosition.z / hand.gunAnim.wallCollisionCheckPosAdjust);
-                    hand.gunAnim = null;
-                    hand.ammomanager = null;
-			    	hand.canShoot = false;
-			    	hand.canReload = false;
-			    	hand.animator.runtimeAnimatorController = baseOverride;
-		    	}
-		    }
         }
     }
 }

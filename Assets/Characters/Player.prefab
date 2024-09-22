@@ -3613,6 +3613,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc27f3596f120b049ab8de2cd59d154f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  offHandIK: {fileID: 0}
   ammomanager: {fileID: 0}
   reloading: 0
   firing: 0
@@ -3720,6 +3721,13 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 11265
+  camScript: {fileID: 7197834583306505053}
+  StorageInvenUI: []
+  InventoryUI: {fileID: 0}
+  invRange: 7
+  storageInvOpen: 0
+  cam: {fileID: 7197834582348623818}
+  sphereCastRadius: 0.5
 --- !u!1 &8449082567159408093
 GameObject:
   m_ObjectHideFlags: 0
