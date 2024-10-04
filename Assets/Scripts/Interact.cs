@@ -60,7 +60,7 @@ public class Interact : MonoBehaviour
     [SerializeField]
 	GameObject InventoryUI = null; //Inventory Canvas
     //bool to track inventory being open and closed
-	bool invIsOpen = false;
+	public bool invIsOpen = false;
     bool distanceGate = false;
 	Transform storageObjectPos;
     [SerializeField]
@@ -145,6 +145,7 @@ public class Interact : MonoBehaviour
 		//enables UI object
 		InventoryUI.SetActive(true);
 		//disable camera movement script
+        movement.blockMovement();
 		camScript.enabled = false;
 		invIsOpen = true;
 	}
@@ -165,6 +166,7 @@ public class Interact : MonoBehaviour
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
 		camScript.enabled = true;//enable camera movement script
+        movement.unblockMovement();
 		invIsOpen = false;
 		HideAllInventories();
 		storageInvOpen = false;
@@ -172,7 +174,7 @@ public class Interact : MonoBehaviour
 
     //NEW STUFF FROM INVENTORY SYSTEM
 
-    List<Transform> GetAllChilds(Transform _t)
+    List<Transform> GetAllChildren(Transform _t)
     {
         List<Transform> ts = new List<Transform>();
  
@@ -180,7 +182,7 @@ public class Interact : MonoBehaviour
         {
             ts.Add(t);
             if (t.childCount > 0)
-                ts.AddRange(GetAllChilds(t));
+                ts.AddRange(GetAllChildren(t));
         }
  
         return ts;

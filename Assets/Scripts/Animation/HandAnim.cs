@@ -43,6 +43,7 @@ public class HandAnim : MonoBehaviour
     bool JumpPressed;
     bool holdingDummy;
     Grab grab;
+    PauseMenu pause;
 	// Start is called before the first frame update
     public void EnableOffHandIK(){
         if(gunAnim != null){
@@ -131,6 +132,7 @@ public class HandAnim : MonoBehaviour
 	}
     void Start()
 	{
+        pause = FindObjectOfType<PauseMenu>();
 		attackAction = sphere.GetComponent<PlayerInput>().currentActionMap.FindAction("Attack");
 		inter = this.GetComponent<Interact>();
         speedController = sphere.GetComponent<MovementSpeedController>();
@@ -211,67 +213,74 @@ public class HandAnim : MonoBehaviour
             gunAnim.anim.Play("Idle", 0, 0f);
         }
     }
+    public void playJumpAnim(){
+        if(!grab.isHolding && !reloading && !firing){
+            animator.Play("Jump");
+            animator.SetBool("isJumping", true);
+            Invoke("resetIsJumping", .1f);
+        }
+    }
     // Update is called once per frame
     void Update()
     {
         //IF not paused
-        if (!FindObjectOfType<PauseMenu>().isPaused) {
+        if (!pause.isPaused) {
             if(isOnSteep){
                 animator.SetBool("OnSteep", true);
             }
             else if(!isOnSteep){
                 animator.SetBool("OnSteep", false);
             }
-	        if (movement.crouching){
+	        if (movement.crouching && !movement.moveBlocked){
                 setisCrouching(true);
             }
-	        if (!movement.crouching){
+	        if (!movement.crouching && !movement.moveBlocked) {
                 setisCrouching(false);
             }
-            if (grab.isgrabCharging) {
+            if (grab.isgrabCharging && !movement.moveBlocked) {
                 animator.SetBool("grabCharge", true);
             }
-            else if (!grab.isgrabCharging) {
+            else if (!grab.isgrabCharging && !movement.moveBlocked) {
                 animator.SetBool("grabCharge", false);
             }
             BoolAdjuster();
             //this OnGround stays true for a little bit after you leave the ground, hence ADJ
-            if (isOnGround) {
+            if (isOnGround ) {
                 animator.SetBool("isOnGround", true);
             }
-            else if (!isOnGround) {
+            else if (!isOnGround ) {
                 animator.SetBool("isOnGround", false);
             }
-            if (isOnGroundADJ) {
+            if (isOnGroundADJ ) {
                 animator.SetBool("isOnGroundADJ", true);
             }
             else if (!isOnGroundADJ) {
                 animator.SetBool("isOnGroundADJ", false);
             }
-	        if(movement.jumpAction.WasPressedThisFrame() && (isOnGroundADJ || isOnSteep)&& !grab.isHolding && !reloading && !firing){
-                animator.Play("Jump");
-	        	animator.SetBool("isJumping", true);
-	        	Invoke("resetIsJumping", .1f);
-	        }
-	        if (movement.movementAction.ReadValue<Vector2>().magnitude > 0) {
+	       // if(movement.desiredJump && (isOnGroundADJ || isOnSteep)&& !grab.isHolding && !reloading && !firing){
+          //      animator.Play("Jump");
+	      //  	animator.SetBool("isJumping", true);
+	       // 	Invoke("resetIsJumping", .1f);
+	       // }
+	        if (movement.movementAction.ReadValue<Vector2>().magnitude > 0 && !movement.moveBlocked) {
                 animator.SetBool("isMoving", true);
             }
             else {
                 animator.SetBool("isMoving", false);
             }
-	        if (speedController.sprintAction.IsPressed()) {
+	        if (speedController.sprintAction.IsPressed() && !movement.moveBlocked) {
                 animator.SetBool("isSprinting", true);
             }
             else {
                 animator.SetBool("isSprinting", false);
             }
-	        if (movement.crouching) {
+	        if (movement.crouching && !movement.moveBlocked) {
 	            animator.SetBool("walkPressed", true);
             }
             else {
                 animator.SetBool("walkPressed", false);
             }
-	        if(gunAnim != null && !inter.isWallColliding){
+	        if(gunAnim != null && !inter.isWallColliding && !movement.moveBlocked){
 		        if(gunAnim.fullAuto && attackAction.IsPressed()){
 			        if(!reloading && holdingWeapon && canShoot && ammomanager.FireBullet()){
 			        	Shoot();
@@ -285,10 +294,10 @@ public class HandAnim : MonoBehaviour
                        
                     }
 		        }
-                else if(!reloading && gunAnim.fullAuto && attackAction.WasReleasedThisFrame() && holdingWeapon){
+                else if(!reloading && gunAnim.fullAuto && attackAction.WasReleasedThisFrame() && holdingWeapon && !movement.moveBlocked){
                     ResetFireable();
                 }
-		        if (attackAction.WasPressedThisFrame() && !gunAnim.fullAuto ) {
+		        if (attackAction.WasPressedThisFrame() && !gunAnim.fullAuto && !movement.moveBlocked) {
 		        	if(!reloading && holdingWeapon && canShoot && ammomanager.FireBullet()){
 			        	Shoot();
 		        	}
@@ -303,7 +312,7 @@ public class HandAnim : MonoBehaviour
                     }
 		        }
 	        }
-	        if (attackAction.WasPressedThisFrame() && !holdingWeapon && blocker && !grab.isHolding) {
+	        if (attackAction.WasPressedThisFrame() && !holdingWeapon && blocker && !grab.isHolding && !movement.moveBlocked) {
 		        if (flipflop) {
 			        Invoke("waveStartL", .1f);
 		        }
@@ -312,7 +321,7 @@ public class HandAnim : MonoBehaviour
 		        }
 	        }
 	        
-	        if (reloadAction.WasPressedThisFrame() && !inter.isWallColliding)
+	        if (reloadAction.WasPressedThisFrame() && !inter.isWallColliding && !movement.moveBlocked)
 	        {
 	        	if(holdingWeapon && canReload){
 		        	if(gunAnim != null){
@@ -348,21 +357,21 @@ public class HandAnim : MonoBehaviour
 	        }
 
             playerSpeed = sphere.GetComponent<Rigidbody>().velocity.magnitude;
-            if (playerSpeed < .001f) {
+            if (playerSpeed < .001f && !movement.moveBlocked) {
                 animator.SetFloat("Blend", 0f);
             }
             else {
-                if (playerSpeed >= 15f) {
+                if (playerSpeed >= 15f && !movement.moveBlocked) {
                     animator.SetFloat("Blend", 1f);
                 }
                 else {
                     playerSpeed2 = playerSpeed / 15f;
                     animator.SetFloat("Blend", playerSpeed2);
 
-                    if (playerSpeed >= 10f) {
+                    if (playerSpeed >= 10f && !movement.moveBlocked) {
                         animator.SetFloat("walkBlend", 1f);
                     }
-                    if (playerSpeed < .001f) {
+                    if (playerSpeed < .001f && !movement.moveBlocked) {
                         animator.SetFloat("walkBlend", 0f);
                     }
                     playerSpeed = playerSpeed / 10f;

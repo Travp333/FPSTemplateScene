@@ -59,7 +59,7 @@ public class Movement : MonoBehaviour {
 	public Rigidbody body, connectedBody; 
 	Rigidbody previousConnectedBody;
 	
-	bool desiredJump;
+	public bool desiredJump;
 
 	[HideInInspector]
 	public int groundContactCount, steepContactCount;
@@ -97,6 +97,8 @@ public class Movement : MonoBehaviour {
 	
 	bool skip = true;
 	public bool moveBlocked;
+	public Interact inter;
+	HandAnim hand;
 	public void blockMovement(){
 		moveBlocked = true;
 		playerInput.x = 0f;
@@ -111,11 +113,20 @@ public class Movement : MonoBehaviour {
 	}
     public Controls controls;
 	//runs when object becomes active
+	/// <summary>
+	/// Start is called on the frame when a script is enabled just before
+	/// any of the Update methods is called the first time.
+	/// </summary>
+	private void Start()
+	{
+		hand = GetComponentInChildren<HandAnim>();
+	}
 	void Awake () {
 		movementAction = GetComponent<PlayerInput>().currentActionMap.FindAction("Move");
 		crouchAction = GetComponent<PlayerInput>().currentActionMap.FindAction("Crouch");
 		jumpAction = GetComponent<PlayerInput>().currentActionMap.FindAction("Jump");
 		grab = GetComponentInChildren<Grab>();
+		inter = GetComponentInChildren<Interact>();
 		speedController = GetComponent<MovementSpeedController>();
 		//get the rigidbody
 		body = GetComponent<Rigidbody>();
@@ -126,7 +137,7 @@ public class Movement : MonoBehaviour {
 	}
 	//runs every frame
 	void Update () {
-		//responds to the duck keybind by playing the appripriate animation and setting the dive prep bool
+		//responds to the duck keybind by playing the appripriate animation and setting the crouching bool
 		if(crouchAction.IsPressed() && !FindObjectOfType<PauseMenu>().isPaused && !moveBlocked)
         { 
         	crouching = true;
@@ -295,18 +306,20 @@ public class Movement : MonoBehaviour {
 	void Jump(Vector3 gravity) {
 			if (OnGround) {
 				jumpDirection = contactNormal;
+				hand.playJumpAnim();
 			}
 			else if (OnSteep) {
 				jumpDirection = steepNormal;
 				// this was originally 0 but i changed it so that wall jumping doesnt count as one of your air jumps
 				jumpPhase -= 1;
+				hand.playJumpAnim();
 			}
 			else if (maxAirJumps > 0 && jumpPhase <= maxAirJumps) {
 				if (jumpPhase == 0) {
-				jumpPhase = 1;
+					jumpPhase = 1;
 				}
 				jumpDirection = contactNormal;
-				}
+			}
 			else {
 				return;
 			}

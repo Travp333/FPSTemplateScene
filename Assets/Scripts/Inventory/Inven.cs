@@ -81,7 +81,9 @@ public class Inven : MonoBehaviour
 		column = 0;
 		
 	}
-
+	//ItemStat refers to the object while it is in your inventory, just he information about that item stored. 
+	//Item refers to the object in the overworld, the physical item you pick up
+	
 	//This method just copied data from one object to another. This could be Item to ItemStat, or ItemStat to ItemStat
 	// basically this method is classed when you pick up an object from the world and when you pick one up from an inventory
 	public void CopyItemData(int row, int column, Item item){
