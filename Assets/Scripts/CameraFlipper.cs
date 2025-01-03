@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEditor;
+// Meant to allow a "Left Handed Mode" by mirroring the gun visual layer horizontally. 
+// Currently has some issues as bullets spawn out of the gun's barrel, so in left handed mode the bullets still spawn to the right. 
 
 //[RequireComponent(typeof(Camera))]
 //[ExecuteInEditMode]
