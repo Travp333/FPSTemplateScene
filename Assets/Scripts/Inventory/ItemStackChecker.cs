@@ -23,7 +23,7 @@ public class ItemStackChecker : MonoBehaviour
             otherPickUp = other.transform.parent.gameObject.GetComponent<pickUpableItem>();
             pickUp = transform.parent.gameObject.GetComponent<pickUpableItem>();
             if(otherPickUp.item.name == pickUp.item.name){
-                Debug.Log("Collision with " + otherPickUp.count + " of same item " + pickUp.item + ", " + this.transform.parent.gameObject.name + ", " + other.transform.parent.gameObject.name, transform.parent.gameObject );
+                //Debug.Log("Collision with " + otherPickUp.count + " of same item " + pickUp.item + ", " + this.transform.parent.gameObject.name + ", " + other.transform.parent.gameObject.name, transform.parent.gameObject );
                 //if yes, delete the "other" one
                 if(other.transform.parent.gameObject != null){
                     if(pickUp.count + otherPickUp.count <= pickUp.item.stackSize){
@@ -33,10 +33,10 @@ public class ItemStackChecker : MonoBehaviour
                             Destroy(other.transform.parent.gameObject);
                             otherPickUp.count = 0;
                             pickUp.EditCount(pickUp.count, pickUp.item.name);
-                            Debug.Log("Deleted Valid other object, now have " + pickUp.count + ", " + pickUp.item.name + " in " + this.transform.parent.gameObject.name, transform.parent.gameObject );
+                            //Debug.Log("Deleted Valid other object, now have " + pickUp.count + ", " + pickUp.item.name + " in " + this.transform.parent.gameObject.name, transform.parent.gameObject );
                         }
                         else{
-                            Debug.Log("BLOCKED");
+                           // Debug.Log("BLOCKED");
                         }
                     }
                     else if (pickUp.count < pickUp.item.stackSize && otherPickUp.count < otherPickUp.item.stackSize){

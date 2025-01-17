@@ -23,7 +23,7 @@ public class pickUpableItem : MonoBehaviour
     }
 
     public void EditCount(int count2, string name){
-        Debug.Log(item.Objname + " (" + this.gameObject.name +") now has " + count2 + ", took from " + name);
+        //Debug.Log(item.Objname + " (" + this.gameObject.name +") now has " + count2 + ", took from " + name);
         count = count2;
         if (StackMeshes.Count() <= 0){
             //Debug.Log("Do nothing!");
