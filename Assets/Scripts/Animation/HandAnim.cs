@@ -356,7 +356,7 @@ public class HandAnim : MonoBehaviour
 	        	}
 	        }
 
-            playerSpeed = sphere.GetComponent<Rigidbody>().velocity.magnitude;
+            playerSpeed = sphere.GetComponent<Rigidbody>().linearVelocity.magnitude;
             if (playerSpeed < .001f && !movement.moveBlocked) {
                 animator.SetFloat("Blend", 0f);
             }

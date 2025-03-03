@@ -191,7 +191,7 @@ public class Movement : MonoBehaviour {
 		else {
 			velocity += gravity * Time.deltaTime;
 		}
-		body.velocity = velocity;
+		body.linearVelocity = velocity;
 		ClearState();
 	}
 
@@ -265,7 +265,7 @@ public class Movement : MonoBehaviour {
 	void UpdateState(){
 		stepsSinceLastGrounded += 1;
 		stepsSinceLastJump += 1;
-		velocity = body.velocity;
+		velocity = body.linearVelocity;
 		if (OnGround || SnapToGround() || CheckSteepContacts()){
 			stepsSinceLastGrounded = 0;
 			if (stepsSinceLastJump > 1) {

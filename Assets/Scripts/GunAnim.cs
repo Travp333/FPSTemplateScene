@@ -152,7 +152,7 @@ public class GunAnim : MonoBehaviour
 			GameObject newCasing = Instantiate(casing) as GameObject;
 			newCasing.transform.position = casingSpawnPoint.transform.position;
 			Rigidbody casingRigidBody = newCasing.GetComponent<Rigidbody>();
-			casingRigidBody.velocity = (this.transform.up + this.transform.right) * casingVelocity;
+			casingRigidBody.linearVelocity = (this.transform.up + this.transform.right) * casingVelocity;
 			casingRigidBody.AddTorque(casingTorques[Random.Range(0,casingTorques.Count - 1)], ForceMode.Impulse);
 			newCasing.transform.parent = bulletParent.transform;		
 		}

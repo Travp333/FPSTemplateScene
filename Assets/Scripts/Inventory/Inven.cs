@@ -293,7 +293,7 @@ public class Inven : MonoBehaviour
 	// after dropping all the coins in one spot but could be cleaned up a bit
 	public GameObject SpawnItem(GameObject item){
 		GameObject b = Instantiate(item, droppedItemSpawnPoint.position, this.transform.rotation);
-        b.GetComponent<Rigidbody>().velocity = this.gameObject.GetComponent<Rigidbody>().velocity * 2f;
+        b.GetComponent<Rigidbody>().linearVelocity = this.gameObject.GetComponent<Rigidbody>().linearVelocity * 2f;
 		return b;
 	}
 	//this drops one specific item that is found using its exact coordinates

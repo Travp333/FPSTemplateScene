@@ -22,7 +22,7 @@ public class TutorialFireBullets : MonoBehaviour
 			newBullet.transform.parent = bulletParent;
 
 			//Add velocity to the bullet with a rigidbody
-			newBullet.GetComponent<Rigidbody>().velocity = TutorialBallistics.bulletSpeed * transform.forward;
+			newBullet.GetComponent<Rigidbody>().linearVelocity = TutorialBallistics.bulletSpeed * transform.forward;
 
 			yield return new WaitForSeconds(2f);
 		}

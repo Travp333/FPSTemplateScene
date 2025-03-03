@@ -50,7 +50,7 @@ public class StableFloatingRigidbody  : MonoBehaviour {
             }
 			//added wakeblock logic to force props awake in certain situations
 			if(!wakeBlock){
-				if (body.velocity.sqrMagnitude < 0.0001f) {
+				if (body.linearVelocity.sqrMagnitude < 0.0001f) {
 					//color.material.SetColor("_Color", Color.yellow);
 					floatDelay += Time.deltaTime;
 					if (floatDelay >= 1f) {
@@ -69,7 +69,7 @@ public class StableFloatingRigidbody  : MonoBehaviour {
 			if (submergence[i] > 0f) {
 				float drag =
 					Mathf.Max(0f, 1f - dragFactor * submergence[i]);
-				body.velocity *= drag;
+				body.linearVelocity *= drag;
 				body.angularVelocity *= drag;
 				body.AddForceAtPosition(
 					gravity * (buoyancyFactor * submergence[i]),
