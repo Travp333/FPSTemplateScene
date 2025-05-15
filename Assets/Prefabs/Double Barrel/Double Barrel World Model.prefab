@@ -59,6 +59,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -164,6 +167,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -236,7 +242,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e432eadb0de5f3a49a72a22e50adbdf1,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.65
+      value: 14.24
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e432eadb0de5f3a49a72a22e50adbdf1,
         type: 3}
@@ -403,6 +409,26 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 8153101253863224186, guid: e432eadb0de5f3a49a72a22e50adbdf1,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e0550d5161f5a6d4a8b557b50d623ce6, type: 2}
+    - target: {fileID: 8153101253863224186, guid: e432eadb0de5f3a49a72a22e50adbdf1,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: fdddacca651e7b5438deca89c4bb6c85, type: 2}
+    - target: {fileID: 8153101253863224186, guid: e432eadb0de5f3a49a72a22e50adbdf1,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 366d932fced60ab42af4497f8f961faf, type: 2}
+    - target: {fileID: 8153101253863224186, guid: e432eadb0de5f3a49a72a22e50adbdf1,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 3b2e80d13c023534980a5ff7822e59e2, type: 2}
     - target: {fileID: 8326955643872310254, guid: e432eadb0de5f3a49a72a22e50adbdf1,
         type: 3}
       propertyPath: m_Layer
