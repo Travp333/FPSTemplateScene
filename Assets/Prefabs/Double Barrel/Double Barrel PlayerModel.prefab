@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 57110944154596446}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 5.256428, y: -0.6418569, z: 4.350428}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3.5714285, y: 3.571428, z: 3.5714285}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4878,7 +4878,7 @@ Transform:
   m_GameObject: {fileID: 2875512480823431012}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 5.256428, y: -0.6418569, z: 4.350428}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3.5714285, y: 3.571428, z: 3.5714285}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9695,7 +9695,7 @@ Transform:
   m_GameObject: {fileID: 8068925941049779883}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 5.256428, y: -0.6418569, z: 4.350428}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3.5714285, y: 3.571428, z: 3.5714285}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15012,10 +15012,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9e597bd5feb824b912217a03427aa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magMesh: {fileID: 7665810853285138844, guid: 533403c558fe76441ab44c31327d7e57, type: 3}
+  magMesh: {fileID: 69962580369855033, guid: 996352deb344b6e408a98c49f91b316d, type: 3}
   handBone: {fileID: 0}
   SpentMagSpawnPos: {fileID: 2904769883017640006}
-  spentMagazine: {fileID: 127689888704832311, guid: 4379ad31e3c608447b2f86261da41f04,
+  spentMagazine: {fileID: 69962580369855033, guid: d103a61f9dd4cb941886565f30e72bc1,
     type: 3}
   magazine: {fileID: 4491085615523725986}
 --- !u!114 &475714049784809984
@@ -15045,12 +15045,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 778d6b409a7ae794ab2d8c275f377535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recoilAmount: 0.01
-  weaponHeatList: []
+  recoilAmount: 0
+  weaponHeatList:
+  - heat: 0
+    recoilOffset: {x: 0, y: 0, z: 0}
   weaponHeat: 0
   maxHeat: 0
-  heatCooldownWait: 0.2
-  heatCooldown: 0.02
+  heatCooldownWait: 0
+  heatCooldown: 0
 --- !u!4 &3318336066097867990 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e432eadb0de5f3a49a72a22e50adbdf1,

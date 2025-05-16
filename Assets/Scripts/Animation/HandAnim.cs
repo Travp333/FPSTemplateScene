@@ -47,9 +47,9 @@ public class HandAnim : MonoBehaviour
 	// Start is called before the first frame update
     public void EnableOffHandIK(){
         if(gunAnim != null){
-            Debug.Log("gunanim not null, checking these: is holding weapon true? " + holdingWeapon + " is gunanim true? " + gunAnim.offHandIK + " is the offhank IK enabled? " + offHandIK.enabled);
+            //Debug.Log("gunanim not null, checking these: is holding weapon true? " + holdingWeapon + " is gunanim true? " + gunAnim.offHandIK + " is the offhank IK enabled? " + offHandIK.enabled);
             if(holdingWeapon && gunAnim.offHandIK && offHandIK.enabled == false){
-                Debug.Log("everything hooked up properly");
+                //Debug.Log("everything hooked up properly");
                 offHandIK.enabled = true;
                 offHandIK.Target = gunAnim.iKTarget.transform;
             }
@@ -64,8 +64,8 @@ public class HandAnim : MonoBehaviour
         }
     }
 	public void PickUpWeapon(){
-        EnableOffHandIK();
-        Debug.Log("Playing Draw Anim");
+        //EnableOffHandIK();
+        //Debug.Log("Playing Draw Anim");
 		animator.Play("Draw");
 		if(gunAnim != null){
 			gunAnim.PlayDraw();	

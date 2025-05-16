@@ -30,6 +30,7 @@ public class AmmoManager : MonoBehaviour
     }
     public void Reload(){
         //is the magazine already full? do you have any ammo?
+        Debug.Log("Reloading!");
         if(ammoInMag < magazineSize && ammoCount >= 1){
             //is the magazine empty? do you have enough ammo to fill your magazine?
             if(ammoInMag < 1 && ammoCount >= magazineSize){
