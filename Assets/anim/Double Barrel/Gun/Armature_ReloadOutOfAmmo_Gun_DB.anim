@@ -3736,14 +3736,21 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 1.1
-    functionName: RevealHandMag
+    functionName: HideMagazine
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 1.1
-    functionName: HideMagazine
+    functionName: RevealHandMag
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.3833333
+    functionName: HideHandMag
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -3756,19 +3763,75 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 3.1166666
+  - time: 1.9166666
+    functionName: RevealHandMag
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.9166666
+    functionName: HideMagazine
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 1
+    messageOptions: 0
+  - time: 2.2666667
+    functionName: DropMagazine
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 2.2666667
+    functionName: HideHandMag
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 2.7666667
+    functionName: RevealHandMag
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 3.0833333
+    functionName: HideHandMag
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 3.0833333
     functionName: UnHideMagazine
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 3.1166666
+  - time: 3.6
+    functionName: RevealHandMag
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 4.0666666
     functionName: HideHandMag
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
+    messageOptions: 0
+  - time: 4.0666666
+    functionName: UnHideMagazine
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 1
     messageOptions: 0
   - time: 5.116667
     functionName: FinishReload

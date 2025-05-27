@@ -15017,7 +15017,9 @@ MonoBehaviour:
   SpentMagSpawnPos: {fileID: 2904769883017640006}
   spentMagazine: {fileID: 69962580369855033, guid: d103a61f9dd4cb941886565f30e72bc1,
     type: 3}
-  magazine: {fileID: 4491085615523725986}
+  magazine:
+  - {fileID: 4491085615523725986}
+  - {fileID: 5330374448966875136}
 --- !u!114 &475714049784809984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15266,6 +15268,12 @@ PrefabInstance:
 --- !u!4 &4806075264441082554 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f08753b2b9179dc499caddac0497ac8b,
+    type: 3}
+  m_PrefabInstance: {fileID: 4987774521444402513}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5330374448966875136 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f08753b2b9179dc499caddac0497ac8b,
     type: 3}
   m_PrefabInstance: {fileID: 4987774521444402513}
   m_PrefabAsset: {fileID: 0}

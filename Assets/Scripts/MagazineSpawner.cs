@@ -13,7 +13,7 @@ public class MagazineSpawner : MonoBehaviour
 	[SerializeField]
 	GameObject spentMagazine;
 	[SerializeField]
-	GameObject magazine;
+	GameObject[] magazine;
 	GameObject handMag;
 	void Start(){
 		handBone = GameObject.Find("Player").GetComponent<Movement>().grab.gameObject.GetComponent<Interact>().MagGrabPoint;
@@ -31,10 +31,10 @@ public class MagazineSpawner : MonoBehaviour
 	public void DropMagazine(){
 		Instantiate(spentMagazine, SpentMagSpawnPos.position, SpentMagSpawnPos.rotation);
 	}
-	public void HideMagazine(){
-		magazine.SetActive(false);
+	public void HideMagazine(int index){
+		magazine[index].SetActive(false);
 	}
-	public void UnHideMagazine(){
-		magazine.SetActive(true);
+	public void UnHideMagazine(int index){
+		magazine[index].SetActive(true);
 	}
 }
