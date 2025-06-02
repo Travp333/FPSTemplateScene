@@ -181,12 +181,13 @@ public class HandAnim : MonoBehaviour
 		firing = false;
 	}
 	void ResetCanReload(){
+        //Debug.Log("Can Reload!");
 		canReload = true;
 		reloading = false;
 		firing = false;
 	}
     void Shoot(){
-        if(canShoot){
+        if(canShoot && !reloading){
             animator.Play("Fire", 0, 0f);
             //Debug.Log("Firing");
             canShoot = false;
@@ -199,17 +200,19 @@ public class HandAnim : MonoBehaviour
         }
     }
     public void ResetFireable(){
-        Debug.Log("Resetting ability to fire");
+        //Debug.Log("Resetting ability to fire");
         Invoke("ResetCanShoot", gunAnim.fireCooldown);
         Invoke("ResetCanReload", gunAnim.fireCooldown);
     }
     void OutOfAmmoShoot(){
-        Debug.Log("Trying to fire, no ammo!");
-        canShoot = false;
-        canReload = false;
-        animator.Play("OutOfAmmoFire", 0, 0f);
-        reloading = false;
-        firing = true;
+        if(canShoot && !reloading){
+            Debug.Log("Trying to fire, no ammo!");
+            animator.Play("OutOfAmmoFire", 0, 0f);
+            canShoot = false;
+            canReload = false;
+            reloading = false;
+            firing = true;
+        }
     }
     public void ForceGunAnimIdle(){
         if(gunAnim != null){
@@ -284,13 +287,15 @@ public class HandAnim : MonoBehaviour
                 animator.SetBool("walkPressed", false);
             }
 	        if(gunAnim != null && !inter.isWallColliding && !movement.moveBlocked){
+                //Full Auto
 		        if(gunAnim.fullAuto && attackAction.IsPressed()){
 			        if(!reloading && holdingWeapon && canShoot && ammomanager.FireBullet()){
 			        	Shoot();
 		        	}
                     else if (ammomanager.ammoInMag == 0){
-                        gunAnim.anim.SetBool("OutofAmmo", true);
+                        
                         if(canShoot){
+                            gunAnim.anim.SetBool("OutofAmmo", true);
                             OutOfAmmoShoot();
                             canReload = true; 
                         }
@@ -300,15 +305,15 @@ public class HandAnim : MonoBehaviour
                 else if(!reloading && gunAnim.fullAuto && attackAction.WasReleasedThisFrame() && holdingWeapon && !movement.moveBlocked){
                     ResetFireable();
                 }
+                //Semi Auto
 		        if (attackAction.WasPressedThisFrame() && !gunAnim.fullAuto && !movement.moveBlocked) {
 		        	if(!reloading && holdingWeapon && canShoot && ammomanager.FireBullet()){
 			        	Shoot();
 		        	}
                     else if (ammomanager.ammoInMag == 0){
-
-                        gunAnim.anim.SetBool("OutofAmmo", true);
-
+                        
                         if(canShoot){
+                            gunAnim.anim.SetBool("OutofAmmo", true);
                             OutOfAmmoShoot();
                             canReload = true; 
                         }
@@ -329,27 +334,27 @@ public class HandAnim : MonoBehaviour
 	        	if(holdingWeapon && canReload){
 		        	if(gunAnim != null){
                         if (ammomanager.CanReload()){
-                            Debug.Log("Can Reload!");
+                            Debug.Log("Starting Reload");
                             if(ammomanager.ammoInMag == 0){
                                 Debug.Log("Doing No Ammo Reload!");
-                                animator.Play("OutOfAmmoReload");
-                                gunAnim.PlayOutOfAmmoReload();
                                 canShoot = false;
                                 canReload = false;
                                 reloading = true;
                                 firing = false;
+                                animator.Play("OutOfAmmoReload");
+                                gunAnim.PlayOutOfAmmoReload();
                                 Invoke("ResetCanShoot", gunAnim.noAmmoReloadFireCooldown);
                                 Invoke("ResetCanReload", gunAnim.noAmmoReloadCooldown);  
                                 gunAnim.anim.SetBool("OutofAmmo", false);
                             }
                             else{
                                 Debug.Log("Doing Reload!");
-                                animator.Play("Reload");
-                                gunAnim.PlayReload();
                                 canShoot = false;
                                 canReload = false;
                                 reloading = true;
                                 firing = false;
+                                animator.Play("Reload");
+                                gunAnim.PlayReload();
                                 Invoke("ResetCanShoot", gunAnim.reloadFireCooldown);
                                 Invoke("ResetCanReload", gunAnim.reloadCooldown);
                             }

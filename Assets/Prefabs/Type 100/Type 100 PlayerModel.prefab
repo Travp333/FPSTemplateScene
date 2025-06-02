@@ -14516,37 +14516,37 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3.82
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.64
+      value: 7.08
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 2.53
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8225346
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.5687151
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
@@ -14941,7 +14941,8 @@ MonoBehaviour:
   SpentMagSpawnPos: {fileID: 224858593073509448}
   spentMagazine: {fileID: 127689888704832311, guid: 4379ad31e3c608447b2f86261da41f04,
     type: 3}
-  magazine: {fileID: 1321798583336404598}
+  magazine:
+  - {fileID: 1321798583336404598}
 --- !u!114 &1643291267358566261
 MonoBehaviour:
   m_ObjectHideFlags: 0
