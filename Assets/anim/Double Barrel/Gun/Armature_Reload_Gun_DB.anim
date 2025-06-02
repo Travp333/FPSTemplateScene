@@ -2411,14 +2411,14 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 1.1166667
+  - time: 1.1333333
     functionName: HideMagazine
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.1166667
+  - time: 1.1333333
     functionName: RevealHandMag
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -2426,14 +2426,14 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 1.3666667
-    functionName: DropMagazine
+    functionName: HideHandMag
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 1.3666667
-    functionName: HideHandMag
+    functionName: DropMagazine
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -2447,14 +2447,14 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 2.3166666
-    functionName: HideHandMag
+    functionName: UnHideMagazine
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 2.3166666
-    functionName: UnHideMagazine
+    functionName: HideHandMag
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

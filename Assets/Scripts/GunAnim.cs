@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class GunAnim : MonoBehaviour
 {
+	[HideInInspector]
+	public AnimatorOverrideController[] gunInHandAnimOverride;
 	[SerializeField]
 	public GameObject iKTarget;
 	[SerializeField]

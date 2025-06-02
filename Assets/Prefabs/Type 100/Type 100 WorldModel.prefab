@@ -75,7 +75,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7188779778754924684, guid: c6806a02bf8134d438d991b0e525e19a,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 9bd3f74d27b2b674781a7c3bbd923182, type: 2}
     - target: {fileID: -3260684701804398485, guid: c6806a02bf8134d438d991b0e525e19a,
@@ -105,7 +105,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2273566684754477930, guid: c6806a02bf8134d438d991b0e525e19a,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 9bd3f74d27b2b674781a7c3bbd923182, type: 2}
     - target: {fileID: 5001531802768553351, guid: c6806a02bf8134d438d991b0e525e19a,
@@ -120,12 +120,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7208835549490963929, guid: c6806a02bf8134d438d991b0e525e19a,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 9bd3f74d27b2b674781a7c3bbd923182, type: 2}
     - target: {fileID: 7297869724504185644, guid: c6806a02bf8134d438d991b0e525e19a,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 9bd3f74d27b2b674781a7c3bbd923182, type: 2}
     m_RemovedComponents: []
@@ -218,7 +218,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b9b6feedaaeadb4c9a4a0bda3d532bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animOverride: {fileID: 22100000, guid: 2df3868e06a8c964aa9ddd2986a741ed, type: 2}
+  animOverride:
+  - {fileID: 22100000, guid: 2df3868e06a8c964aa9ddd2986a741ed, type: 2}
+  gunAnimOverride: []
   weapon: {fileID: 11400000, guid: bf5f1ee1e7edb2545ab52c204572c4a8, type: 2}
   playerModel: {fileID: 5487963341727548236, guid: 5e7655ef130867b4696baad3dd492699,
     type: 3}

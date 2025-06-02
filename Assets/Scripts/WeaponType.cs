@@ -5,7 +5,9 @@ using UnityEngine;
 public class WeaponType : MonoBehaviour
 {
 	[SerializeField]
-	public AnimatorOverrideController animOverride;
+	public AnimatorOverrideController[] animOverride;
+	[SerializeField]
+	public AnimatorOverrideController[] gunAnimOverride;
 	[SerializeField]
 	Weapon weapon;
 	[SerializeField]

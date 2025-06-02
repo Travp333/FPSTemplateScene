@@ -17,6 +17,9 @@ public class HandAnim : MonoBehaviour
 	public InputAction attackAction;
 	Interact inter;
 	public GunAnim gunAnim;
+    [HideInInspector]
+	public AnimatorOverrideController[] handInHandAnimOverride;
+
 	public bool holdingWeapon;
 	public bool canShoot = true;
 	public bool canReload = true;
@@ -135,7 +138,7 @@ public class HandAnim : MonoBehaviour
 	}
     void Start()
 	{
-        pause = FindObjectOfType<PauseMenu>();
+        pause = FindFirstObjectByType<PauseMenu>();
 		attackAction = sphere.GetComponent<PlayerInput>().currentActionMap.FindAction("Attack");
 		inter = this.GetComponent<Interact>();
         speedController = sphere.GetComponent<MovementSpeedController>();
@@ -177,12 +180,14 @@ public class HandAnim : MonoBehaviour
 	void ResetCanShoot(){
         //Debug.Log("Can Shoot Again!");
 		canShoot = true;
+        Debug.Log("reloading set to false via resetCanShoot()");
 		reloading = false;
 		firing = false;
 	}
 	void ResetCanReload(){
         //Debug.Log("Can Reload!");
 		canReload = true;
+        Debug.Log("reloading set to false via resetCanReload()");
 		reloading = false;
 		firing = false;
 	}
@@ -192,6 +197,7 @@ public class HandAnim : MonoBehaviour
             //Debug.Log("Firing");
             canShoot = false;
             canReload = false;
+            Debug.Log("reloading set to false via Shoot");
             reloading = false;
             firing = true;
             Invoke("ResetCanShoot", gunAnim.fireCooldown);
@@ -210,6 +216,7 @@ public class HandAnim : MonoBehaviour
             animator.Play("OutOfAmmoFire", 0, 0f);
             canShoot = false;
             canReload = false;
+            Debug.Log("reloading set to false via outofammoshoot()");
             reloading = false;
             firing = true;
         }
@@ -302,7 +309,7 @@ public class HandAnim : MonoBehaviour
                        
                     }
 		        }
-                else if(!reloading && gunAnim.fullAuto && attackAction.WasReleasedThisFrame() && holdingWeapon && !movement.moveBlocked){
+                else if(!reloading && gunAnim.fullAuto && attackAction.WasReleasedThisFrame() && holdingWeapon && !movement.moveBlocked && canShoot){
                     ResetFireable();
                 }
                 //Semi Auto
@@ -336,6 +343,7 @@ public class HandAnim : MonoBehaviour
                         if (ammomanager.CanReload()){
                             Debug.Log("Starting Reload");
                             if(ammomanager.ammoInMag == 0){
+                                CancelInvoke();
                                 Debug.Log("Doing No Ammo Reload!");
                                 canShoot = false;
                                 canReload = false;
@@ -348,6 +356,7 @@ public class HandAnim : MonoBehaviour
                                 gunAnim.anim.SetBool("OutofAmmo", false);
                             }
                             else{
+                                CancelInvoke();
                                 Debug.Log("Doing Reload!");
                                 canShoot = false;
                                 canReload = false;

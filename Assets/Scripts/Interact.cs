@@ -89,7 +89,7 @@ public class Interact : MonoBehaviour
         //NEW STUFF FROM INVENTORY SYSTEM
 
 		//Assign components
-		pause = FindObjectOfType<PauseMenu>();
+		pause = FindFirstObjectByType<PauseMenu>();
 		movement = transform.root.GetComponent<Movement>();
 		dropAction = movement.GetComponent<PlayerInput>().currentActionMap.FindAction("Drop");
 		interactAction = movement.GetComponent<PlayerInput>().currentActionMap.FindAction("Interact");
@@ -100,7 +100,7 @@ public class Interact : MonoBehaviour
     //NEW STUFF FROM INVENTORY SYSTEM
     public void HideAllInventories(){
 		//Loop through all the UIPlugger objects in the scene and add them to a list while also disabling them.
-		foreach(UiPlugger g in GameObject.FindObjectsOfType<UiPlugger>()){
+		foreach(UiPlugger g in GameObject.FindObjectsByType<UiPlugger>(FindObjectsSortMode.None)){
 			//avoids adding duplicates
 			if(g.gameObject.transform.GetChild(0).gameObject.activeInHierarchy == true){
 				if(StorageInvenUI.Contains(g.gameObject.transform.GetChild(0).gameObject)){
@@ -118,7 +118,7 @@ public class Interact : MonoBehaviour
 
     public void HideAllNonPlayerInventories(){
 		//Loop through all the UIPlugger objects in the scene and add them to a list while also disabling them.
-		foreach(UiPlugger g in GameObject.FindObjectsOfType<UiPlugger>()){
+		foreach(UiPlugger g in GameObject.FindObjectsByType<UiPlugger>(FindObjectsSortMode.None)){
 			//avoids adding duplicates
 			if(g.gameObject.tag != "Player"){
 				if(g.gameObject.transform.GetChild(0).gameObject.activeInHierarchy == true){
@@ -288,11 +288,11 @@ public class Interact : MonoBehaviour
                             prop = hit.transform;
                             // If the thing is an NPC start dialogue
                             if(hit.transform.gameObject.tag == "NPC" && hit.transform.gameObject.GetComponent<Rigidbody>() == null){
-                                if(FindObjectOfType<DialogueManager>().dialogueBox.activeInHierarchy == false){
+                                if(FindFirstObjectByType<DialogueManager>().dialogueBox.activeInHierarchy == false){
                                     hit.transform.parent.gameObject.GetComponent<NpcDialogue>().Begin();
                                 }
                                 else{
-                                    FindObjectOfType<DialogueManager>().DisplayNextSentence();
+                                    FindFirstObjectByType<DialogueManager>().DisplayNextSentence();
                                 }
                             }
                             //-----------------------------------------------------------------------
@@ -390,7 +390,25 @@ public class Interact : MonoBehaviour
                                 hand.ammomanager = gun.GetComponent<AmmoManager>();
                                 hand.canShoot = true;
                                 hand.canReload = true;
-                                hand.animator.runtimeAnimatorController = hit.transform.gameObject.GetComponent<WeaponType>().animOverride;
+                                //now the overrides, this basically jsut overrites all the animations of the player to match whatever gun they just picked up. Anim overriders should be attached to each weapon
+                                //check that an override was included with this weapon
+                                if (wep.animOverride.Length > 0)
+                                {
+                                    //store it in the handanim script. It is a list so that you could potentially have multiple overrides on one weapon, in case a weapons animations goes through many different animation phases
+                                    hand.handInHandAnimOverride = wep.animOverride;
+                                    //just grab the first entry for now as that will be the default. we will iterate through the others ( if they exist) later
+                                    hand.animator.runtimeAnimatorController = hand.handInHandAnimOverride[0];
+                                }
+                                //same concept applies here, just for the gun now. This is in case the gun itself needs to have unique animations, ie the slide moving or levers being pulled etc
+                                if (wep.gunAnimOverride.Length > 0)
+                                {
+                                    //store it in the gunanim script via the conneciton in the hand anim script
+                                    hand.gunAnim.gunInHandAnimOverride = wep.gunAnimOverride;
+                                    //apply the first in the stack as the default
+                                    hand.gunAnim.anim.runtimeAnimatorController = hand.gunAnim.gunInHandAnimOverride[0];
+                                    //hand.animator.runtimeAnimatorController = hand.handInHandAnimOverride[0];
+                                }
+
                                 gun.transform.rotation = origin.transform.rotation;
                                 hand.PickUpWeapon();
                                 Destroy(hit.transform.gameObject);
