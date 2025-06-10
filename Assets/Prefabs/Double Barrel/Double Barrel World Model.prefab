@@ -538,7 +538,10 @@ MonoBehaviour:
   animOverride:
   - {fileID: 22100000, guid: 01b7638a78b5f264fa39a532e22efc95, type: 2}
   - {fileID: 22100000, guid: 871d8f33b01ce5a42b794b8ea819fc80, type: 2}
-  gunAnimOverride: []
+  gunAnimOverride:
+  - {fileID: 0}
+  - {fileID: 22100000, guid: 9e75ee944cea3d044ba6c76d056ff076, type: 2}
+  - {fileID: 22100000, guid: 65e95b8d2cf41d74fb5c7342de9c547d, type: 2}
   weapon: {fileID: 11400000, guid: 1765c912ddaab5d4cb07f24881566817, type: 2}
   playerModel: {fileID: 2686056048800904812, guid: d59f1f367e19e30429d2e6f3f72c1797,
     type: 3}

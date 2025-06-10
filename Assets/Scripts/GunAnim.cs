@@ -81,7 +81,17 @@ public class GunAnim : MonoBehaviour
 		anim = this.GetComponent<Animator>();
 	}
 
-	public void FinishReload(){
+	public void SwitchAnimOverrider(int index)
+	{
+		if (gunInHandAnimOverride.Length > 0)
+		{
+			Debug.Log("Set animation overrider state to " + index);
+			anim.runtimeAnimatorController = gunInHandAnimOverride[index];
+		}
+	}
+
+	public void FinishReload()
+	{
 		ammomanager.Reload();
 	}
 	public void SpawnProjectile(){

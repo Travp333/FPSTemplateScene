@@ -20,17 +20,17 @@ public class MagazineSpawner : MonoBehaviour
 	}
 	// Start is called before the first frame update
 	public void RevealHandMag(){
-		Debug.Log("Spawning Hand Mag");
+		//Debug.Log("Spawning Hand Mag");
 		handMag = Instantiate(magMesh, handBone.position, handBone.rotation);
 		handMag.transform.parent = handBone;
 	}
 	public void HideHandMag(){
 		if(handMag != null){
-			Debug.Log("Hiding Hand Mag");
+			//Debug.Log("Hiding Hand Mag");
 			Destroy(handMag);
 		}
 		else{
-			Debug.Log("Tried to hide already hidden hand mag");
+			//Debug.Log("Tried to hide already hidden hand mag");
 		}
 	}
 	public void DropMagazine(){

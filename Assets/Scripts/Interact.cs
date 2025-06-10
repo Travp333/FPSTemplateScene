@@ -399,18 +399,19 @@ public class Interact : MonoBehaviour
                                     //just grab the first entry for now as that will be the default. we will iterate through the others ( if they exist) later
                                     hand.animator.runtimeAnimatorController = hand.handInHandAnimOverride[0];
                                 }
+
+
+                                gun.transform.rotation = origin.transform.rotation;
+                                hand.PickUpWeapon();
                                 //same concept applies here, just for the gun now. This is in case the gun itself needs to have unique animations, ie the slide moving or levers being pulled etc
                                 if (wep.gunAnimOverride.Length > 0)
                                 {
                                     //store it in the gunanim script via the conneciton in the hand anim script
                                     hand.gunAnim.gunInHandAnimOverride = wep.gunAnimOverride;
                                     //apply the first in the stack as the default
-                                    hand.gunAnim.anim.runtimeAnimatorController = hand.gunAnim.gunInHandAnimOverride[0];
+                                    hand.gunAnim.anim.runtimeAnimatorController = hand.gunAnim.gunInHandAnimOverride[1];
                                     //hand.animator.runtimeAnimatorController = hand.handInHandAnimOverride[0];
                                 }
-
-                                gun.transform.rotation = origin.transform.rotation;
-                                hand.PickUpWeapon();
                                 Destroy(hit.transform.gameObject);
                                 //hand
                             }
