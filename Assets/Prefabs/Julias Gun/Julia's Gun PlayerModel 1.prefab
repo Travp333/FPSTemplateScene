@@ -222,7 +222,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4519920785934961233, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: c534548731068d94eb8dfc59d11ce306, type: 2}
     - target: {fileID: 5045676260495800678, guid: a093245946530b848bd531e4e6c98b05,
@@ -307,7 +307,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8305024964522021939, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: c534548731068d94eb8dfc59d11ce306, type: 2}
     - target: {fileID: 8534595328754196904, guid: a093245946530b848bd531e4e6c98b05,
@@ -413,7 +413,7 @@ Rigidbody:
   m_CollisionDetection: 0
 --- !u!95 &6724736228293386394
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -427,6 +427,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -444,6 +445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 889c6286c0f5a574cb327c8c73bcb3b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gunInHandAnimOverride: []
   iKTarget: {fileID: 0}
   wallCollisionCheckSizeAdjust: 1.2
   wallCollisionCheckPosAdjust: 1.3
@@ -490,7 +492,8 @@ MonoBehaviour:
   SpentMagSpawnPos: {fileID: 942541904903010696}
   spentMagazine: {fileID: 5779178997245809235, guid: 04de149168052244bade6a73e22bfa0a,
     type: 3}
-  magazine: {fileID: 1564475057737530638}
+  magazine:
+  - {fileID: 1564475057737530638}
 --- !u!114 &-3148195271266027743
 MonoBehaviour:
   m_ObjectHideFlags: 0

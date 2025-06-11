@@ -85,7 +85,7 @@ public class GunAnim : MonoBehaviour
 	{
 		if (gunInHandAnimOverride.Length > 0)
 		{
-			Debug.Log("Set animation overrider state to " + index);
+			//Debug.Log("Set animation overrider state to " + index);
 			anim.runtimeAnimatorController = gunInHandAnimOverride[index];
 		}
 	}
@@ -139,7 +139,7 @@ public class GunAnim : MonoBehaviour
 			Vector3 startDir = cam.transform.forward;
 			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, (startDir + transform.TransformDirection(recoil.weaponHeatList[recoil.weaponHeat].recoilOffset)));
 			Debug.DrawRay(startPos, startDir, Color.red, 5f);
-			Debug.Log("recoil offset is "+ recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.ToString("G") + " and heat value is " + recoil.weaponHeat);
+			//Debug.Log("recoil offset is "+ recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.ToString("G") + " and heat value is " + recoil.weaponHeat);
 			//Pull current x recoil offset value, dependent on current heat
 
 

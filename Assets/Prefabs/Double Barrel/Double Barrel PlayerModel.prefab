@@ -14968,6 +14968,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 889c6286c0f5a574cb327c8c73bcb3b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gunInHandAnimOverride: []
   iKTarget: {fileID: 3358213081650743656}
   wallCollisionCheckSizeAdjust: 1.2
   wallCollisionCheckPosAdjust: 1.2
@@ -14987,7 +14988,7 @@ MonoBehaviour:
   noAmmoReloadCooldown: 6.5
   noAmmoReloadFireCooldown: 5.5
   anim: {fileID: 0}
-  bulletObj: {fileID: 4274701299776518559, guid: 787a67fee4891c04b84cacf0cd19bcf8,
+  bulletObj: {fileID: 4274701299776518559, guid: 1909757c61b096d468be7b97472598f5,
     type: 3}
   dudBulletObj: {fileID: 4274701299776518559, guid: 0a36b5dcfd1bd9a4da4a4da6b3291d3c,
     type: 3}

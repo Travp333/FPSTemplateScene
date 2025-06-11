@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1019718805772902448
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5115148742025403240}
+  m_Layer: 6
+  m_Name: IKTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5115148742025403240
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019718805772902448}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.29220957, y: -0.9191524, z: 0.056881785, w: -0.25794783}
+  m_LocalPosition: {x: 0.034, y: -0.292, z: 0.121}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3381504326385512980}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3517222917430798937
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,17 +124,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -42.28
+      value: 10.138778
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.49
+      value: 4.629
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 13.77
+      value: 6.1784472
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
@@ -222,7 +253,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4519920785934961233, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 2fb8d556ea127b048a8dd98719c3d758, type: 2}
     - target: {fileID: 5045676260495800678, guid: a093245946530b848bd531e4e6c98b05,
@@ -307,7 +338,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8305024964522021939, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 2fb8d556ea127b048a8dd98719c3d758, type: 2}
     - target: {fileID: 8534595328754196904, guid: a093245946530b848bd531e4e6c98b05,
@@ -346,6 +377,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 673062548195180681}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: a093245946530b848bd531e4e6c98b05,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5115148742025403240}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
@@ -413,7 +448,7 @@ Rigidbody:
   m_CollisionDetection: 0
 --- !u!95 &6724736228293386394
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -427,6 +462,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -444,7 +480,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 889c6286c0f5a574cb327c8c73bcb3b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iKTarget: {fileID: 0}
+  gunInHandAnimOverride: []
+  iKTarget: {fileID: 1019718805772902448}
   wallCollisionCheckSizeAdjust: 1.2
   wallCollisionCheckPosAdjust: 1.3
   muzzleFlare: []
@@ -490,7 +527,8 @@ MonoBehaviour:
   SpentMagSpawnPos: {fileID: 942541904903010696}
   spentMagazine: {fileID: 5779178997245809235, guid: 25b7d4671f73da948b93d414ac881f10,
     type: 3}
-  magazine: {fileID: 1564475057737530638}
+  magazine:
+  - {fileID: 1564475057737530638}
 --- !u!114 &6131149617013164039
 MonoBehaviour:
   m_ObjectHideFlags: 0

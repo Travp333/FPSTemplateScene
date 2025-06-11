@@ -49,20 +49,37 @@ public class HandAnim : MonoBehaviour
     PauseMenu pause;
 	// Start is called before the first frame update
     public void EnableOffHandIK(){
-        if(gunAnim != null){
-            //Debug.Log("gunanim not null, checking these: is holding weapon true? " + holdingWeapon + " is gunanim true? " + gunAnim.offHandIK + " is the offhank IK enabled? " + offHandIK.enabled);
-            if(holdingWeapon && gunAnim.offHandIK && offHandIK.enabled == false){
-                //Debug.Log("everything hooked up properly");
-                offHandIK.enabled = true;
-                offHandIK.Target = gunAnim.iKTarget.transform;
+        if (offHandIK.enabled == false)
+        {
+            if (gunAnim != null)
+            {
+                //Debug.Log("gunanim not null, checking these: is holding weapon true? " + holdingWeapon + " is gunanim true? " + gunAnim.offHandIK + " is the offhank IK enabled? " + offHandIK.enabled);
+                if (holdingWeapon)
+                {
+                    if (gunAnim.iKTarget != null)
+                    {
+                        //Debug.Log("everything hooked up properly");
+                        offHandIK.enabled = true;
+                        offHandIK.Target = gunAnim.iKTarget.transform;
+                    }
+                }
             }
         }
     }
     public void DisableOffHandIK(){
-        if(gunAnim != null){
-            if(holdingWeapon && gunAnim.offHandIK && offHandIK.enabled == true){
-                offHandIK.enabled = false;
-                offHandIK.Target = null;
+        if (offHandIK.enabled == true)
+        {
+            if (gunAnim != null)
+            {
+                //Debug.Log("gunanim not null, checking these: is holding weapon true? " + holdingWeapon + " is gunanim true? " + gunAnim.offHandIK + " is the offhank IK enabled? " + offHandIK.enabled);
+                if (holdingWeapon)
+                {
+                    if (gunAnim.iKTarget != null)
+                    {
+                        offHandIK.enabled = false;
+                        offHandIK.Target = null;
+                    }
+                }
             }
         }
     }
@@ -214,7 +231,7 @@ public class HandAnim : MonoBehaviour
     {
         if (canShoot && !reloading)
         {
-            //Debug.Log("Trying to fire, no ammo!");
+            Debug.Log("Trying to fire, no ammo!");
             animator.Play("OutOfAmmoFire", 0, 0f);
             canShoot = false;
             canReload = false;
