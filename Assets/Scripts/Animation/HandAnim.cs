@@ -47,8 +47,10 @@ public class HandAnim : MonoBehaviour
     bool holdingDummy;
     Grab grab;
     PauseMenu pause;
+    int handBurstCount;
 	// Start is called before the first frame update
-    public void EnableOffHandIK(){
+    public void EnableOffHandIK()
+    {
         if (offHandIK.enabled == false)
         {
             if (gunAnim != null)
@@ -209,7 +211,8 @@ public class HandAnim : MonoBehaviour
 		firing = false;
 	}
     void Shoot(){
-        if(canShoot && !reloading){
+        if (canShoot && !reloading)
+        {
             animator.Play("Fire", 0, 0f);
             //Debug.Log("Firing");
             canShoot = false;
@@ -220,6 +223,28 @@ public class HandAnim : MonoBehaviour
             Invoke("ResetCanShoot", gunAnim.fireCooldown);
             Invoke("ResetCanReload", gunAnim.fireCooldown);
             gunAnim.PlayFire();
+            //This is kindof working, need to import ammo logic in here so that ammo deducts properly then have a "shotgun check", ie a cooldown of 0 in case i want to fire a burst and change the behavior
+            if (gunAnim.burst && !gunAnim.bursting)
+            {
+                gunAnim.bursting = true;
+                handBurstCount = gunAnim.burstCount;
+                handBurstCount--;
+                ResetCanShoot();
+                Invoke("Shoot", gunAnim.burstCooldown);
+                
+            }
+            else if (gunAnim.burst && gunAnim.bursting && handBurstCount > 0)
+            {
+                handBurstCount--;
+                ResetCanShoot();
+                Invoke("Shoot", gunAnim.burstCooldown);
+                
+            }
+            else
+            {
+                gunAnim.bursting = false;
+                handBurstCount = 0;
+            }
         }
     }
     public void ResetFireable(){

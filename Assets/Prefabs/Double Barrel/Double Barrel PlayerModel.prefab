@@ -14980,6 +14980,10 @@ MonoBehaviour:
   casingVelocity: 50
   casingSpawnPoint: {fileID: 0}
   fullAuto: 0
+  burst: 1
+  burstCooldown: 0
+  burstCount: 50
+  bursting: 0
   WorldModel: {fileID: 8645944669160997776, guid: 43e811af7c1241a4d8a3eaba8e5c1459,
     type: 3}
   fireCooldown: 0.2
@@ -15048,7 +15052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 778d6b409a7ae794ab2d8c275f377535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recoilAmount: 0
+  recoilAmount: 0.05
   weaponHeatList:
   - heat: 0
     recoilOffset: {x: 0, y: 0, z: 0}

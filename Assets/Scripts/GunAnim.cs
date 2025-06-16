@@ -26,6 +26,15 @@ public class GunAnim : MonoBehaviour
 	GameObject casingSpawnPoint;
 	[SerializeField]
 	public bool fullAuto;
+	//Basically this should call the fire method x amount of times with y amount of inbetween, so I could say 3 times with .3 seconds for a 3 burst rifle or like 10 with 0 inbetween for a shotgun
+	[SerializeField]
+	public bool burst;
+	[SerializeField]
+	public float burstCooldown;
+	[SerializeField]
+	public int burstCount;
+	[SerializeField]
+	public bool bursting;
 	Camera cam;
 	[SerializeField]
 	public GameObject WorldModel;
