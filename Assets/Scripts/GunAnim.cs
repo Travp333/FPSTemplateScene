@@ -9,29 +9,40 @@ public class GunAnim : MonoBehaviour
 	[HideInInspector]
 	public AnimatorOverrideController[] gunInHandAnimOverride;
 	[SerializeField]
+	[Tooltip("Where does the hand point to?")]
 	public GameObject iKTarget;
 	[SerializeField]
+	[Tooltip("Tweak specifics of the wall collision")]
 	public float wallCollisionCheckSizeAdjust = 1.2f;
 	[SerializeField]
+	[Tooltip("Tweak specifics of the wall collision")]
 	public float wallCollisionCheckPosAdjust = 1.2f;
 	AmmoManager ammomanager;
 	[SerializeField]
+
 	ParticleSystem[] muzzleFlare;
 	[SerializeField]
+	[Tooltip("Physics object to spawn at casingSpawnPoint for casing ejection")]
 	GameObject casing;
 	[SerializeField]
+	[Tooltip("how fast does the casing shoot out?")]
 	float casingVelocity = 50f;
 	public static List<Vector3> casingTorques = new List<Vector3>();
 	[SerializeField]
+	[Tooltip("Where does the casing spawn?")]
 	GameObject casingSpawnPoint;
 	[SerializeField]
 	public bool fullAuto;
-	//Basically this should call the fire method x amount of times with y amount of inbetween, so I could say 3 times with .3 seconds for a 3 burst rifle or like 10 with 0 inbetween for a shotgun
 	[SerializeField]
 	public bool burst;
 	[SerializeField]
+	[Tooltip("How long until you can burst again")]
 	public float burstCooldown;
 	[SerializeField]
+	[Tooltip("How long is inbetween each bullet")]
+	public float inBetweenBurstCooldown;
+	[SerializeField]
+	[Tooltip("How many extra rounds to shoot? ie a three burst would be 2, as the first round is not included")]
 	public int burstCount;
 	[SerializeField]
 	public bool bursting;
@@ -103,60 +114,62 @@ public class GunAnim : MonoBehaviour
 	{
 		ammomanager.Reload();
 	}
-	public void SpawnProjectile(){
-		//DO A RAYCAST FIRST, THEN CHECK IF HIT. IF HIT, REGISTER HIT, DUH
-		//IF NO HIT, THEN DO PROJECTILE STYLED BULLET
-		//GARBAJ STYLED HYBRID APPROACH
-		RaycastHit hit;
-		if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, raycastDistance, mask))
+	public void SpawnProjectile(int amount){
+		for (int i = 0; i < amount; i++)
 		{
-			//Debug.DrawLine(cam.transform.position, hit.point, Color.cyan, 1f);
-			//Debug.Log("Using Raycast!");
-			GameObject newBullet = Instantiate(dudBulletObj) as GameObject;
-			newBullet.transform.position = hit.point;
-			newBullet.transform.parent = bulletParent.transform;
-		}
-		else if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, projectileCheckDistance, mask)){
-			//Debug.Log("Using Projectile targeted at raycast position!");
-			//Debug.DrawLine(cam.transform.position, hit.point * 5000f, Color.yellow, 1f);
-			GameObject newBullet = Instantiate(bulletObj) as GameObject;
-			//Parent it to get a clean workspace
-			newBullet.transform.parent = bulletParent.transform;
-			//Give it speed and position
-			Vector3 startPos = bulletSpawnPos.transform.position;
-			Vector3 startDir = (hit.point - bulletSpawnPos.transform.position).normalized;
-			Debug.DrawRay(startPos, startDir, Color.red, 5f);	
-			//Pull current x recoil offset value, dependent on current heat
-			recoilVectorX = bulletSpawnPos.transform.up * recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.x;
-			recoilVectorY =  bulletSpawnPos.transform.right * recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.y;
-			recoilVector = recoilVectorX + recoilVectorY;
-			//This is still not quite working
-			Vector3 recoil2 = this.transform.up * (recoil.recoilAmount * Random.Range(-1f, 1f));
-			Vector3 rotation = Quaternion.AngleAxis(Random.Range(0,360), cam.transform.forward) * recoil2;
-			recoilVector += rotation;
-			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir + recoilVector);
+			//DO A RAYCAST FIRST, THEN CHECK IF HIT. IF HIT, REGISTER HIT, DUH
+			//IF NO HIT, THEN DO PROJECTILE STYLED BULLET
+			//GARBAJ STYLED HYBRID APPROACH
+			RaycastHit hit;
+			if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, raycastDistance, mask))
+			{
+				//Debug.DrawLine(cam.transform.position, hit.point, Color.cyan, 1f);
+				//Debug.Log("Using Raycast!");
+				GameObject newBullet = Instantiate(dudBulletObj) as GameObject;
+				newBullet.transform.position = hit.point;
+				newBullet.transform.parent = bulletParent.transform;
+			}
+			else if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, projectileCheckDistance, mask))
+			{
+				//Debug.Log("Using Projectile targeted at raycast position!");
+				//Debug.DrawLine(cam.transform.position, hit.point * 5000f, Color.yellow, 1f);
+				GameObject newBullet = Instantiate(bulletObj) as GameObject;
+				//Parent it to get a clean workspace
+				newBullet.transform.parent = bulletParent.transform;
+				//Give it speed and position
+				Vector3 startPos = bulletSpawnPos.transform.position;
+				Vector3 startDir = (hit.point - bulletSpawnPos.transform.position).normalized;
+				Debug.DrawRay(startPos, startDir, Color.red, 5f);
+				//Pull current x recoil offset value, dependent on current heat
+				recoilVectorX = bulletSpawnPos.transform.up * recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.x;
+				recoilVectorY = bulletSpawnPos.transform.right * recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.y;
+				recoilVector = recoilVectorX + recoilVectorY;
+				//This is still not quite working
+				Vector3 recoil2 = this.transform.up * (recoil.recoilAmount * Random.Range(-1f, 1f));
+				Vector3 rotation = Quaternion.AngleAxis(Random.Range(0, 360), cam.transform.forward) * recoil2;
+				recoilVector += rotation;
+				newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir + recoilVector);
 
-		}
-		else{
-			//Debug.Log("Using Projectile launched straight forward!");
-			//Debug.DrawLine(cam.transform.position, hit.point * 5000f, Color.red, 1f);
-			GameObject newBullet = Instantiate(bulletObj) as GameObject;
-			//Parent it to get a clean workspace
-			newBullet.transform.parent = bulletParent.transform;
-			//Give it speed and position
-			Vector3 startPos = bulletSpawnPos.transform.position;
-			Vector3 startDir = cam.transform.forward;
-			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, (startDir + transform.TransformDirection(recoil.weaponHeatList[recoil.weaponHeat].recoilOffset)));
-			Debug.DrawRay(startPos, startDir, Color.red, 5f);
-			//Debug.Log("recoil offset is "+ recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.ToString("G") + " and heat value is " + recoil.weaponHeat);
-			//Pull current x recoil offset value, dependent on current heat
-
-
-
-			// this works correctly, but is just bloom recoil. Need to make it take the recoil pattern into account
-			recoilVector = this.transform.up * (recoil.recoilAmount * Random.Range(-1f, 1f));
-			Vector3 rotation = Quaternion.AngleAxis(Random.Range(0,360), startDir) * recoilVector;
-			newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir + rotation);
+			}
+			else
+			{
+				//Debug.Log("Using Projectile launched straight forward!");
+				//Debug.DrawLine(cam.transform.position, hit.point * 5000f, Color.red, 1f);
+				GameObject newBullet = Instantiate(bulletObj) as GameObject;
+				//Parent it to get a clean workspace
+				newBullet.transform.parent = bulletParent.transform;
+				//Give it speed and position
+				Vector3 startPos = bulletSpawnPos.transform.position;
+				Vector3 startDir = cam.transform.forward;
+				newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, (startDir + transform.TransformDirection(recoil.weaponHeatList[recoil.weaponHeat].recoilOffset)));
+				Debug.DrawRay(startPos, startDir, Color.red, 5f);
+				//Debug.Log("recoil offset is "+ recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.ToString("G") + " and heat value is " + recoil.weaponHeat);
+				//Pull current x recoil offset value, dependent on current heat
+				// this works correctly, but is just bloom recoil. Need to make it take the recoil pattern into account
+				recoilVector = this.transform.up * (recoil.recoilAmount * Random.Range(-1f, 1f));
+				Vector3 rotation = Quaternion.AngleAxis(Random.Range(0, 360), startDir) * recoilVector;
+				newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir + rotation);
+			}
 		}
 	}
 

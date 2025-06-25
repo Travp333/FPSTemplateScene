@@ -14903,10 +14903,11 @@ MonoBehaviour:
   casing: {fileID: 892979806527244527, guid: 47813eb9f8080dd4db2a32fb7daeb95a, type: 3}
   casingVelocity: 5
   casingSpawnPoint: {fileID: 1043303296305755}
-  fullAuto: 0
-  burst: 1
-  burstCooldown: 0.05
-  burstCount: 2
+  fullAuto: 1
+  burst: 0
+  burstCooldown: 0
+  inBetweenBurstCooldown: 0
+  burstCount: 0
   bursting: 0
   WorldModel: {fileID: 2021438723471259424, guid: 44919f97e61469649bc4bf31512cf5ac,
     type: 3}

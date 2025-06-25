@@ -48,6 +48,7 @@ public class HandAnim : MonoBehaviour
     Grab grab;
     PauseMenu pause;
     int handBurstCount;
+    bool burstBlock;
 	// Start is called before the first frame update
     public void EnableOffHandIK()
     {
@@ -224,30 +225,42 @@ public class HandAnim : MonoBehaviour
             Invoke("ResetCanReload", gunAnim.fireCooldown);
             gunAnim.PlayFire();
             //This is kindof working, need to import ammo logic in here so that ammo deducts properly then have a "shotgun check", ie a cooldown of 0 in case i want to fire a burst and change the behavior
-            if (gunAnim.burst && !gunAnim.bursting)
+            if (gunAnim.burst && !gunAnim.bursting && ammomanager.FireBullet())
             {
+                burstBlock = true;
+                Debug.Log("Starting Burst");
                 gunAnim.bursting = true;
                 handBurstCount = gunAnim.burstCount;
                 handBurstCount--;
                 ResetCanShoot();
-                Invoke("Shoot", gunAnim.burstCooldown);
+                Invoke("Shoot", gunAnim.inBetweenBurstCooldown);
                 
+
             }
-            else if (gunAnim.burst && gunAnim.bursting && handBurstCount > 0)
+            else if (gunAnim.burst && gunAnim.bursting && handBurstCount > 0 && ammomanager.FireBullet())
             {
+                Debug.Log("Continuing Burst");
                 handBurstCount--;
                 ResetCanShoot();
-                Invoke("Shoot", gunAnim.burstCooldown);
-                
+                Invoke("Shoot", gunAnim.inBetweenBurstCooldown);
+
             }
-            else
+            else if (gunAnim.burst)
             {
+                Debug.Log("Ending Burst");
                 gunAnim.bursting = false;
                 handBurstCount = 0;
+                Invoke("ResetBurstBlock", gunAnim.burstCooldown);
             }
         }
     }
-    public void ResetFireable(){
+    public void ResetBurstBlock()
+    {
+        Debug.Log("Resetting Burst Block");
+        burstBlock = false;
+    }
+    public void ResetFireable()
+    {
         //Debug.Log("Resetting ability to fire");
         Invoke("ResetCanShoot", gunAnim.fireCooldown);
         Invoke("ResetCanReload", gunAnim.fireCooldown);
@@ -351,7 +364,8 @@ public class HandAnim : MonoBehaviour
                             gunAnim.anim.SetBool("OutofAmmo", true);
                             canReload = true;
                         }
-		        	}
+                    }
+
                     else if (ammomanager.ammoInMag == 0)
                     {
 
@@ -367,9 +381,9 @@ public class HandAnim : MonoBehaviour
                 else if(!reloading && gunAnim.fullAuto && attackAction.WasReleasedThisFrame() && holdingWeapon && !movement.moveBlocked && canShoot){
                     ResetFireable();
                 }
-                //Semi Auto
+                //Semi Auto / burst
 		        if (attackAction.WasPressedThisFrame() && !gunAnim.fullAuto && !movement.moveBlocked) {
-                    if (!reloading && holdingWeapon && canShoot && ammomanager.FireBullet())
+                    if (!burstBlock && !reloading && holdingWeapon && canShoot && ammomanager.FireBullet())
                     {
                         Shoot();
                         //checking to see if the mag is now empty after firing
@@ -379,6 +393,10 @@ public class HandAnim : MonoBehaviour
                             canReload = true;
                         }
 		        	}
+                    else if (burstBlock)
+                    {
+                        Debug.Log("BLOCKED BY BURSTBLOCK");
+                    }
                     else if (ammomanager.ammoInMag == 0)
                     {
 
@@ -407,6 +425,7 @@ public class HandAnim : MonoBehaviour
                         if (ammomanager.CanReload()){
                             Debug.Log("Starting Reload");
                             if(ammomanager.ammoInMag == 0){
+                                burstBlock = false;
                                 CancelInvoke();
                                 Debug.Log("Doing No Ammo Reload!");
                                 canShoot = false;
@@ -420,6 +439,7 @@ public class HandAnim : MonoBehaviour
                                 gunAnim.anim.SetBool("OutofAmmo", false);
                             }
                             else{
+                                burstBlock = false;
                                 CancelInvoke();
                                 Debug.Log("Doing Reload!");
                                 canShoot = false;

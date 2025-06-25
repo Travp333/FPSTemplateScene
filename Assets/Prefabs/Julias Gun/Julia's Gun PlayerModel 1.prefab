@@ -93,17 +93,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -42.28
+      value: 12.14
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.49
+      value: 4.74
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 13.77
+      value: 5.860596
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
@@ -453,14 +453,19 @@ MonoBehaviour:
   casing: {fileID: 0}
   casingVelocity: 50
   casingSpawnPoint: {fileID: 0}
-  fullAuto: 0
+  fullAuto: 1
+  burst: 0
+  burstCooldown: 0.5
+  inBetweenBurstCooldown: 0.07
+  burstCount: 3
+  bursting: 0
   WorldModel: {fileID: 3938916727546193671, guid: 551b75646b438cb44a4d18b5e47b5612,
     type: 3}
-  fireCooldown: 0.3
-  reloadCooldown: 3
-  reloadFireCooldown: 2
-  noAmmoReloadCooldown: 2
-  noAmmoReloadFireCooldown: 2
+  fireCooldown: 0.01
+  reloadCooldown: 2.6
+  reloadFireCooldown: 2.6
+  noAmmoReloadCooldown: 2.6
+  noAmmoReloadFireCooldown: 2.6
   anim: {fileID: 0}
   bulletObj: {fileID: 4274701299776518559, guid: 32108f726a548c046bd76ca8ddf31c90,
     type: 3}
@@ -506,9 +511,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f4160dd2441e7146b5fe4491d1d42cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magazineSize: 15
+  magazineSize: 150
   ammoInMag: 0
-  ammoCount: 50
+  ammoCount: 500
 --- !u!114 &-2168004428207053829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -521,7 +526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 778d6b409a7ae794ab2d8c275f377535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recoilAmount: 0
+  recoilAmount: 0.5
   weaponHeatList:
   - heat: 0
     recoilOffset: {x: 0, y: 0, z: 0}
