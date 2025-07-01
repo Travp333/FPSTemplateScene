@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 114275212102551320}
   - component: {fileID: 6076015400370991913}
   m_Layer: 0
-  m_Name: Bullet sniper
+  m_Name: Mega Shotgun Shell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -17.149446, y: -6.014309, z: -7.846713}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
+  m_LocalScale: {x: 0.319293, y: 0.319293, z: 0.319293}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -69,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f950792508081a046a2e7f0f2351815f, type: 2}
+  - {fileID: 2100000, guid: edd1e799520c53e42881fef29900072a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7b41df99becfc14aad324db6488c0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletObjectDud: {fileID: 4274701299776518559, guid: 8760be795a72c8e4ba0d327cf5686431,
+  bulletObjectDud: {fileID: 4274701299776518559, guid: 9f5d72d0055edab45a63f03b1fb23150,
     type: 3}
 --- !u!114 &114275212102551320
 MonoBehaviour:
@@ -142,9 +142,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 970cff6ad736f744eac729ff3b4fe529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recoilAmount: 0.01
-  bulletAmount: 1
-  muzzleVelocity: 50
+  recoilAmount: 1
+  bulletAmount: 250
+  muzzleVelocity: 500
   mass: 0.2
   radius: 0.05
   dragCoefficient: 0.2
@@ -175,7 +175,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f950792508081a046a2e7f0f2351815f, type: 2}
+  - {fileID: 2100000, guid: edd1e799520c53e42881fef29900072a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

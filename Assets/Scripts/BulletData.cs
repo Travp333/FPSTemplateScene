@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class BulletData : MonoBehaviour
 {
+    public float recoilAmount;
+    public int bulletAmount = 1;
     //Data belonging to this bullet type
     //The initial speed [m/s]
     public float muzzleVelocity = 10f;

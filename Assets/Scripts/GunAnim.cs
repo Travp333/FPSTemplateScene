@@ -85,12 +85,15 @@ public class GunAnim : MonoBehaviour
 	Vector3 recoilVectorX;
 	Vector3 recoilVectorY;
 	Vector3 recoilVector;
+	BulletData bulletData;
 	protected void Start()
 	{
+		bulletData = bulletObj.GetComponent<BulletData>();
 		recoil = GetComponent<RecoilManager>();
 		ammomanager = GetComponent<AmmoManager>();
 		//pre-calculates random rotation vectors for shell casings 
-		if(casing != null){
+		if (casing != null)
+		{
 			casingTorques.Add(new Vector3(2, 13, 5));
 			casingTorques.Add(new Vector3(19, 0, 4));
 			casingTorques.Add(new Vector3(4, 0, 6));
@@ -114,8 +117,9 @@ public class GunAnim : MonoBehaviour
 	{
 		ammomanager.Reload();
 	}
-	public void SpawnProjectile(int amount){
-		for (int i = 0; i < amount; i++)
+	public void SpawnProjectile(){
+		bulletData = bulletObj.GetComponent<BulletData>();
+		for (int i = 0; i < bulletData.bulletAmount; i++)
 		{
 			//DO A RAYCAST FIRST, THEN CHECK IF HIT. IF HIT, REGISTER HIT, DUH
 			//IF NO HIT, THEN DO PROJECTILE STYLED BULLET
@@ -123,6 +127,7 @@ public class GunAnim : MonoBehaviour
 			RaycastHit hit;
 			if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, raycastDistance, mask))
 			{
+				//This doesnt work properly, doesnt use recoil, doesnt apply same bullet impact effect
 				//Debug.DrawLine(cam.transform.position, hit.point, Color.cyan, 1f);
 				//Debug.Log("Using Raycast!");
 				GameObject newBullet = Instantiate(dudBulletObj) as GameObject;
@@ -144,8 +149,7 @@ public class GunAnim : MonoBehaviour
 				recoilVectorX = bulletSpawnPos.transform.up * recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.x;
 				recoilVectorY = bulletSpawnPos.transform.right * recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.y;
 				recoilVector = recoilVectorX + recoilVectorY;
-				//This is still not quite working
-				Vector3 recoil2 = this.transform.up * (recoil.recoilAmount * Random.Range(-1f, 1f));
+				Vector3 recoil2 = this.transform.up * (bulletData.recoilAmount * Random.Range(-1f, 1f));
 				Vector3 rotation = Quaternion.AngleAxis(Random.Range(0, 360), cam.transform.forward) * recoil2;
 				recoilVector += rotation;
 				newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir + recoilVector);
@@ -166,7 +170,7 @@ public class GunAnim : MonoBehaviour
 				//Debug.Log("recoil offset is "+ recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.ToString("G") + " and heat value is " + recoil.weaponHeat);
 				//Pull current x recoil offset value, dependent on current heat
 				// this works correctly, but is just bloom recoil. Need to make it take the recoil pattern into account
-				recoilVector = this.transform.up * (recoil.recoilAmount * Random.Range(-1f, 1f));
+				recoilVector = this.transform.up * (bulletData.recoilAmount * Random.Range(-1f, 1f));
 				Vector3 rotation = Quaternion.AngleAxis(Random.Range(0, 360), startDir) * recoilVector;
 				newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir + rotation);
 			}

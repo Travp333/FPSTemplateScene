@@ -14,8 +14,6 @@ public struct Heat {
 public class RecoilManager : MonoBehaviour
 {
     [SerializeField]
-    public float recoilAmount;
-    [SerializeField]
     [Tooltip("List of Heat values and offsets, to determine how much a shot is offset depending on the heat")]
     public Heat[] weaponHeatList;
     [SerializeField]
