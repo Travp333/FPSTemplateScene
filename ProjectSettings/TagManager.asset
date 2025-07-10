@@ -22,7 +22,7 @@ TagManager:
   - Detailed
   - Interactable
   - Weapon
-  - 
+  - RigidbodyNoHandReaction
   - Rigidbodies
   - 
   - 

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 //Adpoted from https://www.habrador.com/tutorials/unity-realistic-bullets/
 
@@ -27,7 +28,29 @@ public class CheckBulletHit : MonoBehaviour
 		//Debug.DrawLine(GameObject.Find("HandCam").transform.position, hit.point, Color.magenta, 1f);
 		//Move the bullet to where we hit
 		transform.position = hit.point;
-		Instantiate(bulletObjectDud, hit.point, Quaternion.identity);
+
+		//is it a rigidbody?
+		if (hit.transform.gameObject.layer == 13)
+		{
+			//if so, apply force (F=MV), then parent the impact effect to the rigidbody
+			if (hit.transform.gameObject.GetComponent<Rigidbody>() != null)
+			{
+				hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(GetComponent<MoveBullet>().currentVel * GetComponent<BulletData>().mass);
+				GameObject g = Instantiate(bulletObjectDud, hit.point, Quaternion.identity);
+				g.transform.parent = hit.transform;
+			}
+			else if (hit.transform.parent.gameObject.GetComponent<Rigidbody>() != null)
+			{
+				hit.transform.parent.gameObject.GetComponent<Rigidbody>().AddForce(GetComponent<MoveBullet>().currentVel * GetComponent<BulletData>().mass);
+				GameObject g = Instantiate(bulletObjectDud, hit.point, Quaternion.identity);
+				g.transform.parent = hit.transform;
+			}
+
+		}
+		else
+		{
+			Instantiate(bulletObjectDud, hit.point, Quaternion.identity);
+		}
 		Destroy(this.gameObject);
 	}
     //Did we hit a target
