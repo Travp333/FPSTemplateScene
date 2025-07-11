@@ -144,8 +144,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recoilAmount: 0.03
   bulletAmount: 1
-  muzzleVelocity: 800
-  mass: 0.2
+  muzzleVelocity: 1000
+  mass: 3
   radius: 0.05
   dragCoefficient: 0.09
   liftCoefficient: 0.0001
