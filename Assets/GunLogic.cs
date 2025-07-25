@@ -7,7 +7,6 @@ using UnityEngine;
 public class GunLogic : MonoBehaviour
 {
     //is this necessary?
-    [SerializeField]
 	float gravity = -9.81f;
     [SerializeField]
 	[Tooltip("How long until you can fire another bullet")]
@@ -39,10 +38,14 @@ public class GunLogic : MonoBehaviour
 	public int burstCount;
 	[SerializeField]
 	public bool bursting;
-    [SerializeField]
-	float raycastDistance = 50f;
+
     [SerializeField]
 	GameObject bulletObj;
+    [SerializeField]
+    [Tooltip("Bullet impact effect, spawns when a bulelt hits something")]
+	GameObject dudBulletObj;
+    [SerializeField]
+	Transform bulletSpawnPos;
     public GameObject bulletParent;
     Camera cam;
     AmmoManager ammomanager;
@@ -63,13 +66,12 @@ public class GunLogic : MonoBehaviour
     BulletData bulletData;
     [SerializeField]
 	LayerMask mask;
-    [SerializeField]
-    [Tooltip("Bullet impact effect, spawns when a bulelt hits something")]
-	GameObject dudBulletObj;
+
     [SerializeField]
 	float projectileCheckDistance = 100f;
+
     [SerializeField]
-	Transform bulletSpawnPos;
+	float raycastDistance = 50f;
 
     void Start()
     {
