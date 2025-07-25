@@ -36,7 +36,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.31
+      value: 2.9710054
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
@@ -46,27 +46,27 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 15.13
+      value: 239.27
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.33387682
+      value: 0.67683935
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.5897295
+      value: 0.6928814
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.62331903
+      value: -0.20466745
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.3901524
+      value: -0.14112136
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
@@ -76,7 +76,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 174.688
+      value: 264.688
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
@@ -204,6 +204,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7881128330596914007}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a093245946530b848bd531e4e6c98b05,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2243970121655656732}
     - targetCorrespondingSourceObject: {fileID: -7936196628657420654, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
       insertIndex: -1
@@ -276,6 +280,19 @@ MonoBehaviour:
   weapon: {fileID: 11400000, guid: 854d6a362b2ef6542b03a91b6a177d1b, type: 2}
   playerModel: {fileID: 2712949182256638126, guid: 884bc0786aee68b41b9caf55765d6c7b,
     type: 3}
+--- !u!114 &2243970121655656732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6942482238671944259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37ff121fc4798c8428cbd0f32857d62e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammo: 40
 --- !u!1 &9026682837046788480 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7936196628657420654, guid: a093245946530b848bd531e4e6c98b05,

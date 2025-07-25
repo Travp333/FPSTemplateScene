@@ -26,7 +26,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c6806a02bf8134d438d991b0e525e19a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.0493555
+      value: 4.632002
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c6806a02bf8134d438d991b0e525e19a,
         type: 3}
@@ -36,12 +36,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c6806a02bf8134d438d991b0e525e19a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 15.836193
+      value: 236.53065
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c6806a02bf8134d438d991b0e525e19a,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9964939
+      value: 0.64546776
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c6806a02bf8134d438d991b0e525e19a,
         type: 3}
@@ -51,7 +51,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c6806a02bf8134d438d991b0e525e19a,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.08366622
+      value: 0.76378757
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c6806a02bf8134d438d991b0e525e19a,
         type: 3}
@@ -66,7 +66,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c6806a02bf8134d438d991b0e525e19a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 9.599
+      value: 99.598
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c6806a02bf8134d438d991b0e525e19a,
         type: 3}
@@ -179,6 +179,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1914264593356205231}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c6806a02bf8134d438d991b0e525e19a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3331692205882400136}
     - targetCorrespondingSourceObject: {fileID: 5001531802768553351, guid: c6806a02bf8134d438d991b0e525e19a,
         type: 3}
       insertIndex: -1
@@ -259,6 +263,19 @@ MonoBehaviour:
   weapon: {fileID: 11400000, guid: bf5f1ee1e7edb2545ab52c204572c4a8, type: 2}
   playerModel: {fileID: 5487963341727548236, guid: 5e7655ef130867b4696baad3dd492699,
     type: 3}
+--- !u!114 &3331692205882400136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2021438723471259424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37ff121fc4798c8428cbd0f32857d62e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammo: 30
 --- !u!1 &4788248433847824922 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3260684701804398485, guid: c6806a02bf8134d438d991b0e525e19a,

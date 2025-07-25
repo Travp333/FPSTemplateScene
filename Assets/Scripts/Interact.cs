@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 //this script handles interacting with various objects, such as a button, a lever, a pickupable object, etc. essentially just pressing e on something
 public class Interact : MonoBehaviour
 {
+    int tempAmmoValue;
     [SerializeField]
     GameObject wallCollisionCheckBox;
     public bool isWallColliding;
@@ -391,6 +392,10 @@ public class Interact : MonoBehaviour
                                 hand.ammomanager = gun.GetComponent<AmmoManager>();
                                 hand.canShoot = true;
                                 hand.canReload = true;
+                                //overwrite ammo in magazine value with value stored in the gun itself. This allows you to have persistent ammo when you drop and pick back up a weapon
+                                Debug.Log("Gun in hand has " + gun.GetComponent<AmmoManager>().ammoInMag+ " in magazine, " + "Gun picked up has " + hit.transform.gameObject.GetComponent<Magazine>().ammo + " In magazine, rewriting...");
+                                gun.GetComponent<AmmoManager>().ammoInMag = hit.transform.gameObject.GetComponent<Magazine>().ammo;
+                                Debug.Log("Gun in hand now has "+ gun.GetComponent<AmmoManager>().ammoInMag + " In Magazine");
                                 //now the overrides, this basically jsut overrites all the animations of the player to match whatever gun they just picked up. Anim overriders should be attached to each weapon
                                 //check that an override was included with this weapon
                                 if (wep.animOverride.Length > 0)
@@ -430,10 +435,15 @@ public class Interact : MonoBehaviour
                     }
                 }
                 if(dropAction.WasPressedThisFrame()){
-                    if(hand.holdingWeapon && !hand.firing && ! hand.reloading){
+                    if(hand.holdingWeapon && !hand.firing && !hand.reloading){
                         hand.DropWeapon();
-                        Destroy (gun);
+                        if(gun.GetComponent<AmmoManager>() != null){
+                            tempAmmoValue = gun.GetComponent<AmmoManager>().ammoInMag;
+                        }
+                        Destroy(gun);
                         gun = Instantiate(hand.gunAnim.WorldModel, holdPoint.transform.position, origin.transform.rotation);
+                        gun.GetComponent<Magazine>().ammo = tempAmmoValue;
+                        tempAmmoValue = 0;
                         gun.GetComponent<Rigidbody>().AddForce(this.transform.forward, ForceMode.Impulse);
                         wallCollisionCheckBox.transform.localScale = new Vector3 (wallCollisionCheckBox.transform.localScale.x, wallCollisionCheckBox.transform.localScale.y, wallCollisionCheckBox.transform.localScale.z / hand.gunAnim.wallCollisionCheckSizeAdjust);
                         wallCollisionCheckBox.transform.localPosition = new Vector3 (wallCollisionCheckBox.transform.localPosition.x, wallCollisionCheckBox.transform.localPosition.y, wallCollisionCheckBox.transform.localPosition.z / hand.gunAnim.wallCollisionCheckPosAdjust);

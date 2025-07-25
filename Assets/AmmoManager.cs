@@ -63,7 +63,7 @@ public class AmmoManager : MonoBehaviour
     }
     void Start()
     {
-        ammoInMag = magazineSize;
+        //ammoInMag = magazineSize;
     }
 
     // Update is called once per frame
