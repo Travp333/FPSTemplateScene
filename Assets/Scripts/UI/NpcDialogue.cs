@@ -9,14 +9,14 @@ public class NpcDialogue : MonoBehaviour
     public GameObject dialogueBox;
 
     public void Begin(){
-        FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
+        FindFirstObjectByType<DialogueManager>().StartDialogue(dialogue);
     }
 
     public void OnTriggerEnter(Collider other) //if the player enters the collider of the npc then the dialogue system will trigger
     {
         if (other.tag == "Player")
         {
-            FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
+            FindFirstObjectByType<DialogueManager>().StartDialogue(dialogue);
         }
     }
 

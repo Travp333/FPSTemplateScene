@@ -138,7 +138,7 @@ public class Movement : MonoBehaviour {
 	//runs every frame
 	void Update () {
 		//responds to the duck keybind by playing the appripriate animation and setting the crouching bool
-		if(crouchAction.IsPressed() && !FindObjectOfType<PauseMenu>().isPaused && !moveBlocked)
+		if(crouchAction.IsPressed() && !FindFirstObjectByType<PauseMenu>().isPaused && !moveBlocked)
         { 
         	crouching = true;
 			if((standingBean != null) && (smolBean != null)){
@@ -146,7 +146,7 @@ public class Movement : MonoBehaviour {
 				smolBean.SetActive(true);
 			}
         }
-		if(!crouchAction.IsPressed() && !FindObjectOfType<PauseMenu>().isPaused && !moveBlocked)
+		if(!crouchAction.IsPressed() && !FindFirstObjectByType<PauseMenu>().isPaused && !moveBlocked)
         {
         	crouching = false;
 			if((standingBean != null) && (smolBean != null)){

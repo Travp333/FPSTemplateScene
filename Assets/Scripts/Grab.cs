@@ -99,7 +99,7 @@ public class Grab : MonoBehaviour
     void Update()
     {
         //IF not paused
-        if (!FindObjectOfType<PauseMenu>().isPaused)
+        if (!FindFirstObjectByType<PauseMenu>().isPaused)
         {
             //IF Left Mouse released and is holding an object
 	        if (attackAction.WasReleasedThisFrame() && isHolding && !justThrew)

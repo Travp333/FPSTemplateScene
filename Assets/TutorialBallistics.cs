@@ -147,7 +147,7 @@ public class TutorialBallistics : MonoBehaviour
 
 		//How many segments we will have
 		int maxIndex = Mathf.RoundToInt(timeToHitTarget / h);
-		lineRenderer.SetVertexCount(maxIndex);
+		//lineRenderer.SetVertexCount(maxIndex);
 
 		//Start values
 		Vector3 currentVelocity = gunObj.transform.forward * bulletSpeed;

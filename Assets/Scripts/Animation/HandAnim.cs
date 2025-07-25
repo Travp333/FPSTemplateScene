@@ -17,6 +17,7 @@ public class HandAnim : MonoBehaviour
 	public InputAction attackAction;
 	Interact inter;
 	public GunAnim gunAnim;
+    public GunLogic gunLogic;
     [HideInInspector]
 	public AnimatorOverrideController[] handInHandAnimOverride;
 
@@ -221,36 +222,36 @@ public class HandAnim : MonoBehaviour
             //Debug.Log("reloading set to false via Shoot");
             reloading = false;
             firing = true;
-            Invoke("ResetCanShoot", gunAnim.fireCooldown);
-            Invoke("ResetCanReload", gunAnim.fireCooldown);
+            Invoke("ResetCanShoot", gunLogic.fireCooldown);
+            Invoke("ResetCanReload", gunLogic.fireCooldown);
             gunAnim.PlayFire();
             //This is kindof working, need to import ammo logic in here so that ammo deducts properly then have a "shotgun check", ie a cooldown of 0 in case i want to fire a burst and change the behavior
-            if (gunAnim.burst && !gunAnim.bursting && ammomanager.FireBullet())
+            if (gunLogic.burst && !gunLogic.bursting && ammomanager.FireBullet())
             {
                 burstBlock = true;
                 Debug.Log("Starting Burst");
-                gunAnim.bursting = true;
-                handBurstCount = gunAnim.burstCount;
+                gunLogic.bursting = true;
+                handBurstCount = gunLogic.burstCount;
                 handBurstCount--;
                 ResetCanShoot();
-                Invoke("Shoot", gunAnim.inBetweenBurstCooldown);
+                Invoke("Shoot", gunLogic.inBetweenBurstCooldown);
                 
 
             }
-            else if (gunAnim.burst && gunAnim.bursting && handBurstCount > 0 && ammomanager.FireBullet())
+            else if (gunLogic.burst && gunLogic.bursting && handBurstCount > 0 && ammomanager.FireBullet())
             {
                 Debug.Log("Continuing Burst");
                 handBurstCount--;
                 ResetCanShoot();
-                Invoke("Shoot", gunAnim.inBetweenBurstCooldown);
+                Invoke("Shoot", gunLogic.inBetweenBurstCooldown);
 
             }
-            else if (gunAnim.burst)
+            else if (gunLogic.burst)
             {
                 Debug.Log("Ending Burst");
-                gunAnim.bursting = false;
+                gunLogic.bursting = false;
                 handBurstCount = 0;
-                Invoke("ResetBurstBlock", gunAnim.burstCooldown);
+                Invoke("ResetBurstBlock", gunLogic.burstCooldown);
             }
         }
     }
@@ -262,8 +263,8 @@ public class HandAnim : MonoBehaviour
     public void ResetFireable()
     {
         //Debug.Log("Resetting ability to fire");
-        Invoke("ResetCanShoot", gunAnim.fireCooldown);
-        Invoke("ResetCanReload", gunAnim.fireCooldown);
+        Invoke("ResetCanShoot", gunLogic.fireCooldown);
+        Invoke("ResetCanReload", gunLogic.fireCooldown);
     }
     void OutOfAmmoShoot()
     {
@@ -276,8 +277,8 @@ public class HandAnim : MonoBehaviour
             //Debug.Log("reloading set to false via outofammoshoot()");
             reloading = false;
             firing = true;
-            Invoke("ResetCanShoot", gunAnim.fireCooldown);
-            Invoke("ResetCanReload", gunAnim.fireCooldown);
+            Invoke("ResetCanShoot", gunLogic.fireCooldown);
+            Invoke("ResetCanReload", gunLogic.fireCooldown);
         }
     }
     public void ForceGunAnimIdle(){
@@ -354,7 +355,7 @@ public class HandAnim : MonoBehaviour
             }
 	        if(gunAnim != null && !inter.isWallColliding && !movement.moveBlocked){
                 //Full Auto
-		        if(gunAnim.fullAuto && attackAction.IsPressed()){
+		        if(gunLogic.fullAuto && attackAction.IsPressed()){
                     if (!reloading && holdingWeapon && canShoot && ammomanager.FireBullet())
                     {
                         Shoot();
@@ -378,11 +379,11 @@ public class HandAnim : MonoBehaviour
 
                     }
 		        }
-                else if(!reloading && gunAnim.fullAuto && attackAction.WasReleasedThisFrame() && holdingWeapon && !movement.moveBlocked && canShoot){
+                else if(!reloading && gunLogic.fullAuto && attackAction.WasReleasedThisFrame() && holdingWeapon && !movement.moveBlocked && canShoot){
                     ResetFireable();
                 }
                 //Semi Auto / burst
-		        if (attackAction.WasPressedThisFrame() && !gunAnim.fullAuto && !movement.moveBlocked) {
+		        if (attackAction.WasPressedThisFrame() && !gunLogic.fullAuto && !movement.moveBlocked) {
                     if (!burstBlock && !reloading && holdingWeapon && canShoot && ammomanager.FireBullet())
                     {
                         Shoot();
@@ -434,8 +435,8 @@ public class HandAnim : MonoBehaviour
                                 firing = false;
                                 animator.Play("OutOfAmmoReload");
                                 gunAnim.PlayOutOfAmmoReload();
-                                Invoke("ResetCanShoot", gunAnim.noAmmoReloadFireCooldown);
-                                Invoke("ResetCanReload", gunAnim.noAmmoReloadCooldown);  
+                                Invoke("ResetCanShoot", gunLogic.noAmmoReloadFireCooldown);
+                                Invoke("ResetCanReload", gunLogic.noAmmoReloadCooldown);  
                                 gunAnim.anim.SetBool("OutofAmmo", false);
                             }
                             else{
@@ -448,8 +449,8 @@ public class HandAnim : MonoBehaviour
                                 firing = false;
                                 animator.Play("Reload");
                                 gunAnim.PlayReload();
-                                Invoke("ResetCanShoot", gunAnim.reloadFireCooldown);
-                                Invoke("ResetCanReload", gunAnim.reloadCooldown);
+                                Invoke("ResetCanShoot", gunLogic.reloadFireCooldown);
+                                Invoke("ResetCanReload", gunLogic.reloadCooldown);
                             }
 
                         }

@@ -26,7 +26,7 @@ public class tempHolder : MonoBehaviour
 		ClearSlot();
 		//find every UI plugger component, and call the proper methods. in the player's case,
 		//we also store a reference to it here since it is static
-		foreach(UiPlugger i in GameObject.FindObjectsOfType<UiPlugger>()){
+		foreach(UiPlugger i in GameObject.FindObjectsByType<UiPlugger>(FindObjectsSortMode.None)){
 			if(i.inven.gameObject.tag == "Player"){
 				i.SpawnButtonsPlayer();
 				playerInven = i.inven;
@@ -39,7 +39,7 @@ public class tempHolder : MonoBehaviour
 	//resets values to defaults, ensures the slot is empty. Slot meaning the temporary memory holder that represents 
 	//the object you are "holding" while clicking and dragging an item in the inventory
 	public void ClearSlot(){
-		foreach(UiPlugger i in GameObject.FindObjectsOfType<UiPlugger>()){
+		foreach(UiPlugger i in GameObject.FindObjectsByType<UiPlugger>(FindObjectsSortMode.None)){
 			if(i.inven == tempInven){
 				i.ButtonDeselected(tempRow, tempColumn);
 			}

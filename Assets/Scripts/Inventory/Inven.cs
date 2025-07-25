@@ -44,7 +44,7 @@ public class Inven : MonoBehaviour
 	RecyclableItem recyclableItem;
 	public void Start()
 	{
-		temp = FindObjectOfType<tempHolder>();
+		temp = FindFirstObjectByType<tempHolder>();
 		//stores reference to Ui object
 		
 		//This creates our 2D array based on the size given in editor

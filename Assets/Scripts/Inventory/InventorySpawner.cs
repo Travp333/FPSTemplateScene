@@ -10,12 +10,12 @@ public class InventorySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
 	{
-		foreach(Inven i in GameObject.FindObjectsOfType<Inven>()){
+		foreach(Inven i in GameObject.FindObjectsByType<Inven>(FindObjectsSortMode.None)){
 			if(i.gameObject.tag == "Player"){
 				Player = i.gameObject;	
 			}
 		}
-		foreach(Inven i in GameObject.FindObjectsOfType<Inven>()){
+		foreach(Inven i in GameObject.FindObjectsByType<Inven>(FindObjectsSortMode.None)){
 			if(i.gameObject.tag != "Player"){
 				GameObject g = Instantiate(UIPrefab, this.transform);
 				//Debug.Log("Pluggin Ui Plugger");

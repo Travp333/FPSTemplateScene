@@ -385,6 +385,7 @@ public class Interact : MonoBehaviour
                                 gun = Instantiate(wep.playerModel, GunGrabPoint.transform.position, Quaternion.identity);                            
                                 gun.transform.parent = GunGrabPoint.transform;
                                 hand.gunAnim = gun.GetComponent<GunAnim>();
+                                hand.gunLogic = gun.GetComponent<GunLogic>();
                                 wallCollisionCheckBox.transform.localScale = new Vector3 (wallCollisionCheckBox.transform.localScale.x, wallCollisionCheckBox.transform.localScale.y, wallCollisionCheckBox.transform.localScale.z * hand.gunAnim.wallCollisionCheckSizeAdjust);
                                 wallCollisionCheckBox.transform.localPosition = new Vector3 (wallCollisionCheckBox.transform.localPosition.x, wallCollisionCheckBox.transform.localPosition.y, wallCollisionCheckBox.transform.localPosition.z * hand.gunAnim.wallCollisionCheckPosAdjust);
                                 hand.ammomanager = gun.GetComponent<AmmoManager>();
