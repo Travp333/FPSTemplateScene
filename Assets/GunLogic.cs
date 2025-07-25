@@ -72,6 +72,9 @@ public class GunLogic : MonoBehaviour
 
     [SerializeField]
 	float raycastDistance = 50f;
+	Vector3 recoil2;
+	Vector3 rotation;
+	RaycastHit hit;
 
     void Start()
     {
@@ -114,15 +117,25 @@ public class GunLogic : MonoBehaviour
 			//DO A RAYCAST FIRST, THEN CHECK IF HIT. IF HIT, REGISTER HIT, DUH
 			//IF NO HIT, THEN DO PROJECTILE STYLED BULLET
 			//GARBAJ STYLED HYBRID APPROACH
-			RaycastHit hit;
-			if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, raycastDistance, mask))
+
+			recoilVectorX = bulletSpawnPos.transform.up * recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.x;
+			recoilVectorY = bulletSpawnPos.transform.right * recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.y;
+			recoilVector = recoilVectorX + recoilVectorY;
+			recoil2 = this.transform.up * (bulletData.recoilAmount * Random.Range(-1f, 1f));
+			rotation = Quaternion.AngleAxis(Random.Range(0, 360), cam.transform.forward) * recoil2;
+			recoilVector += rotation;
+
+
+			if (Physics.Raycast(cam.transform.position, cam.transform.forward + recoilVector, out hit, raycastDistance, mask))
 			{
-				//This doesnt work properly, doesnt use recoil, doesnt apply same bullet impact effect
+				//need to apply physics
 				//Debug.DrawLine(cam.transform.position, hit.point, Color.cyan, 1f);
-				//Debug.Log("Using Raycast!");
-				GameObject newBullet = Instantiate(dudBulletObj) as GameObject;
-				newBullet.transform.position = hit.point;
-				newBullet.transform.parent = bulletParent.transform;
+				if (hit.transform.gameObject.GetComponent<Rigidbody>() != null)
+				{
+					hit.transform.gameObject.GetComponent<Rigidbody>().AddForce((bulletObj.GetComponent<BulletData>().muzzleVelocity * (hit.point - cam.transform.position).normalized) * bulletObj.GetComponent<BulletData>().mass);
+				}
+				GameObject g = Instantiate(dudBulletObj, hit.point, Quaternion.identity);
+				g.transform.parent = hit.transform;
 			}
 			else if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, projectileCheckDistance, mask))
 			{
@@ -136,14 +149,7 @@ public class GunLogic : MonoBehaviour
 				Vector3 startDir = (hit.point - bulletSpawnPos.transform.position).normalized;
 				Debug.DrawRay(startPos, startDir, Color.red, 5f);
 				//Pull current x recoil offset value, dependent on current heat
-				recoilVectorX = bulletSpawnPos.transform.up * recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.x;
-				recoilVectorY = bulletSpawnPos.transform.right * recoil.weaponHeatList[recoil.weaponHeat].recoilOffset.y;
-				recoilVector = recoilVectorX + recoilVectorY;
-				Vector3 recoil2 = this.transform.up * (bulletData.recoilAmount * Random.Range(-1f, 1f));
-				Vector3 rotation = Quaternion.AngleAxis(Random.Range(0, 360), cam.transform.forward) * recoil2;
-				recoilVector += rotation;
 				newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir + recoilVector);
-
 			}
 			else
 			{
@@ -161,7 +167,7 @@ public class GunLogic : MonoBehaviour
 				//Pull current x recoil offset value, dependent on current heat
 				// this works correctly, but is just bloom recoil. Need to make it take the recoil pattern into account
 				recoilVector = this.transform.up * (bulletData.recoilAmount * Random.Range(-1f, 1f));
-				Vector3 rotation = Quaternion.AngleAxis(Random.Range(0, 360), startDir) * recoilVector;
+				rotation = Quaternion.AngleAxis(Random.Range(0, 360), startDir) * recoilVector;
 				newBullet.GetComponent<MoveBullet>().SetStartValues(startPos, startDir + rotation);
 			}
 		}
