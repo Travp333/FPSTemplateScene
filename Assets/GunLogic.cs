@@ -128,11 +128,10 @@ public class GunLogic : MonoBehaviour
 
 			if (Physics.Raycast(cam.transform.position, cam.transform.forward + recoilVector, out hit, raycastDistance, mask))
 			{
-				//need to apply physics
 				//Debug.DrawLine(cam.transform.position, hit.point, Color.cyan, 1f);
 				if (hit.transform.gameObject.GetComponent<Rigidbody>() != null)
 				{
-					hit.transform.gameObject.GetComponent<Rigidbody>().AddForce((bulletObj.GetComponent<BulletData>().muzzleVelocity * (hit.point - cam.transform.position).normalized) * bulletObj.GetComponent<BulletData>().mass);
+					hit.transform.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(((bulletObj.GetComponent<BulletData>().muzzleVelocity * (hit.point - cam.transform.position).normalized) * bulletObj.GetComponent<BulletData>().mass), hit.point);
 				}
 				GameObject g = Instantiate(dudBulletObj, hit.point, Quaternion.identity);
 				g.transform.parent = hit.transform;

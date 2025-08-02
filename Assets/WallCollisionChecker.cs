@@ -20,7 +20,7 @@ public class WallCollisionChecker : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         if(!inter.isWallColliding){
-            if(other.gameObject.tag != "Player" && other.gameObject.tag != "Magazine" && other.gameObject.tag != "Weapon"){
+            if(other.gameObject.tag != "Player" && other.gameObject.tag != "Magazine" && other.gameObject.tag != "Weapon" && other.gameObject.tag != "Item"){
                 if(!handanim.reloading){
                     handanim.animator.Play("IdleToWallCollideEntry", 0, 0f);
                     handanim.animator.SetBool("WallCollision", true);
@@ -40,7 +40,7 @@ public class WallCollisionChecker : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag != "Player" && other.gameObject.tag != "Magazine" && other.gameObject.tag != "Weapon"){
+        if(other.gameObject.tag != "Player" && other.gameObject.tag != "Magazine" && other.gameObject.tag != "Weapon" && other.gameObject.tag != "Item"){
             if(!handanim.reloading){
                 handanim.animator.Play("IdleToWallCollideEntry", 0, 0f);
                 handanim.animator.SetBool("WallCollision", true);
@@ -56,7 +56,7 @@ public class WallCollisionChecker : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.tag != "Player" && other.gameObject.tag != "Magazine" && other.gameObject.tag != "Weapon"){
+        if(other.gameObject.tag != "Player" && other.gameObject.tag != "Magazine" && other.gameObject.tag != "Weapon" && other.gameObject.tag != "Item"){
             handanim.animator.SetBool("WallCollision", false);
             Invoke("StopOverlapping", .2f);
             //if(handanim.holdingWeapon){

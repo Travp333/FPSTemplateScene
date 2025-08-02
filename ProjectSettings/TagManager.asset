@@ -9,6 +9,7 @@ TagManager:
   - Target
   - BulletIgnore
   - Magazine
+  - Item
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - Weapon
   - RigidbodyNoHandReaction
   - Rigidbodies
-  - 
+  - BulletIgnore
   - 
   - NoCollideWithPlayer
   - 

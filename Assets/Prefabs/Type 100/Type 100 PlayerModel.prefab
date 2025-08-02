@@ -15013,7 +15013,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4578d4ee94085845aa245a83b555bc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: -9.81
   fireCooldown: 0.07
   reloadCooldown: 2
   reloadFireCooldown: 2
@@ -15025,17 +15024,17 @@ MonoBehaviour:
   inBetweenBurstCooldown: 0
   burstCount: 0
   bursting: 0
-  raycastDistance: 25
   bulletObj: {fileID: 4274701299776518559, guid: 787a67fee4891c04b84cacf0cd19bcf8,
     type: 3}
+  dudBulletObj: {fileID: 4274701299776518559, guid: 0a36b5dcfd1bd9a4da4a4da6b3291d3c,
+    type: 3}
+  bulletSpawnPos: {fileID: 2215084607671402968}
   bulletParent: {fileID: 0}
   casing: {fileID: 892979806527244527, guid: 47813eb9f8080dd4db2a32fb7daeb95a, type: 3}
   casingSpawnPoint: {fileID: 1043303296305755}
   casingVelocity: 5
   mask:
     serializedVersion: 2
-    m_Bits: 4294967295
-  dudBulletObj: {fileID: 4274701299776518559, guid: 0a36b5dcfd1bd9a4da4a4da6b3291d3c,
-    type: 3}
+    m_Bits: 81536
   projectileCheckDistance: 500
-  bulletSpawnPos: {fileID: 2215084607671402968}
+  raycastDistance: 25

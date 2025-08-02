@@ -130,6 +130,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletObjectDud: {fileID: 4274701299776518559, guid: 8760be795a72c8e4ba0d327cf5686431,
     type: 3}
+  mask:
+    serializedVersion: 2
+    m_Bits: 81919
 --- !u!114 &114275212102551320
 MonoBehaviour:
   m_ObjectHideFlags: 0

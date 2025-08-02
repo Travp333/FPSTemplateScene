@@ -10,6 +10,7 @@ public class CheckBulletHit : MonoBehaviour
     private Vector3 lastPos;
 	[SerializeField]
 	GameObject bulletObjectDud;
+	public LayerMask mask;
 	void Start()
 	{
 		lastPos = transform.position;
@@ -33,22 +34,29 @@ public class CheckBulletHit : MonoBehaviour
 		if (hit.transform.gameObject.layer == 13)
 		{
 			//if so, apply force (F=MV), then parent the impact effect to the rigidbody
-			if (hit.transform.gameObject.GetComponent<Rigidbody>() != null)
+			if (hit.transform.gameObject.GetComponent<Rigidbody>() != null && hit.transform.gameObject.GetComponent<Rigidbody>().isKinematic != true)
 			{
-				hit.transform.gameObject.GetComponent<Rigidbody>().AddForce(GetComponent<MoveBullet>().currentVel * GetComponent<BulletData>().mass);
+				Debug.Log("Hit a rigidbody");
+				hit.transform.gameObject.GetComponent<Rigidbody>().AddForceAtPosition((GetComponent<MoveBullet>().currentVel * GetComponent<BulletData>().mass), hit.point);
 				GameObject g = Instantiate(bulletObjectDud, hit.point, Quaternion.identity);
 				g.transform.parent = hit.transform;
 			}
-			else if (hit.transform.parent.gameObject.GetComponent<Rigidbody>() != null)
+			else if (hit.transform.parent.gameObject.GetComponent<Rigidbody>() != null && hit.transform.parent.gameObject.GetComponent<Rigidbody>().isKinematic != true)
 			{
-				hit.transform.parent.gameObject.GetComponent<Rigidbody>().AddForce(GetComponent<MoveBullet>().currentVel * GetComponent<BulletData>().mass);
+				Debug.Log("Hit a child rigidbody");
+				hit.transform.parent.gameObject.GetComponent<Rigidbody>().AddForceAtPosition((GetComponent<MoveBullet>().currentVel * GetComponent<BulletData>().mass), hit.point);
 				GameObject g = Instantiate(bulletObjectDud, hit.point, Quaternion.identity);
 				g.transform.parent = hit.transform;
+			}
+			else
+			{
+				Debug.Log("edge case");
 			}
 
 		}
 		else
 		{
+			Debug.Log("Hit a non-rigidbody");
 			Instantiate(bulletObjectDud, hit.point, Quaternion.identity);
 		}
 		Destroy(this.gameObject);
@@ -66,7 +74,7 @@ public class CheckBulletHit : MonoBehaviour
 
         RaycastHit hit;
 		//Debug.Log(currentPos + ", " + lastPos);
-        if (Physics.Raycast(currentPos, fireDirection, out hit, fireDistance))
+        if (Physics.Raycast(currentPos, fireDirection, out hit, fireDistance, mask))
         {
 	        if (!hit.collider.CompareTag("BulletIgnore"))
 	        {
