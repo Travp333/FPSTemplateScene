@@ -300,7 +300,7 @@ public class Interact : MonoBehaviour
                             //hit a pickupable item?
                             else if (hit.transform.gameObject.GetComponent<pickUpableItem>() != null)
                             {
-                                Debug.Log("HIT PICK UP ABLE ITEM! ");
+                                Debug.Log("HIT PICK UP ABLE ITEM!");
                                 //store reference to the hit object
                                 item = hit.transform.gameObject.GetComponent<pickUpableItem>().item;
                                 //update UI

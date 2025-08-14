@@ -262,9 +262,12 @@ public class HandAnim : MonoBehaviour
     }
     public void ResetFireable()
     {
-        //Debug.Log("Resetting ability to fire");
-        Invoke("ResetCanShoot", gunLogic.fireCooldown);
-        Invoke("ResetCanReload", gunLogic.fireCooldown);
+        if (gunAnim != null)
+        {
+            Debug.Log("Resetting ability to fire");
+            Invoke("ResetCanShoot", gunLogic.fireCooldown);
+            Invoke("ResetCanReload", gunLogic.fireCooldown);
+        }
     }
     void OutOfAmmoShoot()
     {
@@ -380,6 +383,7 @@ public class HandAnim : MonoBehaviour
                     }
 		        }
                 else if(!reloading && gunLogic.fullAuto && attackAction.WasReleasedThisFrame() && holdingWeapon && !movement.moveBlocked && canShoot){
+                    Debug.Log("Why is this firing?");
                     ResetFireable();
                 }
                 //Semi Auto / burst

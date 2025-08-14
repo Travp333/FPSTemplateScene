@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05bc218e3ff6c89428f4bd6a20fd1afa, type: 3}
+  m_Name: Pistol Bullet
+  m_EditorClassIdentifier: 
+  Objname: Pistol Bullet
+  weight: 0.1
+  stackSize: 50
+  img: {fileID: 21300000, guid: dc590a3092e4ba0418464e34ffbcb074, type: 3}
+  prefab: {fileID: 7734275531385829229, guid: baaab3a657003694db8e8a966d780136, type: 3}

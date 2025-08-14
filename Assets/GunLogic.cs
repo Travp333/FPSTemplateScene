@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class GunLogic : MonoBehaviour
@@ -68,9 +69,11 @@ public class GunLogic : MonoBehaviour
 	LayerMask mask;
 
     [SerializeField]
+	[Tooltip("How far ahead this gun will check to get a valid target to launch a projectile at")]
 	float projectileCheckDistance = 100f;
 
     [SerializeField]
+	[Tooltip("How far will this gun's raycast go before the bullet stops being a hitscan")]
 	float raycastDistance = 50f;
 	Vector3 recoil2;
 	Vector3 rotation;
@@ -133,6 +136,7 @@ public class GunLogic : MonoBehaviour
 				{
 					hit.transform.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(((bulletObj.GetComponent<BulletData>().muzzleVelocity * (hit.point - cam.transform.position).normalized) * bulletObj.GetComponent<BulletData>().mass), hit.point);
 				}
+				//Debug.Log("Using Raycast to spawn dud at hit.point");
 				GameObject g = Instantiate(dudBulletObj, hit.point, Quaternion.identity);
 				g.transform.parent = hit.transform;
 			}

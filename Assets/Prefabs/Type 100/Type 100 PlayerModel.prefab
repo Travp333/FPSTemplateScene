@@ -15035,6 +15035,6 @@ MonoBehaviour:
   casingVelocity: 5
   mask:
     serializedVersion: 2
-    m_Bits: 81536
+    m_Bits: 81537
   projectileCheckDistance: 500
   raycastDistance: 25

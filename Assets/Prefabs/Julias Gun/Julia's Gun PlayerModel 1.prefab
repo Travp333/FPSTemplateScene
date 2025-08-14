@@ -582,7 +582,7 @@ MonoBehaviour:
   casingVelocity: 50
   mask:
     serializedVersion: 2
-    m_Bits: 81536
+    m_Bits: 81537
   projectileCheckDistance: 50
   raycastDistance: 6
 --- !u!4 &3381504326385512980 stripped
