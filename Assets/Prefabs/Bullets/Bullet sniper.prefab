@@ -148,7 +148,7 @@ MonoBehaviour:
   recoilAmount: 0.5
   bulletAmount: 50
   muzzleVelocity: 80
-  mass: 5
+  mass: 0.05
   radius: 0.05
   dragCoefficient: 0.2
   liftCoefficient: 0.0001

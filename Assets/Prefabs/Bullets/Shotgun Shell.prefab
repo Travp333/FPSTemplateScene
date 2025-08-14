@@ -146,10 +146,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recoilAmount: 0.05
-  bulletAmount: 25
-  muzzleVelocity: 800
-  mass: 0.2
-  radius: 0.05
+  bulletAmount: 10
+  muzzleVelocity: 457.2
+  mass: 0.003
+  radius: 0.00457
   dragCoefficient: 0.09
   liftCoefficient: 0.0001
   windSpeedVector: {x: 0, y: -9.81, z: 0}

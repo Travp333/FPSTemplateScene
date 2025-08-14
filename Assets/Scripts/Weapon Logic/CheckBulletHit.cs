@@ -37,14 +37,14 @@ public class CheckBulletHit : MonoBehaviour
 			if (hit.transform.gameObject.GetComponent<Rigidbody>() != null && hit.transform.gameObject.GetComponent<Rigidbody>().isKinematic != true)
 			{
 				Debug.Log("Hit a rigidbody");
-				hit.transform.gameObject.GetComponent<Rigidbody>().AddForceAtPosition((GetComponent<MoveBullet>().currentVel * GetComponent<BulletData>().mass), hit.point);
+				hit.transform.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(((GetComponent<MoveBullet>().currentVel / Time.fixedDeltaTime)* GetComponent<BulletData>().mass), hit.point);
 				GameObject g = Instantiate(bulletObjectDud, hit.point, Quaternion.identity);
 				g.transform.parent = hit.transform;
 			}
 			else if (hit.transform.parent.gameObject.GetComponent<Rigidbody>() != null && hit.transform.parent.gameObject.GetComponent<Rigidbody>().isKinematic != true)
 			{
 				Debug.Log("Hit a child rigidbody");
-				hit.transform.parent.gameObject.GetComponent<Rigidbody>().AddForceAtPosition((GetComponent<MoveBullet>().currentVel * GetComponent<BulletData>().mass), hit.point);
+				hit.transform.parent.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(((GetComponent<MoveBullet>().currentVel / Time.fixedDeltaTime) * GetComponent<BulletData>().mass), hit.point);
 				GameObject g = Instantiate(bulletObjectDud, hit.point, Quaternion.identity);
 				g.transform.parent = hit.transform;
 			}

@@ -78,6 +78,8 @@ public class GunLogic : MonoBehaviour
 	Vector3 recoil2;
 	Vector3 rotation;
 	RaycastHit hit;
+	Vector3 previousVelocity;
+	Vector3 force;
 
     void Start()
     {
@@ -94,6 +96,7 @@ public class GunLogic : MonoBehaviour
 			casingTorques.Add(new Vector3(4, 0, 6));
 			casingTorques.Add(new Vector3(20, 19, 0));
 		}
+		
     }
     public void FinishReload()
 	{
@@ -134,7 +137,9 @@ public class GunLogic : MonoBehaviour
 				//Debug.DrawLine(cam.transform.position, hit.point, Color.cyan, 1f);
 				if (hit.transform.gameObject.GetComponent<Rigidbody>() != null)
 				{
-					hit.transform.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(((bulletObj.GetComponent<BulletData>().muzzleVelocity * (hit.point - cam.transform.position).normalized) * bulletObj.GetComponent<BulletData>().mass), hit.point);
+					// magnitude * direction(aka velocity) / time (aka acceleration) * mass ( aka force ), so f = ma
+					force = (((bulletObj.GetComponent<BulletData>().muzzleVelocity / Time.fixedDeltaTime) * (hit.point - cam.transform.position).normalized) * bulletObj.GetComponent<BulletData>().mass);
+					hit.transform.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(force, hit.point);
 				}
 				//Debug.Log("Using Raycast to spawn dud at hit.point");
 				GameObject g = Instantiate(dudBulletObj, hit.point, Quaternion.identity);
