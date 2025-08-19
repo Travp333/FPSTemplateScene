@@ -25,6 +25,9 @@ public class GunAnim : MonoBehaviour
 	public Animator anim;
 	[SerializeField]
 	public bool offHandIK;
+	[HideInInspector]
+	public int animOverriderState = 1;
+	public Magazine mag;
 
 	protected void Start()
 	{
@@ -36,8 +39,11 @@ public class GunAnim : MonoBehaviour
 	{
 		if (gunInHandAnimOverride.Length > 0)
 		{
+			Debug.Log("Switching AnimOverrider to " + index);
 			anim.runtimeAnimatorController = gunInHandAnimOverride[index];
+			animOverriderState = index;
 		}
+		
 	}
 	public void PlayFire(){
 		//plays the given fire animation
@@ -59,10 +65,23 @@ public class GunAnim : MonoBehaviour
 		anim.Play("OutOfAmmoReload");
 	}
 	public void PlayDraw(){
-		//plays given draw animation (calls anim faster to ensure it is ready for the picked up weapon)
-		if(this.GetComponent<Animator>() != null){
+		if (this.GetComponent<Animator>() != null)
+		{
 			anim = this.GetComponent<Animator>();
+			if (mag != null)
+			{
+				if (mag.ammo <= 0)
+				{
+					anim.Play("OutofAmmoDraw");
+				}
+				else
+				{
+					anim.Play("Draw");
+				}
+			}
 		}
-		anim.Play("Draw");
+		//plays given draw animation (calls anim faster to ensure it is ready for the picked up weapon)
+
+		
 	}
 }

@@ -14908,6 +14908,7 @@ MonoBehaviour:
     type: 3}
   anim: {fileID: 0}
   offHandIK: 1
+  animOverriderState: 1
 --- !u!114 &5628826120335260515
 MonoBehaviour:
   m_ObjectHideFlags: 0

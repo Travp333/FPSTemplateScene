@@ -36,27 +36,27 @@ public class CheckBulletHit : MonoBehaviour
 			//if so, apply force (F=MV), then parent the impact effect to the rigidbody
 			if (hit.transform.gameObject.GetComponent<Rigidbody>() != null && hit.transform.gameObject.GetComponent<Rigidbody>().isKinematic != true)
 			{
-				Debug.Log("Hit a rigidbody");
+				//Debug.Log("Hit a rigidbody");
 				hit.transform.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(((GetComponent<MoveBullet>().currentVel / Time.fixedDeltaTime)* GetComponent<BulletData>().mass), hit.point);
 				GameObject g = Instantiate(bulletObjectDud, hit.point, Quaternion.identity);
 				g.transform.parent = hit.transform;
 			}
 			else if (hit.transform.parent.gameObject.GetComponent<Rigidbody>() != null && hit.transform.parent.gameObject.GetComponent<Rigidbody>().isKinematic != true)
 			{
-				Debug.Log("Hit a child rigidbody");
+				//Debug.Log("Hit a child rigidbody");
 				hit.transform.parent.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(((GetComponent<MoveBullet>().currentVel / Time.fixedDeltaTime) * GetComponent<BulletData>().mass), hit.point);
 				GameObject g = Instantiate(bulletObjectDud, hit.point, Quaternion.identity);
 				g.transform.parent = hit.transform;
 			}
 			else
 			{
-				Debug.Log("edge case");
+				//Debug.Log("edge case");
 			}
 
 		}
 		else
 		{
-			Debug.Log("Hit a non-rigidbody");
+			//Debug.Log("Hit a non-rigidbody");
 			Instantiate(bulletObjectDud, hit.point, Quaternion.identity);
 		}
 		Destroy(this.gameObject);

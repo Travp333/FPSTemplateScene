@@ -493,6 +493,7 @@ MonoBehaviour:
     type: 3}
   anim: {fileID: 0}
   offHandIK: 1
+  animOverriderState: 1
 --- !u!114 &6365800938726413766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -560,7 +561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4578d4ee94085845aa245a83b555bc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireCooldown: 0.1
+  fireCooldown: 0.3
   reloadCooldown: 3
   reloadFireCooldown: 2
   noAmmoReloadCooldown: 2
