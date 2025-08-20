@@ -14908,7 +14908,8 @@ MonoBehaviour:
     type: 3}
   anim: {fileID: 0}
   offHandIK: 1
-  animOverriderState: 1
+  gunInHandanimOverriderState: 1
+  mag: {fileID: 0}
 --- !u!114 &5628826120335260515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14940,7 +14941,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f4160dd2441e7146b5fe4491d1d42cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magazineSize: 30
+  magazineSize: 5
   ammoInMag: 0
   ammoCount: 500
 --- !u!114 &4336171223938694441

@@ -100,7 +100,7 @@ public class GunLogic : MonoBehaviour
     }
     public void FinishReload()
 	{
-        //finishes reload logic, actually moves the values around
+		//finishes reload logic, actually moves the values around
 		ammomanager.Reload();
 	}
     public void Fire(){

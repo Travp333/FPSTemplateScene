@@ -405,7 +405,7 @@ public class Interact : MonoBehaviour
                                     //store it in the handanim script. It is a list so that you could potentially have multiple overrides on one weapon, in case a weapons animations goes through many different animation phases
                                     hand.handInHandAnimOverride = wep.animOverride;
                                     //just grab the first entry for now as that will be the default. we will iterate through the others ( if they exist) later
-                                    hand.animator.runtimeAnimatorController = hand.handInHandAnimOverride[0];
+                                    hand.animator.runtimeAnimatorController = hand.handInHandAnimOverride[1];
                                 }
                                 gun.transform.rotation = origin.transform.rotation;
                                 hand.PickUpWeapon();
@@ -415,20 +415,26 @@ public class Interact : MonoBehaviour
                                     //store it in the gunanim script via the conneciton in the hand anim script
                                     hand.gunAnim.gunInHandAnimOverride = wep.gunAnimOverride;
                                     //apply the first in the stack as the default
-                                    Debug.Log("Here is the current animOverriderState " + hand.gunAnim.animOverriderState + " it is beign changed to " + mag.animOverriderState);
+                                    Debug.Log("Here is the current animOverriderState " + hand.gunAnim.gunInHandanimOverriderState + " it is being changed to " + mag.gunAnimOverriderState);
                                     if (mag.ammo <= 0)
                                     {
-                                        hand.gunAnim.anim.runtimeAnimatorController = hand.gunAnim.gunInHandAnimOverride[1];
-                                        hand.gunAnim.GetComponent<Animator>().SetBool("OutofAmmo", true);
+                                        //set to final overrider, ie the empty ammo overrider
+                                        hand.gunAnim.anim.runtimeAnimatorController = hand.gunAnim.gunInHandAnimOverride[hand.gunAnim.gunInHandAnimOverride.Length - 1];
+                                        hand.animator.runtimeAnimatorController = hand.handInHandAnimOverride[hand.handInHandAnimOverride.Length - 1];
+
                                     }
                                     else
                                     {
-                                        hand.gunAnim.animOverriderState = mag.animOverriderState;
-                                        hand.gunAnim.anim.runtimeAnimatorController = hand.gunAnim.gunInHandAnimOverride[mag.animOverriderState];
-                                        //I am a bit confused on this ppart honestly, I dont think the hand animation states iterating is properly implemented yet. I will just leave it as it for now
-                                        //hand.animator.runtimeAnimatorController = hand.handInHandAnimOverride[mag.animOverriderState];
+                                        //if ammo is not empty, then check weapons memory to see which state it was in prior
+                                        hand.gunAnim.gunInHandanimOverriderState = mag.gunAnimOverriderState;
+                                        hand.gunAnim.anim.runtimeAnimatorController = hand.gunAnim.gunInHandAnimOverride[mag.gunAnimOverriderState];
+                                        hand.animator.runtimeAnimatorController = hand.handInHandAnimOverride[mag.handAnimOverriderState];
                                     }
 
+                                }
+                                else if (mag.ammo <= 0)
+                                {
+                                    hand.gunAnim.GetComponent<Animator>().SetBool("OutofAmmo", true);
                                 }
                                 Destroy(hit.transform.gameObject);
                                 //hand
@@ -456,8 +462,9 @@ public class Interact : MonoBehaviour
                         gun = Instantiate(hand.gunAnim.WorldModel, holdPoint.transform.position, origin.transform.rotation);
                         mag = gun.GetComponent<Magazine>();
                         mag.ammo = tempAmmoValue;
-                        Debug.Log("Writing overwriterState " + hand.gunAnim.animOverriderState + " To dropped weapon");
-                        mag.animOverriderState = hand.gunAnim.animOverriderState;
+                        Debug.Log("Writing overwriterState " + hand.gunAnim.gunInHandanimOverriderState + " To dropped weapon");
+                        mag.gunAnimOverriderState = hand.gunAnim.gunInHandanimOverriderState;
+                        mag.handAnimOverriderState = hand.handInHandanimOverriderState;
                         tempAmmoValue = 0;
                         gun.GetComponent<Rigidbody>().AddForce(this.transform.forward, ForceMode.Impulse);
                         wallCollisionCheckBox.transform.localScale = new Vector3 (wallCollisionCheckBox.transform.localScale.x, wallCollisionCheckBox.transform.localScale.y, wallCollisionCheckBox.transform.localScale.z / hand.gunAnim.wallCollisionCheckSizeAdjust);
