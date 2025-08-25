@@ -26,8 +26,7 @@ public class GunAnim : MonoBehaviour
 	[SerializeField]
 	public bool offHandIK;
 	[HideInInspector]
-	public int gunInHandanimOverriderState = 1;
-
+	public int animOverriderState = 1;
 	public Magazine mag;
 
 	protected void Start()
@@ -36,13 +35,13 @@ public class GunAnim : MonoBehaviour
 	}
 	// allows you to switch animation overriders on the fly, called via animation
 	// this would be used to do incremental animation changes, like individual hammers on a shotgun moving per shot. 
-	public void SwitchGunAnimOverrider(int index)
+	public void SwitchAnimOverrider(int index)
 	{
 		if (gunInHandAnimOverride.Length > 0)
 		{
-			//Debug.Log("Switching GunAnimOverrider to " + index);
+			Debug.Log("Switching AnimOverrider to " + index);
 			anim.runtimeAnimatorController = gunInHandAnimOverride[index];
-			gunInHandanimOverriderState = index;
+			animOverriderState = index;
 		}
 		
 	}
@@ -61,11 +60,25 @@ public class GunAnim : MonoBehaviour
 		//plays given reload animation
 		anim.Play("Reload");
 	}
+	public void PlayOutOfAmmoReload(){
+		//plays given out of ammo reload animation
+		anim.Play("OutOfAmmoReload");
+	}
 	public void PlayDraw(){
 		if (this.GetComponent<Animator>() != null)
 		{
 			anim = this.GetComponent<Animator>();
-			anim.Play("Draw");
+			if (mag != null)
+			{
+				if (mag.ammo <= 0)
+				{
+					anim.Play("OutofAmmoDraw");
+				}
+				else
+				{
+					anim.Play("Draw");
+				}
+			}
 		}
 		//plays given draw animation (calls anim faster to ensure it is ready for the picked up weapon)
 

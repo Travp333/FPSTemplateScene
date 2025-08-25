@@ -630,15 +630,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animOverride:
-  - {fileID: 0}
   - {fileID: 22100000, guid: 01b7638a78b5f264fa39a532e22efc95, type: 2}
   - {fileID: 22100000, guid: 871d8f33b01ce5a42b794b8ea819fc80, type: 2}
-  - {fileID: 22100000, guid: 7281da1b50c84e9488655e18fb240a9c, type: 2}
   gunAnimOverride:
   - {fileID: 0}
   - {fileID: 22100000, guid: 9e75ee944cea3d044ba6c76d056ff076, type: 2}
   - {fileID: 22100000, guid: 65e95b8d2cf41d74fb5c7342de9c547d, type: 2}
-  - {fileID: 22100000, guid: e8203c0ec4ab31043a2248613b0eda6f, type: 2}
   weapon: {fileID: 11400000, guid: 1765c912ddaab5d4cb07f24881566817, type: 2}
   playerModel: {fileID: 2686056048800904812, guid: d59f1f367e19e30429d2e6f3f72c1797,
     type: 3}
@@ -654,8 +651,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ff121fc4798c8428cbd0f32857d62e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gunAnimOverriderState: 1
-  handAnimOverriderState: 1
   ammo: 2
 --- !u!4 &8986722443229288746 stripped
 Transform:
