@@ -2,15 +2,18 @@ using UnityEngine;
 
 public class ReloadAnim : StateMachineBehaviour
 {
+    //the whole reason I started doing this is because finish reload used to be called by the animation but i wanted to switch it to be more effective
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (animator.gameObject.GetComponent<HandAnim>().gunLogic.gameObject.GetComponent<AmmoManager>().ammoInMag <= 0)
         {
+            //Doing no ammo reload
             animator.gameObject.GetComponent<HandAnim>().CallFinishFullReload();
         }
         else
         {
+            //doing base reload
             animator.gameObject.GetComponent<HandAnim>().CallFinishReload();
         }
     }
