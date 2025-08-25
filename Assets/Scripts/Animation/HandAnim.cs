@@ -319,7 +319,6 @@ public class HandAnim : MonoBehaviour
     private void SetOutofAmmo()
     {
         //forces the gun and hand into its final anim overrider, which should be the out of ammo state if set up properly
-        Debug.Log("Setting out of ammo state, aka state #" + (gunAnim.gunInHandAnimOverride.Length - 1));
         gunAnim.SwitchGunAnimOverrider(gunAnim.gunInHandAnimOverride.Length - 1);
         canReload = true;
     }
@@ -346,7 +345,7 @@ public class HandAnim : MonoBehaviour
     }
     public void CallFinishReload()
     {
-        Invoke("FinishReload", gunLogic.reloadCooldown);
+        Invoke("FinishReload", gunLogic.reloadFireCooldown);
     }
     void FinishFullReload()
     {
@@ -356,7 +355,7 @@ public class HandAnim : MonoBehaviour
     }
     public void CallFinishFullReload()
     {
-        Invoke("FinishFullReload", gunLogic.noAmmoReloadCooldown);
+        Invoke("FinishFullReload", gunLogic.noAmmoReloadFireCooldown);
     }
     // Update is called once per frame
     void Update()
