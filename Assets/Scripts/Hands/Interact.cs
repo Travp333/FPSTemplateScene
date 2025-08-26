@@ -219,7 +219,7 @@ public class Interact : MonoBehaviour
 
     }
     // this just makes you drop whatever you are holding
-    public void detach(){
+    public void Detach(){
 	    grab.sizes = Grab.objectSizes.none;
 	    colTog.clear();
         hand.setisHoldingFalse();
@@ -381,14 +381,18 @@ public class Interact : MonoBehaviour
                                     button.press();
                                 }
                             }
-                            else if(hit.transform.gameObject.GetComponent<WeaponType>() != null && !hand.holdingWeapon){
+                            
+                            //is the thing you interacted with a weapon? can you currently hold a weapon?
+
+                            else if (hit.transform.gameObject.GetComponent<WeaponType>() != null && !hand.holdingWeapon)
+                            {
                                 WeaponType wep = hit.transform.gameObject.GetComponent<WeaponType>();
-                                gun = Instantiate(wep.playerModel, GunGrabPoint.transform.position, Quaternion.identity);                            
+                                gun = Instantiate(wep.playerModel, GunGrabPoint.transform.position, Quaternion.identity);
                                 gun.transform.parent = GunGrabPoint.transform;
                                 hand.gunAnim = gun.GetComponent<GunAnim>();
                                 hand.gunLogic = gun.GetComponent<GunLogic>();
-                                wallCollisionCheckBox.transform.localScale = new Vector3 (wallCollisionCheckBox.transform.localScale.x, wallCollisionCheckBox.transform.localScale.y, wallCollisionCheckBox.transform.localScale.z * hand.gunAnim.wallCollisionCheckSizeAdjust);
-                                wallCollisionCheckBox.transform.localPosition = new Vector3 (wallCollisionCheckBox.transform.localPosition.x, wallCollisionCheckBox.transform.localPosition.y, wallCollisionCheckBox.transform.localPosition.z * hand.gunAnim.wallCollisionCheckPosAdjust);
+                                wallCollisionCheckBox.transform.localScale = new Vector3(wallCollisionCheckBox.transform.localScale.x, wallCollisionCheckBox.transform.localScale.y, wallCollisionCheckBox.transform.localScale.z * hand.gunAnim.wallCollisionCheckSizeAdjust);
+                                wallCollisionCheckBox.transform.localPosition = new Vector3(wallCollisionCheckBox.transform.localPosition.x, wallCollisionCheckBox.transform.localPosition.y, wallCollisionCheckBox.transform.localPosition.z * hand.gunAnim.wallCollisionCheckPosAdjust);
                                 hand.ammomanager = gun.GetComponent<AmmoManager>();
                                 hand.canShoot = true;
                                 hand.canReload = true;
@@ -415,7 +419,7 @@ public class Interact : MonoBehaviour
                                     //store it in the gunanim script via the conneciton in the hand anim script
                                     hand.gunAnim.gunInHandAnimOverride = wep.gunAnimOverride;
                                     //apply the first in the stack as the default
-                                    Debug.Log("Here is the current animOverriderState " + hand.gunAnim.animOverriderState + " it is beign changed to " + mag.animOverriderState);
+                                    Debug.Log("Here is the current animOverriderState " + hand.gunAnim.animOverriderState + " it is being changed to " + mag.animOverriderState);
                                     if (mag.ammo <= 0)
                                     {
                                         hand.gunAnim.anim.runtimeAnimatorController = hand.gunAnim.gunInHandAnimOverride[1];
@@ -430,6 +434,10 @@ public class Interact : MonoBehaviour
                                     }
 
                                 }
+                                else if (mag.ammo <= 0)
+                                {
+                                    hand.gunAnim.GetComponent<Animator>().SetBool("OutofAmmo", true);
+                                }
                                 Destroy(hit.transform.gameObject);
                                 //hand
                             }
@@ -439,7 +447,7 @@ public class Interact : MonoBehaviour
                     // if you are already holding something, drop it. 
                     else if (grab.isHolding)
                     {
-                        detach();
+                        Detach();
                         //clear the temps for next loop
                         prop = null;
                         propRB = null;
@@ -456,8 +464,19 @@ public class Interact : MonoBehaviour
                         gun = Instantiate(hand.gunAnim.WorldModel, holdPoint.transform.position, origin.transform.rotation);
                         mag = gun.GetComponent<Magazine>();
                         mag.ammo = tempAmmoValue;
-                        Debug.Log("Writing overwriterState " + hand.gunAnim.animOverriderState + " To dropped weapon");
-                        mag.animOverriderState = hand.gunAnim.animOverriderState;
+                        
+                        //does this gun have a hand animation overide?
+                        if (gun.GetComponent<WeaponType>().animOverride.Length > 0)
+                        {
+                            //get hand animation override state and write it to the dropped weapon
+                        }
+                        //does this gun have a hand animation override?
+                        if (gun.GetComponent<WeaponType>().gunAnimOverride.Length > 0)
+                        {
+                            Debug.Log("Writing overwriterState " + hand.gunAnim.animOverriderState + " To dropped weapon");
+                            mag.animOverriderState = hand.gunAnim.animOverriderState;
+                        }
+                        
                         tempAmmoValue = 0;
                         gun.GetComponent<Rigidbody>().AddForce(this.transform.forward, ForceMode.Impulse);
                         wallCollisionCheckBox.transform.localScale = new Vector3 (wallCollisionCheckBox.transform.localScale.x, wallCollisionCheckBox.transform.localScale.y, wallCollisionCheckBox.transform.localScale.z / hand.gunAnim.wallCollisionCheckSizeAdjust);

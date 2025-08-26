@@ -105,7 +105,7 @@ public class Grab : MonoBehaviour
 	        if (attackAction.WasReleasedThisFrame() && isHolding && !justThrew)
             {
                 //Remove from grip
-                interact.detach();
+                interact.Detach();
                 //Add appropriate force to object
                 if (highorLow)
                 {

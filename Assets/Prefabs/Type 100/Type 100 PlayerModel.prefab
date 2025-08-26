@@ -14909,6 +14909,7 @@ MonoBehaviour:
   anim: {fileID: 0}
   offHandIK: 1
   animOverriderState: 1
+  mag: {fileID: 0}
 --- !u!114 &5628826120335260515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15021,9 +15022,9 @@ MonoBehaviour:
   noAmmoReloadFireCooldown: 2
   fullAuto: 1
   burst: 0
-  burstCooldown: 0
-  inBetweenBurstCooldown: 0
-  burstCount: 0
+  burstCooldown: 0.07
+  inBetweenBurstCooldown: 0.01
+  burstCount: 2
   bursting: 0
   bulletObj: {fileID: 4274701299776518559, guid: 787a67fee4891c04b84cacf0cd19bcf8,
     type: 3}

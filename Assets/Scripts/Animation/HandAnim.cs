@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using DitzelGames.FastIK;
 using UnityEngine;
 using UnityEngine.InputSystem;
-//this script controls all the animations tied to the character, such as when certain animations should be played and how they should be played.
+//this script controls all the animations tied to the character's hands, such as when certain animations should be played and how they should be played.
 public class HandAnim : MonoBehaviour
 {
     [SerializeField]
@@ -50,7 +50,8 @@ public class HandAnim : MonoBehaviour
     PauseMenu pause;
     int handBurstCount;
     bool burstBlock;
-	// Start is called before the first frame update
+    // Start is called before the first frame update
+    //enable and disable IK are called by the animation, and basically are just there to lock the off hand to the weapon. Does not need to be called, can be decided per weapon
     public void EnableOffHandIK()
     {
         if (offHandIK.enabled == false)
@@ -87,15 +88,16 @@ public class HandAnim : MonoBehaviour
             }
         }
     }
-	public void PickUpWeapon(){
-        //EnableOffHandIK();
+	public void PickUpWeapon()
+    {
         //Debug.Log("Playing Draw Anim");
-		animator.Play("Draw");
-		if(gunAnim != null){
-			gunAnim.PlayDraw();	
-		}
-		holdingWeapon = true;
-	}
+        animator.Play("Draw");
+        if (gunAnim != null)
+        {
+            gunAnim.PlayDraw();
+        }
+        holdingWeapon = true;
+    }
 	public void DropWeapon(){
         DisableOffHandIK();
 		animator.Play("Drop");
@@ -129,6 +131,7 @@ public class HandAnim : MonoBehaviour
         animator.SetBool("grabCharge", true);
         animator.SetBool("isThrowing", false);
     }
+    //coyote time, how long you are still considered on ground after leaving ground. This lets the hand animations sync in a more satisfying way
     void BoolAdjuster(){
         isOnGround = movement.OnGround;
         isOnSteep = movement.OnSteep;
@@ -159,45 +162,50 @@ public class HandAnim : MonoBehaviour
 	}
     void Start()
 	{
-        pause = FindFirstObjectByType<PauseMenu>();
-		attackAction = sphere.GetComponent<PlayerInput>().currentActionMap.FindAction("Attack");
-		inter = this.GetComponent<Interact>();
-        speedController = sphere.GetComponent<MovementSpeedController>();
-        //animator = GetComponent<Animator>();
+        // reference to movement script, needed to check movememnt state and match animations
 		movement = sphere.GetComponent<Movement>();
+        // reference to pause menu, needed to ensure input is ignored while paused
+        pause = FindFirstObjectByType<PauseMenu>();
+        // reference to attack keybind, needed for attacking
+		attackAction = sphere.GetComponent<PlayerInput>().currentActionMap.FindAction("Attack");
+        // reference to reload keybind, needed for reloading
 		reloadAction = movement.GetComponent<PlayerInput>().currentActionMap.FindAction("Reload");
+        // reference to interact script, needed for checking if you are colliding with a wall
+        inter = this.GetComponent<Interact>();
+        // reference to script that adjust your movement speed, this lets you slow down the player when holding something.
+        speedController = sphere.GetComponent<MovementSpeedController>();
+
+        // reference to grab component, needed to check holding item state
         grab = GetComponent<Grab>();
-    }
-    void openGate(){
-        blocker = true;
-    }
-    void closeGate(){
-        blocker = true;
     }
     public void forceIdle(){
         animator.SetBool("isMoving", false);
         animator.SetBool("isSprinting", false);
         animator.SetBool("walkPressed", false);
     }
-	void waveStartL(){
+    //punch left
+	void PunchStartL(){
 		blocker = false;
 		flipflop = !flipflop;
         animator.Play("Left Hook");
 		//animator.SetBool("isPunchingLeft", true);
-		Invoke("waveStop", .1f);
+		Invoke("PunchStop", .1f);
 	}
-	void waveStartR(){
+    //punch right
+	void PunchStartR(){
 		blocker = false;
 		flipflop = !flipflop;
         animator.Play("Right Hook");
 		//animator.SetBool("isPunchingRight", true);
-		Invoke("waveStop", .1f);
+		Invoke("PunchStop", .1f);
 	}
-	void waveStop(){
+    // end punch anim
+	void PunchStop(){
 		animator.SetBool("isPunchingLeft", false);
 		animator.SetBool("isPunchingRight", false);
 		blocker = true;
 	}
+    //enable ability to shoot
 	void ResetCanShoot(){
         //Debug.Log("Can Shoot Again!");
 		canShoot = true;
@@ -205,6 +213,7 @@ public class HandAnim : MonoBehaviour
 		reloading = false;
 		firing = false;
 	}
+    // enable ability to reload
 	void ResetCanReload(){
         //Debug.Log("Can Reload!");
 		canReload = true;
@@ -212,20 +221,26 @@ public class HandAnim : MonoBehaviour
 		reloading = false;
 		firing = false;
 	}
+    //play shooting animation on hand, then on gun, then recover based on cooldowns from weapon
     void Shoot(){
         if (canShoot && !reloading)
         {
+            //play hand animation fire
             animator.Play("Fire", 0, 0f);
             //Debug.Log("Firing");
+            //block ability to shoot and reload
             canShoot = false;
             canReload = false;
             //Debug.Log("reloading set to false via Shoot");
+            //update states
             reloading = false;
             firing = true;
+            //reset blocks based on cooldowns assigned to weapon
             Invoke("ResetCanShoot", gunLogic.fireCooldown);
             Invoke("ResetCanReload", gunLogic.fireCooldown);
+            // play gun animation fire
             gunAnim.PlayFire();
-            //This is kindof working, need to import ammo logic in here so that ammo deducts properly then have a "shotgun check", ie a cooldown of 0 in case i want to fire a burst and change the behavior
+            //check if this weapon is burst fire, if so recursively call shoot again after checking some flags
             if (gunLogic.burst && !gunLogic.bursting && ammomanager.FireBullet())
             {
                 burstBlock = true;
@@ -235,9 +250,8 @@ public class HandAnim : MonoBehaviour
                 handBurstCount--;
                 ResetCanShoot();
                 Invoke("Shoot", gunLogic.inBetweenBurstCooldown);
-                
-
             }
+            // continue bursting if this was called recursively by burst
             else if (gunLogic.burst && gunLogic.bursting && handBurstCount > 0 && ammomanager.FireBullet())
             {
                 Debug.Log("Continuing Burst");
@@ -246,6 +260,7 @@ public class HandAnim : MonoBehaviour
                 Invoke("Shoot", gunLogic.inBetweenBurstCooldown);
 
             }
+            // end bursting if this was called recursively by burst at the end of the burst
             else if (gunLogic.burst)
             {
                 Debug.Log("Ending Burst");
@@ -269,11 +284,13 @@ public class HandAnim : MonoBehaviour
             Invoke("ResetCanReload", gunLogic.fireCooldown);
         }
     }
+    //call when trying to shoot with no ammo
     void OutOfAmmoShoot()
     {
         if (canShoot && !reloading)
         {
             Debug.Log("Trying to fire, no ammo!");
+            // play out of ammo fire animation on hand
             animator.Play("OutOfAmmoFire", 0, 0f);
             canShoot = false;
             canReload = false;
@@ -284,11 +301,11 @@ public class HandAnim : MonoBehaviour
             Invoke("ResetCanReload", gunLogic.fireCooldown);
         }
     }
-    public void ForceGunAnimIdle(){
-        if(gunAnim != null){
-            gunAnim.anim.Play("Idle", 0, 0f);
-        }
-    }
+   // public void ForceGunAnimIdle(){
+   //     if(gunAnim != null){
+   //         gunAnim.anim.Play("Idle", 0, 0f);
+   //     }
+   // }
     public void playJumpAnim(){
         if(!grab.isHolding && !reloading && !firing){
             animator.Play("Jump");
@@ -299,15 +316,18 @@ public class HandAnim : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //IF not paused
+        //If NOT paused, basically just ensuring none of this stuff happens while the game is paused
         if (!pause.isPaused) {
-            if(isOnSteep){
+            // update locational states, ie on steep, crouching, etc
+            if (isOnSteep)
+            {
                 animator.SetBool("OnSteep", true);
             }
-            else if(!isOnSteep){
+            else if (!isOnSteep)
+            {
                 animator.SetBool("OnSteep", false);
             }
-	        if (movement.crouching && !movement.moveBlocked){
+ 	        if (movement.crouching && !movement.moveBlocked){
                 setisCrouching(true);
             }
 	        if (!movement.crouching && !movement.moveBlocked) {
@@ -320,24 +340,21 @@ public class HandAnim : MonoBehaviour
                 animator.SetBool("grabCharge", false);
             }
             BoolAdjuster();
-            //this OnGround stays true for a little bit after you leave the ground, hence ADJ
             if (isOnGround ) {
                 animator.SetBool("isOnGround", true);
             }
             else if (!isOnGround ) {
                 animator.SetBool("isOnGround", false);
             }
-            if (isOnGroundADJ ) {
+            //this OnGround stays true for a little bit after you leave the ground, hence ADJ
+            if (isOnGroundADJ)
+            {
                 animator.SetBool("isOnGroundADJ", true);
             }
-            else if (!isOnGroundADJ) {
+            else if (!isOnGroundADJ)
+            {
                 animator.SetBool("isOnGroundADJ", false);
             }
-	       // if(movement.desiredJump && (isOnGroundADJ || isOnSteep)&& !grab.isHolding && !reloading && !firing){
-          //      animator.Play("Jump");
-	      //  	animator.SetBool("isJumping", true);
-	       // 	Invoke("resetIsJumping", .1f);
-	       // }
 	        if (movement.movementAction.ReadValue<Vector2>().magnitude > 0 && !movement.moveBlocked) {
                 animator.SetBool("isMoving", true);
             }
@@ -356,9 +373,12 @@ public class HandAnim : MonoBehaviour
             else {
                 animator.SetBool("walkPressed", false);
             }
-	        if(gunAnim != null && !inter.isWallColliding && !movement.moveBlocked){
+            //are you holding a gun, not colliding with a wall, and not moveblocked?
+	        if (gunAnim != null && !inter.isWallColliding && !movement.moveBlocked)
+            {
                 //Full Auto
-		        if(gunLogic.fullAuto && attackAction.IsPressed()){
+                if (gunLogic.fullAuto && attackAction.IsPressed())
+                {
                     if (!reloading && holdingWeapon && canShoot && ammomanager.FireBullet())
                     {
                         Shoot();
@@ -369,7 +389,7 @@ public class HandAnim : MonoBehaviour
                             canReload = true;
                         }
                     }
-
+                    // no ammo? do noammoshoot
                     else if (ammomanager.ammoInMag == 0)
                     {
 
@@ -381,13 +401,17 @@ public class HandAnim : MonoBehaviour
                         }
 
                     }
-		        }
-                else if(!reloading && gunLogic.fullAuto && attackAction.WasReleasedThisFrame() && holdingWeapon && !movement.moveBlocked && canShoot){
-                    Debug.Log("Why is this firing?");
+                }
+                // you are not reloading, your gun is full auto, you just stopped holding attack, you are holding a weapon, you are not moveblocked, and you can shoot
+                // basically just allow you to shoot again once you release
+                else if (!reloading && gunLogic.fullAuto && attackAction.WasReleasedThisFrame() && holdingWeapon && !movement.moveBlocked && canShoot)
+                {
+                    //Debug.Log("Why is this firing?");
                     ResetFireable();
                 }
                 //Semi Auto / burst
-		        if (attackAction.WasPressedThisFrame() && !gunLogic.fullAuto && !movement.moveBlocked) {
+                if (attackAction.WasPressedThisFrame() && !gunLogic.fullAuto && !movement.moveBlocked)
+                {
                     if (!burstBlock && !reloading && holdingWeapon && canShoot && ammomanager.FireBullet())
                     {
                         Shoot();
@@ -397,7 +421,7 @@ public class HandAnim : MonoBehaviour
                             gunAnim.anim.SetBool("OutofAmmo", true);
                             canReload = true;
                         }
-		        	}
+                    }
                     else if (burstBlock)
                     {
                         Debug.Log("BLOCKED BY BURSTBLOCK");
@@ -412,14 +436,14 @@ public class HandAnim : MonoBehaviour
                             canReload = true;
                         }
                     }
-		        }
-	        }
+                }
+            }
 	        if (attackAction.WasPressedThisFrame() && !holdingWeapon && blocker && !grab.isHolding && !movement.moveBlocked) {
 		        if (flipflop) {
-			        Invoke("waveStartL", .1f);
+			        Invoke("PunchStartL", .1f);
 		        }
 		        else if (!flipflop) {
-			        Invoke("waveStartR", .1f);
+			        Invoke("PunchStartR", .1f);
 		        }
 	        }
 	        
