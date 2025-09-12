@@ -1,20 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using UnityEngine;
 //This script allows inventory objects to be stored in a 2D array. This script should be able to be placed on both a player and a storage device. 
 //This scirpt handles all the storage and manipulation of this array on the backend, ie picking up or dropping an object.
 //Written by Conor and Travis
 
 //This holds all the info we pull from a valid inventory object. We effectively copy the date from an Item object, then paste it here to be stored in a inventory slot
-public class ItemStat {
+public class ItemStat
+{
 
-    public string Objname = "";
-    public float weight = 0;
-    public int Amount = 0;
-    public int stackSize = 0;
-    public GameObject prefab = null;
+	public string Objname = "";
+	public float weight = 0;
+	public int Amount = 0;
+	public int stackSize = 0;
+	public GameObject prefab = null;
 	public Sprite img = null;
+	public string itemTypeString;
+	public int itemTypeIndex;
 }
 public class Inven : MonoBehaviour
 {
@@ -83,34 +85,44 @@ public class Inven : MonoBehaviour
 	}
 	//ItemStat refers to the object while it is in your inventory, just he information about that item stored. 
 	//Item refers to the object in the overworld, the physical item you pick up
-	
+
 	//This method just copied data from one object to another. This could be Item to ItemStat, or ItemStat to ItemStat
-	// basically this method is classed when you pick up an object from the world and when you pick one up from an inventory
-	public void CopyItemData(int row, int column, Item item){
-		array[row,column].Objname = item.Objname;
-		array[row,column].weight = item.weight;
-		array[row,column].Amount = array[row,column].Amount + 1;
-		array[row,column].stackSize = item.stackSize;
-		array[row,column].prefab = item.prefab;
+	// basically this method is called when you pick up an object from the world and when you pick one up from an inventory
+	// Item is an object in the world, ItemStat is an object in an inventory. Effectively save thing, just presented differently
+	public void CopyItemData(int row, int column, Item item)
+	{
+		array[row, column].Objname = item.Objname;
+		array[row, column].weight = item.weight;
+		array[row, column].Amount = array[row, column].Amount + 1;
+		array[row, column].stackSize = item.stackSize;
+		array[row, column].prefab = item.prefab;
 		array[row, column].img = item.img;
+		array[row, column].itemTypeString = item.itemType.ToString();
+		array[row, column].itemTypeIndex = (int)item.itemType;
 	}
 	//Overload method for itemstat objects
-	public void CopyItemData(int row, int column, ItemStat item){
-		array[row,column].Objname = item.Objname;
-		array[row,column].weight = item.weight;
-		array[row,column].Amount = array[row,column].Amount + 1;
-		array[row,column].stackSize = item.stackSize;
-		array[row,column].prefab = item.prefab;
+	public void CopyItemData(int row, int column, ItemStat item)
+	{
+		array[row, column].Objname = item.Objname;
+		array[row, column].weight = item.weight;
+		array[row, column].Amount = array[row, column].Amount + 1;
+		array[row, column].stackSize = item.stackSize;
+		array[row, column].prefab = item.prefab;
 		array[row, column].img = item.img;
+		array[row, column].itemTypeString = item.itemTypeString;
+		array[row, column].itemTypeIndex = item.itemTypeIndex;
 	}
 	//This method clears all the info from a given inventory slot
-	public void NullInvenSlot(int row, int column){
+	public void NullInvenSlot(int row, int column)
+	{
 		array[row, column].Objname = "";
 		array[row, column].weight = 0;
 		array[row, column].Amount = 0;
 		array[row, column].stackSize = 0;
 		array[row, column].prefab = null;
 		array[row, column].img = temp.emptyImage;
+		array[row, column].itemTypeString = "";
+		array[row, column].itemTypeIndex = -1;
 	}
 
 	//This handles picking up a new valid Inventory Item 

@@ -325,7 +325,7 @@ public class Interact : MonoBehaviour
                                     inv.isPickedUp = false;
                                     //Debug.Log("ispickedup set to "+ inv.isPickedUp);
                                 }
-                                //else, pickup failed
+                                //else, pickup failed, respawn the prefab at players feet
                                 else
                                 {
                                     if(count > 1){
@@ -348,7 +348,7 @@ public class Interact : MonoBehaviour
                             }
                             //if you did not hit a pickupable object, check if you hit a storage device
                             else if(hit.transform.gameObject.GetComponent<Inven>() != null){
-                                Debug.Log("HIT PICKUPABBLE ITEM!!!");
+                                Debug.Log("HIT Storage Device !!!");
                                 if(hit.transform.gameObject.tag != "Player"){
                                     Inven inv = hit.transform.gameObject.GetComponent<Inven>();
                                     //enable the relevant UI element

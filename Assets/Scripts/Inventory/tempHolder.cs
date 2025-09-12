@@ -16,6 +16,8 @@ public class tempHolder : MonoBehaviour
 	public Sprite emptyImage;
 	Inven tempInven = null;
 	UiPlugger tempPlug;
+	string tempTypeString;
+	int tempTypeIndex;
 	Inven playerInven;
 	Inven openStorageInven;
 	public int slotAmount;
@@ -38,9 +40,12 @@ public class tempHolder : MonoBehaviour
 	}
 	//resets values to defaults, ensures the slot is empty. Slot meaning the temporary memory holder that represents 
 	//the object you are "holding" while clicking and dragging an item in the inventory
-	public void ClearSlot(){
-		foreach(UiPlugger i in GameObject.FindObjectsByType<UiPlugger>(FindObjectsSortMode.None)){
-			if(i.inven == tempInven){
+	public void ClearSlot()
+	{
+		foreach (UiPlugger i in GameObject.FindObjectsByType<UiPlugger>(FindObjectsSortMode.None))
+		{
+			if (i.inven == tempInven)
+			{
 				i.ButtonDeselected(tempRow, tempColumn);
 			}
 		}
@@ -51,6 +56,8 @@ public class tempHolder : MonoBehaviour
 		tempName = null;
 		tempImage = emptyImage;
 		tempInven = null;
+		tempTypeString = "";
+		tempTypeIndex = -1;
 	}
 	//Checks whether the shift click is valid, and whether it is from a player inventory into a storage inventory or vice verse
 	public void ShiftClickCheck(Inven inventoryObject, string coords){
@@ -158,17 +165,21 @@ public class tempHolder : MonoBehaviour
 			//find out what inventory slot the coordiantes you clicked on points to, and store that data in the temp slot
 			slot = inventoryObject.array[row,column];
 			//if that data is named "", we know it is empty, and therefore we do not need to store it in the temp slot. 
-			if(slot.Objname != ""){
+			if (slot.Objname != "")
+			{
 				//if the name is anything else, we know it is a valid inventory object, so we store its data in the temp slot as well as info needed for the UI
-				tempRow = row; 
+				tempRow = row;
 				tempColumn = column;
 				tempName = slot.Objname;
 				tempImage = slot.img;
 				tempCount = slot.Amount;
 				tempInven = inventoryObject;
+				tempTypeString = slot.itemTypeString;
+				tempTypeIndex = slot.itemTypeIndex;
 				//Debug.Log(slot.Name + " was selected");	
 			}
-			else{
+			else
+			{
 				//if the slot we picked is empty, we dont need to store any info on it and can just clear it out
 				slot = null;
 			}
@@ -223,6 +234,8 @@ public class tempHolder : MonoBehaviour
 						tempInven.array[tempRow, tempColumn].Objname = "";
 						tempInven.array[tempRow, tempColumn].Amount = 0;
 						tempInven.array[tempRow, tempColumn].img = emptyImage;
+						tempInven.array[tempRow, tempColumn].itemTypeIndex = -1;
+						tempInven.array[tempRow, tempColumn].itemTypeString = "";
 						tempPlug.ChangeItem(tempRow,tempColumn, emptyImage, 0, "");
 						ClearSlot();
 					}
@@ -230,6 +243,7 @@ public class tempHolder : MonoBehaviour
 			}
 			else{
 				//Debug.Log("Clean swap, two different objects, doing swap. Object 1 is "+ tempInven.array[tempRow, tempColumn].img.name + " and Object 2 is " + inventoryObject.array[row, column].img.name + " and finally, this is Slot: "+ slot.Objname);
+				Debug.Log("Clean swapping objects, checking values: "+ tempTypeString + " at index: " + tempTypeIndex);
 				//clean swap, two different objects
 				//we find the inventory slot the tempslot object is pointing to, and set it equal to the second button's data
 				tempInven.array[tempRow, tempColumn] = inventoryObject.array[row, column];
