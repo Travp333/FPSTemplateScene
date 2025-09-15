@@ -17,4 +17,6 @@ MonoBehaviour:
   stackSize: 1
   img: {fileID: 21300000, guid: 00503cce5df6f1a49bf651229e6c179a, type: 3}
   prefab: {fileID: 6024241739351891388, guid: c7e0f408ed3df2a4fa4ed5ee5458e392, type: 3}
-  itemType: 1
+  itemType: Magazine
+  ammoType: 8x22
+  ammoSize: 30

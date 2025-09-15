@@ -15,8 +15,9 @@ public class ItemStat
 	public int stackSize = 0;
 	public GameObject prefab = null;
 	public Sprite img = null;
-	public string itemTypeString;
-	public int itemTypeIndex;
+	public string itemType;
+	public string ammoType;
+	public int ammoSize;
 }
 public class Inven : MonoBehaviour
 {
@@ -97,8 +98,9 @@ public class Inven : MonoBehaviour
 		array[row, column].stackSize = item.stackSize;
 		array[row, column].prefab = item.prefab;
 		array[row, column].img = item.img;
-		array[row, column].itemTypeString = item.itemType.ToString();
-		array[row, column].itemTypeIndex = (int)item.itemType;
+		array[row, column].itemType = item.itemType;
+		array[row, column].ammoType = item.ammoType;
+		array[row, column].ammoSize = item.ammoSize;
 	}
 	//Overload method for itemstat objects
 	public void CopyItemData(int row, int column, ItemStat item)
@@ -109,8 +111,9 @@ public class Inven : MonoBehaviour
 		array[row, column].stackSize = item.stackSize;
 		array[row, column].prefab = item.prefab;
 		array[row, column].img = item.img;
-		array[row, column].itemTypeString = item.itemTypeString;
-		array[row, column].itemTypeIndex = item.itemTypeIndex;
+		array[row, column].itemType = item.itemType;
+		array[row, column].ammoType = item.ammoType;
+		array[row, column].ammoSize = item.ammoSize;
 	}
 	//This method clears all the info from a given inventory slot
 	public void NullInvenSlot(int row, int column)
@@ -121,8 +124,9 @@ public class Inven : MonoBehaviour
 		array[row, column].stackSize = 0;
 		array[row, column].prefab = null;
 		array[row, column].img = temp.emptyImage;
-		array[row, column].itemTypeString = "";
-		array[row, column].itemTypeIndex = -1;
+		array[row, column].itemType = "";
+		array[row, column].ammoType = "";
+		array[row, column].ammoSize = 0;
 	}
 
 	//This handles picking up a new valid Inventory Item 

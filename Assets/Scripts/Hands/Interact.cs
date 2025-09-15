@@ -8,7 +8,8 @@ using UnityEngine.InputSystem;
 //this script handles interacting with various objects, such as a button, a lever, a pickupable object, etc. essentially just pressing e on something
 public class Interact : MonoBehaviour
 {
-    int tempAmmoValue;
+    [SerializeField]
+    public List<GameObject> TempAmmoValue = new List<GameObject>();
     [SerializeField]
     GameObject wallCollisionCheckBox;
     public bool isWallColliding;
@@ -400,7 +401,10 @@ public class Interact : MonoBehaviour
                                 gun.GetComponent<GunAnim>().mag = mag;
                                 //overwrite ammo in magazine value with value stored in the gun itself. This allows you to have persistent ammo when you drop and pick back up a weapon
                                 //Debug.Log("Gun in hand has " + gun.GetComponent<AmmoManager>().ammoInMag+ " in magazine, " + "Gun picked up has " + mag.ammo + " In magazine, rewriting...");
-                                gun.GetComponent<AmmoManager>().ammoInMag = mag.ammo;
+
+                                //
+
+                                gun.GetComponent<AmmoManager>().Ammo = mag.Ammo;
                                 //Debug.Log("Gun in hand now has "+ gun.GetComponent<AmmoManager>().ammoInMag + " In Magazine");
                                 //now the overrides, this basically just overwrites all the animations of the player to match whatever gun they just picked up. Anim overriders should be attached to each weapon
                                 //check that an override was included with this weapon
@@ -420,7 +424,7 @@ public class Interact : MonoBehaviour
                                     hand.gunAnim.gunInHandAnimOverride = wep.gunAnimOverride;
                                     //apply the first in the stack as the default
                                     Debug.Log("Here is the current animOverriderState " + hand.gunAnim.animOverriderState + " it is being changed to " + mag.animOverriderState);
-                                    if (mag.ammo <= 0)
+                                    if (mag.Ammo.Count <= 0)
                                     {
                                         hand.gunAnim.anim.runtimeAnimatorController = hand.gunAnim.gunInHandAnimOverride[1];
                                         hand.gunAnim.GetComponent<Animator>().SetBool("OutofAmmo", true);
@@ -434,7 +438,7 @@ public class Interact : MonoBehaviour
                                     }
 
                                 }
-                                else if (mag.ammo <= 0)
+                                else if (mag.Ammo.Count <= 0)
                                 {
                                     hand.gunAnim.GetComponent<Animator>().SetBool("OutofAmmo", true);
                                 }
@@ -458,12 +462,12 @@ public class Interact : MonoBehaviour
                     if(hand.holdingWeapon && !hand.firing && !hand.reloading){
                         hand.DropWeapon();
                         if(gun.GetComponent<AmmoManager>() != null){
-                            tempAmmoValue = gun.GetComponent<AmmoManager>().ammoInMag;
+                            TempAmmoValue = gun.GetComponent<AmmoManager>().Ammo;
                         }
                         Destroy(gun);
                         gun = Instantiate(hand.gunAnim.WorldModel, holdPoint.transform.position, origin.transform.rotation);
                         mag = gun.GetComponent<Magazine>();
-                        mag.ammo = tempAmmoValue;
+                        mag.Ammo = TempAmmoValue;
                         
                         //does this gun have a hand animation overide?
                         if (gun.GetComponent<WeaponType>().animOverride.Length > 0)
@@ -477,7 +481,7 @@ public class Interact : MonoBehaviour
                             mag.animOverriderState = hand.gunAnim.animOverriderState;
                         }
                         
-                        tempAmmoValue = 0;
+                        TempAmmoValue = null;
                         gun.GetComponent<Rigidbody>().AddForce(this.transform.forward, ForceMode.Impulse);
                         wallCollisionCheckBox.transform.localScale = new Vector3 (wallCollisionCheckBox.transform.localScale.x, wallCollisionCheckBox.transform.localScale.y, wallCollisionCheckBox.transform.localScale.z / hand.gunAnim.wallCollisionCheckSizeAdjust);
                         wallCollisionCheckBox.transform.localPosition = new Vector3 (wallCollisionCheckBox.transform.localPosition.x, wallCollisionCheckBox.transform.localPosition.y, wallCollisionCheckBox.transform.localPosition.z / hand.gunAnim.wallCollisionCheckPosAdjust);

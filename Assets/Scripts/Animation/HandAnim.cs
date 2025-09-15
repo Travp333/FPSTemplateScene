@@ -241,7 +241,7 @@ public class HandAnim : MonoBehaviour
             // play gun animation fire
             gunAnim.PlayFire();
             //check if this weapon is burst fire, if so recursively call shoot again after checking some flags
-            if (gunLogic.burst && !gunLogic.bursting && ammomanager.FireBullet())
+            if (gunLogic.burst && !gunLogic.bursting && ammomanager.Ammo.Count > 0)
             {
                 burstBlock = true;
                 Debug.Log("Starting Burst");
@@ -252,7 +252,7 @@ public class HandAnim : MonoBehaviour
                 Invoke("Shoot", gunLogic.inBetweenBurstCooldown);
             }
             // continue bursting if this was called recursively by burst
-            else if (gunLogic.burst && gunLogic.bursting && handBurstCount > 0 && ammomanager.FireBullet())
+            else if (gunLogic.burst && gunLogic.bursting && handBurstCount > 0 && ammomanager.Ammo.Count > 0)
             {
                 Debug.Log("Continuing Burst");
                 handBurstCount--;
@@ -379,18 +379,18 @@ public class HandAnim : MonoBehaviour
                 //Full Auto
                 if (gunLogic.fullAuto && attackAction.IsPressed())
                 {
-                    if (!reloading && holdingWeapon && canShoot && ammomanager.FireBullet())
+                    if (!reloading && holdingWeapon && canShoot && ammomanager.Ammo.Count > 0)
                     {
                         Shoot();
                         //checking to see if the mag is now empty after firing
-                        if (ammomanager.ammoInMag == 0)
+                        if (ammomanager.Ammo.Count == 0)
                         {
                             gunAnim.anim.SetBool("OutofAmmo", true);
                             canReload = true;
                         }
                     }
                     // no ammo? do noammoshoot
-                    else if (ammomanager.ammoInMag == 0)
+                    else if (ammomanager.Ammo.Count == 0)
                     {
 
                         if (canShoot)
@@ -412,11 +412,11 @@ public class HandAnim : MonoBehaviour
                 //Semi Auto / burst
                 if (attackAction.WasPressedThisFrame() && !gunLogic.fullAuto && !movement.moveBlocked)
                 {
-                    if (!burstBlock && !reloading && holdingWeapon && canShoot && ammomanager.FireBullet())
+                    if (!burstBlock && !reloading && holdingWeapon && canShoot && ammomanager.Ammo.Count > 0)
                     {
                         Shoot();
                         //checking to see if the mag is now empty after firing
-                        if (ammomanager.ammoInMag == 0)
+                        if (ammomanager.Ammo.Count == 0)
                         {
                             gunAnim.anim.SetBool("OutofAmmo", true);
                             canReload = true;
@@ -426,7 +426,7 @@ public class HandAnim : MonoBehaviour
                     {
                         Debug.Log("BLOCKED BY BURSTBLOCK");
                     }
-                    else if (ammomanager.ammoInMag == 0)
+                    else if (ammomanager.Ammo.Count == 0)
                     {
 
                         if (canShoot)
@@ -453,7 +453,7 @@ public class HandAnim : MonoBehaviour
 		        	if(gunAnim != null){
                         if (ammomanager.CanReload()){
                             Debug.Log("Starting Reload");
-                            if(ammomanager.ammoInMag == 0){
+                            if(ammomanager.Ammo.Count == 0){
                                 burstBlock = false;
                                 CancelInvoke();
                                 Debug.Log("Doing No Ammo Reload!");

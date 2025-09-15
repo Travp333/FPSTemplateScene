@@ -6,55 +6,88 @@ using UnityEngine;
 public class AmmoManager : MonoBehaviour
 {
     [SerializeField]
+    public List<GameObject> Ammo = new List<GameObject>();
+    [SerializeField]
     int magazineSize;
-    public int ammoInMag;
     [SerializeField]
     public int ammoCount;
     // Start is called before the first frame update
-    public bool FireBullet(){
-        if(ammoInMag >= 1){
-            ammoInMag = ammoInMag - 1;
-            return true;
+    public GameObject FireBullet()
+    {
+        if (Ammo.Count > 0)
+        {
+            //store a temp for that one bullet
+            GameObject g = Ammo[Ammo.Count - 1];
+            //delete that bullet from the stack
+            Ammo.Remove(Ammo[Ammo.Count - 1]);
+            //return the temp value to the gun so it knows which round to fire.
+            return g;
         }
-        else{
-            return false;
+        else
+        {
+            return null;
         }
     }
-    public bool CanReload(){
-        if(ammoInMag < magazineSize && ammoCount >= 1){
+    //Old version, just treating bullets as a number instead of as a game object
+    //public bool FireBullet()
+    // {
+    //     if (ammoInMag >= 1)
+    //     {
+    //         ammoInMag = ammoInMag - 1;
+    //         return true;
+    //      }
+    //     else
+    //     {
+    //          return false;
+    //      }
+    //  }
+    public bool CanReload()
+    {
+        if (Ammo.Count < magazineSize && ammoCount >= 1)
+        {
             return true;
         }
-        else{
+        else
+        {
             return false;
         }
     }
     public void Reload(){
         //is the magazine already full? do you have any ammo?
         
-        if(ammoInMag < magazineSize && ammoCount >= 1){
+        if(Ammo.Count < magazineSize && ammoCount >= 1){
             //is the magazine empty? do you have enough ammo to fill your magazine?
-            if (ammoInMag < 1 && ammoCount >= magazineSize)
+            if (Ammo.Count < 1 && ammoCount >= magazineSize)
             {
                 //deduct a magazines worth of ammo from ammo count
                 ammoCount = ammoCount - magazineSize;
                 //refill the ammo in the magazine
-                ammoInMag = magazineSize;
+
+                //RELOADING IS BROKEN UNTIL I MAKE IT LOAD IN AMMO FROM INVEN
+
+                //Ammo.Count = magazineSize;
                 Debug.Log("Reloaded!");
             }
             //is there ammo in your magazine still? do you have anough ammo to fill your magazine?
-            else if (ammoInMag > 0 && ammoCount >= (magazineSize - ammoInMag))
+            else if (Ammo.Count > 0 && ammoCount >= (magazineSize - Ammo.Count))
             {
                 //deduct the amount of ammo you need to fill your magazine from your ammo count
-                ammoCount = ammoCount - (magazineSize - ammoInMag);
+                ammoCount = ammoCount - (magazineSize - Ammo.Count);
                 //refill the ammo in the magazine
-                ammoInMag = magazineSize;
+
+                //RELOADING IS BROKEN UNTIL I MAKE IT LOAD IN AMMO FROM INVEN
+
+                //Ammo.Count = magazineSize;
                 Debug.Log("Reloaded!");
             }
             //does you not have enough ammo to completely fill your magazine?
-            else if (ammoCount < (magazineSize - ammoInMag))
+            else if (ammoCount < (magazineSize - Ammo.Count))
             {
                 //add the remaining ammoCount to the magazine, since we know its less than enough
-                ammoInMag = ammoInMag + ammoCount;
+
+                //RELOADING IS BROKEN UNTIL I MAKE IT LOAD IN AMMO FROM INVEN
+
+                //Ammo.Count = Ammo.Count + ammoCount;
                 //zero out ammo count since its not enough
                 ammoCount = 0;
                 Debug.Log("Reloaded!");

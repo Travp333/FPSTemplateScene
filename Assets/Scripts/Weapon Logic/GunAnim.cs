@@ -70,7 +70,7 @@ public class GunAnim : MonoBehaviour
 			anim = this.GetComponent<Animator>();
 			if (mag != null)
 			{
-				if (mag.ammo <= 0)
+				if (mag.Ammo.Count <= 0)
 				{
 					anim.Play("OutofAmmoDraw");
 				}

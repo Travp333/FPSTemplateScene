@@ -39,8 +39,6 @@ public class GunLogic : MonoBehaviour
 	public int burstCount;
 	[SerializeField]
 	public bool bursting;
-
-    [SerializeField]
 	GameObject bulletObj;
     [SerializeField]
     [Tooltip("Bullet impact effect, spawns when a bulelt hits something")]
@@ -83,7 +81,7 @@ public class GunLogic : MonoBehaviour
 
     void Start()
     {
-        bulletData = bulletObj.GetComponent<BulletData>();
+        //bulletData = bulletObj.GetComponent<BulletData>();
         bulletParent = GameObject.Find("BulletParent");
         cam = GameObject.Find("HandCam").GetComponent<Camera>();
         ammomanager = GetComponent<AmmoManager>();
@@ -117,6 +115,9 @@ public class GunLogic : MonoBehaviour
 		}
     }
 	public void SpawnProjectile(){
+		//Try to fire a bullet, and store the result. If the magazine is not empty (which it should be if this is firing) 
+		// g will be a reference to the next bullet to be fired
+		bulletObj = ammomanager.FireBullet();
 		bulletData = bulletObj.GetComponent<BulletData>();
 		for (int i = 0; i < bulletData.bulletAmount; i++)
 		{

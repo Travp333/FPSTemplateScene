@@ -17,4 +17,6 @@ MonoBehaviour:
   stackSize: 10
   img: {fileID: 21300000, guid: e676410973ffcbd469b67b914b60921f, type: 3}
   prefab: {fileID: 6707446217164042694, guid: c3e3df9334cfbbd4a9eccda6162938ba, type: 3}
-  itemType: 3
+  itemType: Other
+  ammoType: N/A
+  ammoSize: 0

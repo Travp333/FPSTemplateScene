@@ -1,10 +1,10 @@
 using UnityEngine;
-
+using System.Collections.Generic;
 public class Magazine : MonoBehaviour
 {
     [SerializeField]
     public int animOverriderState = 1;
-    //Tracks How much ammo is in the gun. Defaults to full, is updated when dropped 
+    //Tracks How much ammo is in the gun. is updated when dropped 
     [SerializeField]
-    public int ammo;
+    public List<GameObject> Ammo = new List<GameObject>();
 }

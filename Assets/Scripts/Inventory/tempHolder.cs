@@ -16,8 +16,9 @@ public class tempHolder : MonoBehaviour
 	public Sprite emptyImage;
 	Inven tempInven = null;
 	UiPlugger tempPlug;
-	string tempTypeString;
-	int tempTypeIndex;
+	string tempItemType;
+	string tempAmmoType;
+	int tempAmmoAmount;
 	Inven playerInven;
 	Inven openStorageInven;
 	public int slotAmount;
@@ -56,8 +57,9 @@ public class tempHolder : MonoBehaviour
 		tempName = null;
 		tempImage = emptyImage;
 		tempInven = null;
-		tempTypeString = "";
-		tempTypeIndex = -1;
+		tempItemType = "";
+		tempAmmoType = "";
+		tempAmmoAmount = 0;
 	}
 	//Checks whether the shift click is valid, and whether it is from a player inventory into a storage inventory or vice verse
 	public void ShiftClickCheck(Inven inventoryObject, string coords){
@@ -126,6 +128,10 @@ public class tempHolder : MonoBehaviour
 						invenObj.array[row, column].Objname = "";
 						invenObj.array[row, column].Amount = 0;
 						invenObj.array[row, column].img = emptyImage;
+						//Just added this, may cause errors?
+						invenObj.array[row, column].itemType = "";
+						invenObj.array[row, column].ammoType = "";
+						invenObj.array[row, column].ammoSize = 0;
 						//invenObj.array[row, column].full = false;
 						//update UI
 						plug.ChangeItem(row, column, emptyImage, 0, "");
@@ -174,8 +180,9 @@ public class tempHolder : MonoBehaviour
 				tempImage = slot.img;
 				tempCount = slot.Amount;
 				tempInven = inventoryObject;
-				tempTypeString = slot.itemTypeString;
-				tempTypeIndex = slot.itemTypeIndex;
+				tempItemType = slot.itemType;
+				tempAmmoType = slot.ammoType;
+				tempAmmoAmount = slot.ammoSize;
 				//Debug.Log(slot.Name + " was selected");	
 			}
 			else
@@ -234,8 +241,9 @@ public class tempHolder : MonoBehaviour
 						tempInven.array[tempRow, tempColumn].Objname = "";
 						tempInven.array[tempRow, tempColumn].Amount = 0;
 						tempInven.array[tempRow, tempColumn].img = emptyImage;
-						tempInven.array[tempRow, tempColumn].itemTypeIndex = -1;
-						tempInven.array[tempRow, tempColumn].itemTypeString = "";
+						tempInven.array[tempRow, tempColumn].itemType = "";
+						tempInven.array[tempRow, tempColumn].ammoType = "";
+						tempInven.array[tempRow, tempColumn].ammoSize = 0;
 						tempPlug.ChangeItem(tempRow,tempColumn, emptyImage, 0, "");
 						ClearSlot();
 					}
@@ -243,7 +251,7 @@ public class tempHolder : MonoBehaviour
 			}
 			else{
 				//Debug.Log("Clean swap, two different objects, doing swap. Object 1 is "+ tempInven.array[tempRow, tempColumn].img.name + " and Object 2 is " + inventoryObject.array[row, column].img.name + " and finally, this is Slot: "+ slot.Objname);
-				Debug.Log("Clean swapping objects, checking values: "+ tempTypeString + " at index: " + tempTypeIndex);
+				Debug.Log("Clean swapping objects, checking values: "+ tempItemType + ", " + tempAmmoType + ", " + tempAmmoAmount);
 				//clean swap, two different objects
 				//we find the inventory slot the tempslot object is pointing to, and set it equal to the second button's data
 				tempInven.array[tempRow, tempColumn] = inventoryObject.array[row, column];

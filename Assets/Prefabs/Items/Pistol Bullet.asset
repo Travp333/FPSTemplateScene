@@ -17,3 +17,6 @@ MonoBehaviour:
   stackSize: 50
   img: {fileID: 21300000, guid: dc590a3092e4ba0418464e34ffbcb074, type: 3}
   prefab: {fileID: 7734275531385829229, guid: baaab3a657003694db8e8a966d780136, type: 3}
+  itemType: Ammo
+  ammoType: 8x22
+  AmmoSize: 0
