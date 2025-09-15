@@ -249,9 +249,15 @@ public class tempHolder : MonoBehaviour
 					}
 				}
 			}
-			else{
+			//Are the two items we are comparing of type ammo and type magazine? if so, we can do a merge! (ie, stack ammo inside the magazine)
+			if ((tempInven.array[tempRow, tempColumn].itemType == "Ammo" && inventoryObject.array[row, column].itemType == "Magazine") || (tempInven.array[tempRow, tempColumn].itemType == "Magazine" && inventoryObject.array[row, column].itemType == "Ammo"))
+			{
+				Debug.Log("Dragged a magazine and a bullet together!");
+			}
+			else
+			{
 				//Debug.Log("Clean swap, two different objects, doing swap. Object 1 is "+ tempInven.array[tempRow, tempColumn].img.name + " and Object 2 is " + inventoryObject.array[row, column].img.name + " and finally, this is Slot: "+ slot.Objname);
-				Debug.Log("Clean swapping objects, checking values: "+ tempItemType + ", " + tempAmmoType + ", " + tempAmmoAmount);
+				Debug.Log("Clean swapping objects, checking values: " + tempItemType + ", " + tempAmmoType + ", " + tempAmmoAmount);
 				//clean swap, two different objects
 				//we find the inventory slot the tempslot object is pointing to, and set it equal to the second button's data
 				tempInven.array[tempRow, tempColumn] = inventoryObject.array[row, column];
@@ -260,8 +266,8 @@ public class tempHolder : MonoBehaviour
 				//then we set the second button equal to the temp slot's data
 				inventoryObject.array[row, column] = slot;
 				//we also have the Ui update
-				plug.ChangeItem(row,column, tempImage, tempCount, tempName);
-				ClearSlot();		
+				plug.ChangeItem(row, column, tempImage, tempCount, tempName);
+				ClearSlot();
 			}
 		}
 	}
