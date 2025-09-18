@@ -1448,6 +1448,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7462822281776335614}
+  - component: {fileID: 4033804485105963597}
+  - component: {fileID: 6620309337211886445}
   m_Layer: 3
   m_Name: Cam mover
   m_TagString: Untagged
@@ -1464,13 +1466,48 @@ Transform:
   m_GameObject: {fileID: 4045517544699903858}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.052103594, y: 0.005792975, z: -0.094627455}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7197834582348623818}
   m_Father: {fileID: 7197834583306505052}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4033804485105963597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4045517544699903858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a023071b088c8684ebc49a65371281b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  move: {fileID: 7197834583306505051}
+--- !u!95 &6620309337211886445
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4045517544699903858}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d09d27ff2d5220442ad59ac03877fd2d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4318279645457155588
 GameObject:
   m_ObjectHideFlags: 0
@@ -3742,6 +3779,7 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
   gunAnim: {fileID: 0}
+  gunLogic: {fileID: 0}
   handInHandAnimOverride: []
   holdingWeapon: 0
   canShoot: 0
@@ -3796,6 +3834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 540934745b127db42afd9e28d2190eb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TempAmmoValue: []
   wallCollisionCheckBox: {fileID: 8644307166509626298}
   isWallColliding: 0
   baseOverride: {fileID: 22100000, guid: ab2adab748377914e89cf701f30eeae4, type: 2}

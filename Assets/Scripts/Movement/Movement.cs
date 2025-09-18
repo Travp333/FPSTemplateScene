@@ -64,8 +64,6 @@ public class Movement : MonoBehaviour {
 	[HideInInspector]
 	public int groundContactCount, steepContactCount;
 
-	bool gravSwap;
-
 	[HideInInspector]
 
 	public bool OnGround {
