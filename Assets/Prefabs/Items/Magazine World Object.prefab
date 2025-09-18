@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1372171958066692006}
   - component: {fileID: 7870123277076901694}
   - component: {fileID: 4241726677254849277}
+  - component: {fileID: -1360745215812699214}
   m_Layer: 13
   m_Name: Magazine World Object
   m_TagString: Magazine
@@ -154,3 +155,16 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: b43c4b52873020b4eaf4c4bc3a15f698, type: 2}
   count: 1
   StackMeshes: []
+--- !u!114 &-1360745215812699214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6024241739351891388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e145446b574b56f4d8ec423bfb4e58c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Ammo: []

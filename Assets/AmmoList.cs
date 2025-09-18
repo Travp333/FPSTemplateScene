@@ -5,6 +5,6 @@ using System.Collections.Generic;
 public class AmmoList : MonoBehaviour
 {
     [SerializeField]
-    List<GameObject> Ammo = new List<GameObject>();
+    public List<GameObject> Ammo = new List<GameObject>();
 
 }

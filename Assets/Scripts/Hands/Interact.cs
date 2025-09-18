@@ -310,13 +310,24 @@ public class Interact : MonoBehaviour
                                 if(count > 1){
                                     //does this stack contain multiple objects?
                                     // if so, pick up x amount of times!
+                                    
                                     for (int i = 0; i < count; i++)
                                     {
                                         inv.SmartPickUp(item);
                                     }
                                 }
-                                else{
-                                    inv.SmartPickUp(item);
+                                //magazines will never be in a stack, they always have a stack size of 1 
+                                else
+                                {
+                                    //is this a magazine? if so, call special picup method
+                                    if (hit.transform.gameObject.GetComponent<AmmoList>() == null)
+                                    {
+                                        inv.SmartPickUp(item);
+                                    }
+                                    else
+                                    {
+                                        inv.SmartMagazinePickUp(item, hit.transform.gameObject.GetComponent<AmmoList>().Ammo);
+                                    }
                                 }
                                 //Checks if the object was successfully picked up
                                 if (inv.isPickedUp)
@@ -339,8 +350,16 @@ public class Interact : MonoBehaviour
                                         Debug.Log("Inventory full!");
                                     }
                                     else{
+                                        // is this a magazine? if so, also pass ammo list
+                                        if (hit.transform.gameObject.GetComponent<AmmoList>() == null)
+                                        {
+                                            inv.SpawnItem(item.prefab);
+                                        }
+                                        else
+                                        {
+                                            inv.SpawnMagazine(item.prefab, hit.transform.gameObject.GetComponent<AmmoList>().Ammo);
+                                        }
                                         // normal drop
-                                        inv.SpawnItem(item.prefab);
                                         Destroy(hit.transform.gameObject);
                                         Debug.Log("Inventory full!");
                                     }

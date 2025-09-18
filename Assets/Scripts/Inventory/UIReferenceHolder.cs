@@ -11,4 +11,6 @@ public class UIReferenceHolder : MonoBehaviour
     public GameObject count;
     [SerializeField]
     public GameObject button;
+    [SerializeField]
+    public GameObject slider;
 }

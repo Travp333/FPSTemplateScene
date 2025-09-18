@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 //This script ensures the Inventories UI changes alongside the backend. There are various methods here to change the name, image, and count of inventory slots.
 //Written by Conor and Travis
@@ -106,18 +107,53 @@ public class UiPlugger : MonoBehaviour
         }
         i = 0;
     }
-	//this is used when simply changing the amount of an inventory object.
-	public void UpdateItem(int row, int column, int count){
+	public void ChangeMag(int row, int column, Sprite img, int count, string name, List<GameObject> ammo, int maxAmmo){
+		//Debug.Log(slots.Count + this.gameObject.name);
 		foreach(GameObject g in slots){
-			//Debug.Log("Made it to Update item");
-            if(slots[i].name == row+","+column){
-                reff = slots[i].GetComponent<UIReferenceHolder>();
-                reff.count.GetComponent<TextMeshProUGUI>().text = "x"+count;
+			//Debug.Log("Made it to changeItem");
+			if (slots[i].name == row + "," + column)
+			{
+				reff = slots[i].GetComponent<UIReferenceHolder>();
+				reff.button.GetComponent<UnityEngine.UI.Image>().sprite = img;
+				reff.text.GetComponent<TextMeshProUGUI>().text = name;
+				reff.count.GetComponent<TextMeshProUGUI>().text = "x" + count;
+				reff.slider.GetComponent<Slider>().value = (ammo.Count / maxAmmo) / 1;
             }
             i++;
         }
         i = 0;
     }
+	//separate update method that also updates the slider for magazine capacity, if it is relevant
+	public void UpdateMag(int row, int column, int count, List<GameObject> ammo, int maxAmmo)
+	{
+		foreach (GameObject g in slots)
+		{
+			//Debug.Log("Made it to Update item");
+			if (slots[i].name == row + "," + column)
+			{
+				reff = slots[i].GetComponent<UIReferenceHolder>();
+				reff.count.GetComponent<TextMeshProUGUI>().text = "x" + count;
+				reff.slider.GetComponent<Slider>().value = (ammo.Count / maxAmmo) / 1;
+			}
+			i++;
+		}
+		i = 0;
+	}
+	//this is used when simply changing the amount of an inventory object.
+	public void UpdateItem(int row, int column, int count)
+	{
+		foreach (GameObject g in slots)
+		{
+			//Debug.Log("Made it to Update item");
+			if (slots[i].name == row + "," + column)
+			{
+				reff = slots[i].GetComponent<UIReferenceHolder>();
+				reff.count.GetComponent<TextMeshProUGUI>().text = "x" + count;
+			}
+			i++;
+		}
+		i = 0;
+	}
 	//this is used when clearing all data from a slot
 	public void ClearSlot(int row, int column, Sprite emp){
         foreach(GameObject g in slots){

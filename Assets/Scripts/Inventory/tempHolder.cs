@@ -122,7 +122,7 @@ public class tempHolder : MonoBehaviour
 					//the pickup was successfull, so reflect that on this side. 
 					invenObj.array[row, column].Amount = invenObj.array[row, column].Amount - 1;
 					//update Ui to match
-					plug.UpdateItem(row, column, invenObj.array[row, column].Amount);
+					plug.UpdateItem(row, column, invenObj.array[row, column].Amount, , invenObj.array[row, column].ammoSize);
 					//check if that was the last one. if this slot is now empty, we must update that as well
 					if(invenObj.array[row, column].Amount <= 0){
 						invenObj.array[row, column].Objname = "";
@@ -134,7 +134,7 @@ public class tempHolder : MonoBehaviour
 						invenObj.array[row, column].ammoSize = 0;
 						//invenObj.array[row, column].full = false;
 						//update UI
-						plug.ChangeItem(row, column, emptyImage, 0, "");
+						plug.ChangeItem(row, column, emptyImage, 0, "", null, 0);
 					}
 					//set it back to false now that the needed procedures have been done
 					otherInven.isPickedUp = false;
