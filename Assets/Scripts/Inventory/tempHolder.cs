@@ -225,19 +225,33 @@ public class tempHolder : MonoBehaviour
 		// if it is null, we know it it empty, and therefore there is no data to swap. Not expected, but in that case just do nothing
 		if (slot != null) {
 			//Debug.Log("The slot was not null in tempHolder, here data " + slot + ", " + slot.Objname);
+
+			//Are the two items we are comparing of type ammo and type magazine? if so, we can do a merge! (ie, stack ammo inside the magazine)
+			if ((tempInven.array[tempRow, tempColumn].itemType == "Ammo" && inventoryObject.array[row, column].itemType == "Magazine") || (tempInven.array[tempRow, tempColumn].itemType == "Magazine" && inventoryObject.array[row, column].itemType == "Ammo"))
+			{
+				Debug.Log("Dragged a magazine and a bullet together!");
+				ClearSlot();
+			}
+			
 			//if the temp slot is not null, we know it is holding a valid inventory object. So, we must initiate the swap
 			//if we are swapping two objects with the same name, prepare to stack!
-			if(tempInven.array[tempRow, tempColumn].Objname == inventoryObject.array[row, column].Objname) {
-				if(row == tempRow && tempColumn == column){
+			else if (tempInven.array[tempRow, tempColumn].Objname == inventoryObject.array[row, column].Objname)
+			{
+				if (row == tempRow && tempColumn == column)
+				{
 					//Debug.Log("same object, doing nothing. heres some data " + inventoryObject.array[row, column].Objname + ", " + row + ", " + column);
 					//same name, same slot, same object, do nothing, reset
 					ClearSlot();
 				}
-				else{
+
+
+				else
+				{
 					//Debug.Log("Different slots, same name, merging");
 					//two different slots, but same name. merge stacks
 					//check if you can just call them and keep it under that item's stack size
-					if((tempInven.array[tempRow, tempColumn].Amount + inventoryObject.array[row, column].Amount) > inventoryObject.array[row, column].stackSize){
+					if ((tempInven.array[tempRow, tempColumn].Amount + inventoryObject.array[row, column].Amount) > inventoryObject.array[row, column].stackSize)
+					{
 						//we cant do that, set the second buttons count to the max and subtract the necessary amount from the first button's amount
 						tempInven.array[tempRow, tempColumn].Amount = ((inventoryObject.array[row, column].Amount + tempInven.array[tempRow, tempColumn].Amount) - inventoryObject.array[row, column].stackSize);
 						//updateUI
@@ -246,9 +260,10 @@ public class tempHolder : MonoBehaviour
 						//update UI
 						plug.UpdateItem(row, column, inventoryObject.array[row, column].Amount, inventoryObject.array[row, column].Ammo, inventoryObject.array[row, column].ammoSize);
 						ClearSlot();
-						
+
 					}
-					else{
+					else
+					{
 						//Debug.Log("Stacking two stacks of same item type");
 						//we can simply add the temp slot and second button press together
 						//add the items in temp slot to the second pressed button's slot, clear out original button's slot and temp slot
@@ -261,15 +276,10 @@ public class tempHolder : MonoBehaviour
 						tempInven.array[tempRow, tempColumn].ammoType = "";
 						tempInven.array[tempRow, tempColumn].ammoSize = 0;
 						tempInven.array[tempRow, tempColumn].Ammo = null;
-						tempPlug.ChangeItem(tempRow,tempColumn, emptyImage, 0, "", null, -1);
+						tempPlug.ChangeItem(tempRow, tempColumn, emptyImage, 0, "", null, -1);
 						ClearSlot();
 					}
 				}
-			}
-			//Are the two items we are comparing of type ammo and type magazine? if so, we can do a merge! (ie, stack ammo inside the magazine)
-			if ((tempInven.array[tempRow, tempColumn].itemType == "Ammo" && inventoryObject.array[row, column].itemType == "Magazine") || (tempInven.array[tempRow, tempColumn].itemType == "Magazine" && inventoryObject.array[row, column].itemType == "Ammo"))
-			{
-				Debug.Log("Dragged a magazine and a bullet together!");
 			}
 			else
 			{
