@@ -307,26 +307,28 @@ public class Interact : MonoBehaviour
                                 //update UI
                                 int count;
                                 count = hit.transform.gameObject.GetComponent<pickUpableItem>().count;
-                                if(count > 1){
+                                if (count > 1)
+                                {
                                     //does this stack contain multiple objects?
                                     // if so, pick up x amount of times!
-                                    
+
                                     for (int i = 0; i < count; i++)
                                     {
-                                        inv.SmartPickUp(item);
+                                        //magazines will never be in a stack, they always have a stack size of 1, so null it here
+                                        inv.SmartPickUp(item, null);
                                     }
                                 }
                                 //magazines will never be in a stack, they always have a stack size of 1 
                                 else
                                 {
-                                    //is this a magazine? if so, call special picup method
-                                    if (hit.transform.gameObject.GetComponent<AmmoList>() == null)
+                                    if (hit.transform.gameObject.GetComponent<AmmoList>() != null)
                                     {
-                                        inv.SmartPickUp(item);
+                                        inv.SmartPickUp(item, hit.transform.gameObject.GetComponent<AmmoList>().Ammo);
                                     }
                                     else
                                     {
-                                        inv.SmartMagazinePickUp(item, hit.transform.gameObject.GetComponent<AmmoList>().Ammo);
+                                        // not a magazine, send null
+                                        inv.SmartPickUp(item, null);
                                     }
                                 }
                                 //Checks if the object was successfully picked up
@@ -344,20 +346,22 @@ public class Interact : MonoBehaviour
                                         //Does this stack contain multiple objects?
                                         //if so update prefab to have accurate count
                                         GameObject it;
-                                        it = inv.SpawnItem(item.prefab);
+                                        // we know it is not a magazine since it is a stack, send null
+                                        it = inv.SpawnItem(item.prefab, null);
                                         it.GetComponent<pickUpableItem>().count = count;
                                         Destroy(hit.transform.gameObject);
                                         Debug.Log("Inventory full!");
                                     }
                                     else{
                                         // is this a magazine? if so, also pass ammo list
-                                        if (hit.transform.gameObject.GetComponent<AmmoList>() == null)
+                                        if (hit.transform.gameObject.GetComponent<AmmoList>() != null)
                                         {
-                                            inv.SpawnItem(item.prefab);
+                                            inv.SpawnItem(item.prefab, hit.transform.gameObject.GetComponent<AmmoList>().Ammo);
                                         }
                                         else
                                         {
-                                            inv.SpawnMagazine(item.prefab, hit.transform.gameObject.GetComponent<AmmoList>().Ammo);
+                                            // not a magazine, send null
+                                            inv.SpawnItem(item.prefab, null);
                                         }
                                         // normal drop
                                         Destroy(hit.transform.gameObject);

@@ -17,24 +17,40 @@ public class tempHolder : MonoBehaviour
 	Inven tempInven = null;
 	UiPlugger tempPlug;
 	string tempItemType;
+	//temp string holding value of string explaining type of ammo, ie Pmm, 8x22, shotgun, etc. 
 	string tempAmmoType;
-	int tempAmmoAmount;
+	// temp int holding value of int explaining max ammo capacity of this magazine, if it is one
+	int tempAmmoMaxCapacity;
+	// temp list holding list of all bullets loaded in this magazine
+	public List<GameObject> tempAmmo = new List<GameObject>();
 	Inven playerInven;
 	Inven openStorageInven;
 	public int slotAmount;
 	
 	private void Start()
 	{
+		//This chunk of code seems to be running too soon, so i delayed it by a little bit 
+		Invoke("LateStart", .01f);
+	}
+	void LateStart()
+	{
 		//make sure nothing is in the slot, set all the values to defaults
 		ClearSlot();
 		//find every UI plugger component, and call the proper methods. in the player's case,
 		//we also store a reference to it here since it is static
-		foreach(UiPlugger i in GameObject.FindObjectsByType<UiPlugger>(FindObjectsSortMode.None)){
-			if(i.inven.gameObject.tag == "Player"){
+		Debug.Log("tempHolder Started!");
+		foreach (UiPlugger i in GameObject.FindObjectsByType<UiPlugger>(FindObjectsSortMode.None))
+		{
+			Debug.Log("Checking " + i.name + "...");
+			if (i.inven.gameObject.tag == "Player")
+			{
+				Debug.Log("Created and Logged player Inven!");
 				i.SpawnButtonsPlayer();
 				playerInven = i.inven;
 			}
-			else{
+			else
+			{
+				Debug.Log("Found Other Storage!");
 				i.SpawnButtonsStorage();
 			}
 		}
@@ -59,10 +75,11 @@ public class tempHolder : MonoBehaviour
 		tempInven = null;
 		tempItemType = "";
 		tempAmmoType = "";
-		tempAmmoAmount = 0;
+		tempAmmoMaxCapacity = -1;
+		tempAmmo = null;
 	}
 	//Checks whether the shift click is valid, and whether it is from a player inventory into a storage inventory or vice verse
-	public void ShiftClickCheck(Inven inventoryObject, string coords){
+	public void ShiftClickCheck(Inven inventoryObject, int row, int column, List<GameObject> Ammo){
 		//Debug.Log("Shift click check #2");
 		if(!Input.GetKey(KeyCode.LeftShift)){
 			//player not holding shift
@@ -70,15 +87,12 @@ public class tempHolder : MonoBehaviour
 		//player was holding shift, do auto transfer of full stack
 		else{
 			UiPlugger plug = inventoryObject.UIPlugger.GetComponent<UiPlugger>();
-			string[] coords2 = coords.Split(",");
-			int row = int.Parse(coords2[0]);
-			int column = int.Parse(coords2[1]);
 			//Debug.Log("Shift click check #3");
 			//is the given inventory object a player inventory?
 			//if no, its a storage inventory
 			if(inventoryObject.gameObject.tag != "Player"){
 				//Call the shift click method, which handles moving the requested stack of items 
-				ShiftClick(inventoryObject, playerInven, row, column, plug);
+				ShiftClick(inventoryObject, playerInven, row, column, plug, Ammo);
 			}
 			//in this case, the player is shift clicking from within their own inventory. We should do the same 
 			//procedure here, just flipped. 
@@ -96,7 +110,7 @@ public class tempHolder : MonoBehaviour
 								openStorageInven = i.transform.parent.GetComponent<UiPlugger>().inven;
 							}
 						}
-						ShiftClick(inventoryObject, openStorageInven, row, column, plug);
+						ShiftClick(inventoryObject, openStorageInven, row, column, plug, Ammo);
 					}
 				}
 			}
@@ -104,7 +118,7 @@ public class tempHolder : MonoBehaviour
 		}
 	}
 	//this method handles shift clicking a stack to instantly move it either from the player inventory to the storage, or vice versa. 
-	public void ShiftClick(Inven invenObj, Inven otherInven, int row, int column, UiPlugger plug){
+	public void ShiftClick(Inven invenObj, Inven otherInven, int row, int column, UiPlugger plug, List<GameObject> Ammo){
 		//Debug.Log("Shift click check #4");
 		//store slotAmount into variable to ensure for loop runs proper amount of times,
 		//as the amount will be edited throughout the for loop
@@ -122,7 +136,7 @@ public class tempHolder : MonoBehaviour
 					//the pickup was successfull, so reflect that on this side. 
 					invenObj.array[row, column].Amount = invenObj.array[row, column].Amount - 1;
 					//update Ui to match
-					plug.UpdateItem(row, column, invenObj.array[row, column].Amount, , invenObj.array[row, column].ammoSize);
+					plug.UpdateItem(row, column, invenObj.array[row, column].Amount, invenObj.array[row,column].Ammo, invenObj.array[row,column].ammoSize);
 					//check if that was the last one. if this slot is now empty, we must update that as well
 					if(invenObj.array[row, column].Amount <= 0){
 						invenObj.array[row, column].Objname = "";
@@ -134,7 +148,7 @@ public class tempHolder : MonoBehaviour
 						invenObj.array[row, column].ammoSize = 0;
 						//invenObj.array[row, column].full = false;
 						//update UI
-						plug.ChangeItem(row, column, emptyImage, 0, "", null, 0);
+						plug.ChangeItem(row, column, emptyImage, 0, "", null, -1);
 					}
 					//set it back to false now that the needed procedures have been done
 					otherInven.isPickedUp = false;
@@ -182,7 +196,9 @@ public class tempHolder : MonoBehaviour
 				tempInven = inventoryObject;
 				tempItemType = slot.itemType;
 				tempAmmoType = slot.ammoType;
-				tempAmmoAmount = slot.ammoSize;
+				tempAmmoMaxCapacity = slot.ammoSize;
+				tempAmmo = slot.Ammo;
+
 				//Debug.Log(slot.Name + " was selected");	
 			}
 			else
@@ -225,10 +241,10 @@ public class tempHolder : MonoBehaviour
 						//we cant do that, set the second buttons count to the max and subtract the necessary amount from the first button's amount
 						tempInven.array[tempRow, tempColumn].Amount = ((inventoryObject.array[row, column].Amount + tempInven.array[tempRow, tempColumn].Amount) - inventoryObject.array[row, column].stackSize);
 						//updateUI
-						tempPlug.UpdateItem(tempRow, tempColumn, tempInven.array[tempRow, tempColumn].Amount);
+						tempPlug.UpdateItem(tempRow, tempColumn, tempInven.array[tempRow, tempColumn].Amount, tempInven.array[tempRow, tempColumn].Ammo, tempInven.array[tempRow, tempColumn].ammoSize);
 						inventoryObject.array[row, column].Amount = inventoryObject.array[row, column].stackSize;
 						//update UI
-						plug.UpdateItem(row, column, inventoryObject.array[row, column].Amount);
+						plug.UpdateItem(row, column, inventoryObject.array[row, column].Amount, inventoryObject.array[row, column].Ammo, inventoryObject.array[row, column].ammoSize);
 						ClearSlot();
 						
 					}
@@ -237,14 +253,15 @@ public class tempHolder : MonoBehaviour
 						//we can simply add the temp slot and second button press together
 						//add the items in temp slot to the second pressed button's slot, clear out original button's slot and temp slot
 						inventoryObject.array[row, column].Amount = tempInven.array[tempRow, tempColumn].Amount + inventoryObject.array[row, column].Amount;
-						plug.UpdateItem(row, column, inventoryObject.array[row, column].Amount);
+						plug.UpdateItem(row, column, inventoryObject.array[row, column].Amount, inventoryObject.array[row, column].Ammo, inventoryObject.array[row, column].ammoSize);
 						tempInven.array[tempRow, tempColumn].Objname = "";
 						tempInven.array[tempRow, tempColumn].Amount = 0;
 						tempInven.array[tempRow, tempColumn].img = emptyImage;
 						tempInven.array[tempRow, tempColumn].itemType = "";
 						tempInven.array[tempRow, tempColumn].ammoType = "";
 						tempInven.array[tempRow, tempColumn].ammoSize = 0;
-						tempPlug.ChangeItem(tempRow,tempColumn, emptyImage, 0, "");
+						tempInven.array[tempRow, tempColumn].Ammo = null;
+						tempPlug.ChangeItem(tempRow,tempColumn, emptyImage, 0, "", null, -1);
 						ClearSlot();
 					}
 				}
@@ -257,16 +274,16 @@ public class tempHolder : MonoBehaviour
 			else
 			{
 				//Debug.Log("Clean swap, two different objects, doing swap. Object 1 is "+ tempInven.array[tempRow, tempColumn].img.name + " and Object 2 is " + inventoryObject.array[row, column].img.name + " and finally, this is Slot: "+ slot.Objname);
-				Debug.Log("Clean swapping objects, checking values: " + tempItemType + ", " + tempAmmoType + ", " + tempAmmoAmount);
+				Debug.Log("Clean swapping objects, checking values: " + tempItemType + ", " + tempAmmoType + ", " + tempAmmoMaxCapacity);
 				//clean swap, two different objects
 				//we find the inventory slot the tempslot object is pointing to, and set it equal to the second button's data
 				tempInven.array[tempRow, tempColumn] = inventoryObject.array[row, column];
 				//we then update the Ui to follow suit
-				tempPlug.ChangeItem(tempRow, tempColumn, inventoryObject.array[row, column].img, inventoryObject.array[row, column].Amount, inventoryObject.array[row, column].Objname);
+				tempPlug.ChangeItem(tempRow, tempColumn, inventoryObject.array[row, column].img, inventoryObject.array[row, column].Amount, inventoryObject.array[row, column].Objname, inventoryObject.array[row, column].Ammo, inventoryObject.array[row, column].ammoSize);
 				//then we set the second button equal to the temp slot's data
 				inventoryObject.array[row, column] = slot;
 				//we also have the Ui update
-				plug.ChangeItem(row, column, tempImage, tempCount, tempName);
+				plug.ChangeItem(row, column, tempImage, tempCount, tempName, tempAmmo, tempAmmoMaxCapacity);
 				ClearSlot();
 			}
 		}

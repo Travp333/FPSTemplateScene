@@ -30,11 +30,17 @@ public class StorageFinder : MonoBehaviour
 		
 	}
 	public void SendDropItem(){
-		storageInven.DropSpecificItem(this.gameObject.transform.parent.name);
+		string[] coords2 = this.gameObject.transform.parent.name.Split(",");
+		int row = int.Parse(coords2[0]);
+		int column = int.Parse(coords2[1]);
+		storageInven.DropSpecificItem(row, column, storageInven.array[row, column].Ammo);
 	}
 	public void SendDropAllItems(){
 		//Debug.Log("MAde it to storage finder");
-		storageInven.DropWholeStack(this.gameObject.transform.parent.name);
+		string[] coords2 = this.gameObject.transform.parent.name.Split(",");
+		int row = int.Parse(coords2[0]);
+		int column = int.Parse(coords2[1]);
+		storageInven.DropWholeStack(row, column, storageInven.array[row, column].Ammo);
 		tH.ClearSlot();
 	}
 	//public void SendSwap() {	 
@@ -49,6 +55,9 @@ public class StorageFinder : MonoBehaviour
 	}
 	public void TryShiftClickCheck(){
 		//Debug.Log("Shift click check #1");
-		tH.ShiftClickCheck(storage.GetComponent<Inven>(), this.gameObject.transform.parent.name);
+		string[] coords2 = this.gameObject.transform.parent.name.Split(",");
+		int row = int.Parse(coords2[0]);
+		int column = int.Parse(coords2[1]);
+		tH.ShiftClickCheck(storage.GetComponent<Inven>(), row, column, storage.GetComponent<Inven>().array[row, column].Ammo);
 	}
 }

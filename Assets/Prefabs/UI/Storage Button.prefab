@@ -1109,7 +1109,7 @@ MonoBehaviour:
   text: {fileID: 6632390723121541014}
   count: {fileID: 1636737805012505681}
   button: {fileID: 2341439834643855829}
-  slider: {fileID: 0}
+  slider: {fileID: 2990817732740305926}
 --- !u!225 &2888110245925398938
 CanvasGroup:
   m_ObjectHideFlags: 0

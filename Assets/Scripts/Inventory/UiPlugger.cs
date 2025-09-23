@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 
 //This script ensures the Inventories UI changes alongside the backend. There are various methods here to change the name, image, and count of inventory slots.
-//Written by Conor and Travis
+//Written by Travis
 
 //NOTE consider reversing naming scheme to make inventory stack from top again instead, that makes my brain happier
 public class UiPlugger : MonoBehaviour
@@ -32,26 +32,30 @@ public class UiPlugger : MonoBehaviour
 	//creates buttons for storage devices
 	public void SpawnButtonsStorage(){
 		//iterating through columns
+		Debug.Log("Beginning to iterate through Inven...");
 		for (int i = 0; i < inven.vSize; i++)
 		{
-			if(firstSlotSkip){		
+			if (firstSlotSkip)
+			{
+				Debug.Log("Performing firstslotskip");
 				placeHolderButton.position = placeHolderButton.position + new Vector3((vPadding * inven.hSize), hPadding, 0);
 			}
 			//iteraeing through rows
 			for (int i2 = 0; i2 < inven.hSize; i2++)
 			{
+				Debug.Log("Performing button creation...");
 				firstSlotSkip = true;
 				GameObject g = Instantiate(buttonPrefab, this.gameObject.GetComponent<Canvas>().transform);
 				g.transform.position = placeHolderButton.position;
 				placeHolderButton.position = placeHolderButton.position - new Vector3(vPadding, 0, 0);
 				g.transform.SetParent(canvasBG.transform.parent);
-				g.name = (i+","+i2);
+				g.name = (i + "," + i2);
 				slots.Add(g);
 				slotsPos.Add(g.transform.position);
 			}
 		}
 		firstSlotSkip = false;
-			
+		Debug.Log("Final Step");
 		Vector3 avg = GetMeanVector(slotsPos);
 		RectTransform rt = canvasBG.gameObject.GetComponent (typeof (RectTransform)) as RectTransform;
 		rt.sizeDelta = new Vector2 (78*(inven.hSize ), 78 * (inven.vSize ));
@@ -93,21 +97,7 @@ public class UiPlugger : MonoBehaviour
 		//rt.anchorMax = new Vector2(0,1);
 		//rt.pivot = new Vector2(.5f, .5f);
 	}
-	public void ChangeItem(int row, int column, Sprite img, int count, string name){
-		//Debug.Log(slots.Count + this.gameObject.name);
-		foreach(GameObject g in slots){
-			//Debug.Log("Made it to changeItem");
-	        if(slots[i].name == row+","+column){
-                reff = slots[i].GetComponent<UIReferenceHolder>();
-                reff.button.GetComponent<UnityEngine.UI.Image>().sprite = img;
-                reff.text.GetComponent<TextMeshProUGUI>().text = name;
-                reff.count.GetComponent<TextMeshProUGUI>().text = "x"+count;
-            }
-            i++;
-        }
-        i = 0;
-    }
-	public void ChangeMag(int row, int column, Sprite img, int count, string name, List<GameObject> ammo, int maxAmmo){
+	public void ChangeItem(int row, int column, Sprite img, int count, string name, List<GameObject> ammo, int maxAmmo){
 		//Debug.Log(slots.Count + this.gameObject.name);
 		foreach(GameObject g in slots){
 			//Debug.Log("Made it to changeItem");
@@ -117,30 +107,21 @@ public class UiPlugger : MonoBehaviour
 				reff.button.GetComponent<UnityEngine.UI.Image>().sprite = img;
 				reff.text.GetComponent<TextMeshProUGUI>().text = name;
 				reff.count.GetComponent<TextMeshProUGUI>().text = "x" + count;
-				reff.slider.GetComponent<Slider>().value = (ammo.Count / maxAmmo) / 1;
+				if (ammo != null)
+				{
+					if (maxAmmo < -1)
+					{
+						reff.slider.SetActive(true);
+						reff.slider.GetComponent<Slider>().value = (ammo.Count / maxAmmo) / 1;
+					}
+				}
             }
             i++;
         }
         i = 0;
     }
-	//separate update method that also updates the slider for magazine capacity, if it is relevant
-	public void UpdateMag(int row, int column, int count, List<GameObject> ammo, int maxAmmo)
-	{
-		foreach (GameObject g in slots)
-		{
-			//Debug.Log("Made it to Update item");
-			if (slots[i].name == row + "," + column)
-			{
-				reff = slots[i].GetComponent<UIReferenceHolder>();
-				reff.count.GetComponent<TextMeshProUGUI>().text = "x" + count;
-				reff.slider.GetComponent<Slider>().value = (ammo.Count / maxAmmo) / 1;
-			}
-			i++;
-		}
-		i = 0;
-	}
 	//this is used when simply changing the amount of an inventory object.
-	public void UpdateItem(int row, int column, int count)
+	public void UpdateItem(int row, int column, int count, List<GameObject> ammo, int maxAmmo)
 	{
 		foreach (GameObject g in slots)
 		{
@@ -149,6 +130,14 @@ public class UiPlugger : MonoBehaviour
 			{
 				reff = slots[i].GetComponent<UIReferenceHolder>();
 				reff.count.GetComponent<TextMeshProUGUI>().text = "x" + count;
+				if (ammo != null)
+				{
+					if (maxAmmo < -1)
+					{
+						reff.slider.GetComponent<Slider>().value = (ammo.Count / maxAmmo) / 1;
+					}
+				}
+				
 			}
 			i++;
 		}
@@ -157,11 +146,15 @@ public class UiPlugger : MonoBehaviour
 	//this is used when clearing all data from a slot
 	public void ClearSlot(int row, int column, Sprite emp){
         foreach(GameObject g in slots){
-            if(slots[i].name == row+","+column){
-                reff = slots[i].GetComponent<UIReferenceHolder>();
-	            reff.button.GetComponent<UnityEngine.UI.Image>().sprite = emp;
-                reff.text.GetComponent<TextMeshProUGUI>().text = "";
-                reff.count.GetComponent<TextMeshProUGUI>().text = "x0";
+			if (slots[i].name == row + "," + column)
+			{
+				reff = slots[i].GetComponent<UIReferenceHolder>();
+				reff.button.GetComponent<UnityEngine.UI.Image>().sprite = emp;
+				reff.text.GetComponent<TextMeshProUGUI>().text = "";
+				reff.count.GetComponent<TextMeshProUGUI>().text = "x0";
+				//set slider value to 0, hide it.
+				reff.slider.GetComponent<Slider>().value = 0;
+				reff.slider.SetActive(false);
             }
             i++;
         }
