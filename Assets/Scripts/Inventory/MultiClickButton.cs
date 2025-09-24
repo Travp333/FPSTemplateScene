@@ -81,7 +81,7 @@ public class MultiClickButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 	}
 	public void OnEndDrag(PointerEventData eventData){
 		GetComponent<StorageFinder>().storage.GetComponent<Inven>().UIPlugger.GetComponent<Canvas>().sortingOrder = 0;
-		Debug.Log("End Drag on "+ heldItemName);
+		//Debug.Log("End Drag on "+ heldItemName);
 		heldItemName = null;
 		canvasGroup.alpha = 1f;
 		canvasGroup.blocksRaycasts = true;
@@ -92,7 +92,7 @@ public class MultiClickButton : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 	}
 	public void OnDrop(PointerEventData eventData){
 		GetComponent<StorageFinder>().storage.GetComponent<Inven>().UIPlugger.GetComponent<Canvas>().sortingOrder = 0;
-		Debug.Log("End Drop on " + this.transform.parent.name + " and " + heldItemName);
+		//Debug.Log("End Drop on " + this.transform.parent.name + " and " + heldItemName);
 		canvasGroup.alpha = 1f;
 		canvasGroup.blocksRaycasts = true;
 		leftRelease.Invoke();

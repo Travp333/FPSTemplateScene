@@ -19,4 +19,4 @@ MonoBehaviour:
   prefab: {fileID: 7734275531385829229, guid: baaab3a657003694db8e8a966d780136, type: 3}
   itemType: Ammo
   ammoType: 8x22
-  AmmoSize: 0
+  ammoSize: -1

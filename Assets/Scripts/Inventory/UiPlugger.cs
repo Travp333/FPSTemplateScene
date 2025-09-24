@@ -32,18 +32,18 @@ public class UiPlugger : MonoBehaviour
 	//creates buttons for storage devices
 	public void SpawnButtonsStorage(){
 		//iterating through columns
-		Debug.Log("Beginning to iterate through Inven...");
+		//Debug.Log("Beginning to iterate through Inven...");
 		for (int i = 0; i < inven.vSize; i++)
 		{
 			if (firstSlotSkip)
 			{
-				Debug.Log("Performing firstslotskip");
+				//Debug.Log("Performing firstslotskip");
 				placeHolderButton.position = placeHolderButton.position + new Vector3((vPadding * inven.hSize), hPadding, 0);
 			}
 			//iteraeing through rows
 			for (int i2 = 0; i2 < inven.hSize; i2++)
 			{
-				Debug.Log("Performing button creation...");
+				//Debug.Log("Performing button creation...");
 				firstSlotSkip = true;
 				GameObject g = Instantiate(buttonPrefab, this.gameObject.GetComponent<Canvas>().transform);
 				g.transform.position = placeHolderButton.position;
@@ -55,7 +55,7 @@ public class UiPlugger : MonoBehaviour
 			}
 		}
 		firstSlotSkip = false;
-		Debug.Log("Final Step");
+		//Debug.Log("Final Step");
 		Vector3 avg = GetMeanVector(slotsPos);
 		RectTransform rt = canvasBG.gameObject.GetComponent (typeof (RectTransform)) as RectTransform;
 		rt.sizeDelta = new Vector2 (78*(inven.hSize ), 78 * (inven.vSize ));
@@ -100,7 +100,7 @@ public class UiPlugger : MonoBehaviour
 	public void ChangeItem(int row, int column, Sprite img, int count, string name, List<GameObject> ammo, int maxAmmo){
 		//Debug.Log(slots.Count + this.gameObject.name);
 		foreach(GameObject g in slots){
-			//Debug.Log("Made it to changeItem");
+
 			if (slots[i].name == row + "," + column)
 			{
 				reff = slots[i].GetComponent<UIReferenceHolder>();
@@ -109,35 +109,57 @@ public class UiPlugger : MonoBehaviour
 				reff.count.GetComponent<TextMeshProUGUI>().text = "x" + count;
 				if (ammo != null)
 				{
-					if (maxAmmo < -1)
+					if (maxAmmo > -1)
 					{
-						reff.slider.SetActive(true);
-						reff.slider.GetComponent<Slider>().value = (ammo.Count / maxAmmo) / 1;
+						Debug.Log("Made it to ChangeItem with a magazine, heres name: " + name + "heres maxAmmo: " + maxAmmo + " and Ammo: " + ammo.Count+ " and heres the ratio" + (float)ammo.Count / (float)maxAmmo);
+						UpdateMagSlider(true, (float)ammo.Count / (float)maxAmmo);
 					}
+					else
+					{
+						UpdateMagSlider(false, 0);
+					}
+				}
+				else
+				{
+					UpdateMagSlider(false, 0);
 				}
             }
             i++;
         }
         i = 0;
     }
+	void UpdateMagSlider(bool enabled, float value)
+	{
+		Debug.Log("Running UpdateMagSlider, here are values: " + enabled + ", " + value);
+		reff.slider.SetActive(enabled);
+		reff.slider.GetComponent<Slider>().value = value;
+	}
 	//this is used when simply changing the amount of an inventory object.
 	public void UpdateItem(int row, int column, int count, List<GameObject> ammo, int maxAmmo)
 	{
 		foreach (GameObject g in slots)
 		{
-			//Debug.Log("Made it to Update item");
 			if (slots[i].name == row + "," + column)
 			{
 				reff = slots[i].GetComponent<UIReferenceHolder>();
 				reff.count.GetComponent<TextMeshProUGUI>().text = "x" + count;
 				if (ammo != null)
 				{
-					if (maxAmmo < -1)
+					if (maxAmmo > -1)
 					{
-						reff.slider.GetComponent<Slider>().value = (ammo.Count / maxAmmo) / 1;
+						Debug.Log("Made it to Update with a magazine, heres name: " + name + "heres maxAmmo: " + maxAmmo + " and Ammo: " + ammo.Count + " and heres the ratio" + (float)ammo.Count / (float)maxAmmo);
+						UpdateMagSlider(true, (float)ammo.Count / (float)maxAmmo);
+					}
+					else
+					{
+						UpdateMagSlider(false, 0);
 					}
 				}
-				
+				else
+				{
+					UpdateMagSlider(false, 0);
+				}
+
 			}
 			i++;
 		}
@@ -153,8 +175,7 @@ public class UiPlugger : MonoBehaviour
 				reff.text.GetComponent<TextMeshProUGUI>().text = "";
 				reff.count.GetComponent<TextMeshProUGUI>().text = "x0";
 				//set slider value to 0, hide it.
-				reff.slider.GetComponent<Slider>().value = 0;
-				reff.slider.SetActive(false);
+				UpdateMagSlider(false, 0);
             }
             i++;
         }

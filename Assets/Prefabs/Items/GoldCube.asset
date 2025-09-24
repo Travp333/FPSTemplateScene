@@ -19,4 +19,4 @@ MonoBehaviour:
   prefab: {fileID: 6707446217164042694, guid: c3e3df9334cfbbd4a9eccda6162938ba, type: 3}
   itemType: Other
   ammoType: N/A
-  ammoSize: 0
+  ammoSize: -1

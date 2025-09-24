@@ -23,7 +23,7 @@ public class Item : ScriptableObject
     [Tooltip("What type of ammo is this, or what type of ammo does this magazine hold? Options are 9mm, Shotgun, 8x22, N/A")]
     public string ammoType;
     [SerializeField]
-    [Tooltip("how much ammo can this magazine hold? Leave 0 if N/A")]
+    [Tooltip("how much ammo can this magazine hold? Leave -1 if N/A")]
     public int ammoSize;
 
 }

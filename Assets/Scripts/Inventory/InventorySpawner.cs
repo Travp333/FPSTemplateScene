@@ -19,7 +19,7 @@ public class InventorySpawner : MonoBehaviour
 		foreach(Inven i in GameObject.FindObjectsByType<Inven>(FindObjectsSortMode.None)){
 			if(i.gameObject.tag != "Player"){
 				GameObject g = Instantiate(UIPrefab, this.transform);
-				Debug.Log("Pluggin Ui Plugger");
+				//Debug.Log("Pluggin Ui Plugger");
 				i.UIPlugger = g.gameObject;
 				g.GetComponent<UiPlugger>().inven = i;
 				g.name = i.gameObject.name + " Inventory";

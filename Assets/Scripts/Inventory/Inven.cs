@@ -20,7 +20,7 @@ public class ItemStat
 	//what is the type of the ammo? ie 9mm, 8x22, shotgun, etc
 	public string ammoType;
 	// if it is a magazine, how much ammo can this magazine hold?
-	public int ammoSize;
+	public int ammoSize = -1;
 }
 public class Inven : MonoBehaviour
 {
@@ -52,21 +52,21 @@ public class Inven : MonoBehaviour
 	{
 		temp = FindFirstObjectByType<tempHolder>();
 		//stores reference to Ui object
-		Debug.Log("STEP #1 in " + this.gameObject.name);
+		//Debug.Log("STEP #1 in " + this.gameObject.name);
 		//This creates our 2D array based on the size given in editor
 		array = new ItemStat[vSize,hSize];
 		for (int row = 0; row < vSize; row++)
         {
-			Debug.Log("STEP #2 in " + this.gameObject.name);
+			//Debug.Log("STEP #2 in " + this.gameObject.name);
 			for (int column = 0; column < hSize; column++)
 			{
 
-				Debug.Log("STEP #3 in " + this.gameObject.name);
+				//Debug.Log("STEP #3 in " + this.gameObject.name);
 				array[row, column] = new ItemStat();
 				array[row, column].img = temp.emptyImage;
 			}
         }
-		Debug.Log("STEP #4 in " + this.gameObject.name);
+		//Debug.Log("STEP #4 in " + this.gameObject.name);
 		Invoke("lateStart", .1f);
 	}
 	//Runs .1 second after start, allows inventory slots and objects to be created before creating UI reference and filling inventory with starting objects

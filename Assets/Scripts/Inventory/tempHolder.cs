@@ -38,19 +38,19 @@ public class tempHolder : MonoBehaviour
 		ClearSlot();
 		//find every UI plugger component, and call the proper methods. in the player's case,
 		//we also store a reference to it here since it is static
-		Debug.Log("tempHolder Started!");
+		//Debug.Log("tempHolder Started!");
 		foreach (UiPlugger i in GameObject.FindObjectsByType<UiPlugger>(FindObjectsSortMode.None))
 		{
-			Debug.Log("Checking " + i.name + "...");
+			//Debug.Log("Checking " + i.name + "...");
 			if (i.inven.gameObject.tag == "Player")
 			{
-				Debug.Log("Created and Logged player Inven!");
+				//Debug.Log("Created and Logged player Inven!");
 				i.SpawnButtonsPlayer();
 				playerInven = i.inven;
 			}
 			else
 			{
-				Debug.Log("Found Other Storage!");
+				//Debug.Log("Found Other Storage!");
 				i.SpawnButtonsStorage();
 			}
 		}
@@ -145,7 +145,7 @@ public class tempHolder : MonoBehaviour
 						//Just added this, may cause errors?
 						invenObj.array[row, column].itemType = "";
 						invenObj.array[row, column].ammoType = "";
-						invenObj.array[row, column].ammoSize = 0;
+						invenObj.array[row, column].ammoSize = -1;
 						//invenObj.array[row, column].full = false;
 						//update UI
 						plug.ChangeItem(row, column, emptyImage, 0, "", null, -1);
@@ -235,11 +235,11 @@ public class tempHolder : MonoBehaviour
 			
 			//if the temp slot is not null, we know it is holding a valid inventory object. So, we must initiate the swap
 			//if we are swapping two objects with the same name, prepare to stack!
-			else if (tempInven.array[tempRow, tempColumn].Objname == inventoryObject.array[row, column].Objname)
+			else if (tempInven.array[tempRow, tempColumn].Objname == inventoryObject.array[row, column].Objname && (inventoryObject.array[row, column].stackSize > 1))
 			{
 				if (row == tempRow && tempColumn == column)
 				{
-					//Debug.Log("same object, doing nothing. heres some data " + inventoryObject.array[row, column].Objname + ", " + row + ", " + column);
+					Debug.Log("same object, doing nothing. heres some data " + inventoryObject.array[row, column].Objname + ", " + row + ", " + column);
 					//same name, same slot, same object, do nothing, reset
 					ClearSlot();
 				}
@@ -247,7 +247,7 @@ public class tempHolder : MonoBehaviour
 
 				else
 				{
-					//Debug.Log("Different slots, same name, merging");
+					Debug.Log("Different slots, same name, merging");
 					//two different slots, but same name. merge stacks
 					//check if you can just call them and keep it under that item's stack size
 					if ((tempInven.array[tempRow, tempColumn].Amount + inventoryObject.array[row, column].Amount) > inventoryObject.array[row, column].stackSize)
@@ -264,7 +264,7 @@ public class tempHolder : MonoBehaviour
 					}
 					else
 					{
-						//Debug.Log("Stacking two stacks of same item type");
+						Debug.Log("Stacking two stacks of same item type");
 						//we can simply add the temp slot and second button press together
 						//add the items in temp slot to the second pressed button's slot, clear out original button's slot and temp slot
 						inventoryObject.array[row, column].Amount = tempInven.array[tempRow, tempColumn].Amount + inventoryObject.array[row, column].Amount;
@@ -274,7 +274,7 @@ public class tempHolder : MonoBehaviour
 						tempInven.array[tempRow, tempColumn].img = emptyImage;
 						tempInven.array[tempRow, tempColumn].itemType = "";
 						tempInven.array[tempRow, tempColumn].ammoType = "";
-						tempInven.array[tempRow, tempColumn].ammoSize = 0;
+						tempInven.array[tempRow, tempColumn].ammoSize = -1;
 						tempInven.array[tempRow, tempColumn].Ammo = null;
 						tempPlug.ChangeItem(tempRow, tempColumn, emptyImage, 0, "", null, -1);
 						ClearSlot();
@@ -284,7 +284,7 @@ public class tempHolder : MonoBehaviour
 			else
 			{
 				//Debug.Log("Clean swap, two different objects, doing swap. Object 1 is "+ tempInven.array[tempRow, tempColumn].img.name + " and Object 2 is " + inventoryObject.array[row, column].img.name + " and finally, this is Slot: "+ slot.Objname);
-				Debug.Log("Clean swapping objects, checking values: " + tempItemType + ", " + tempAmmoType + ", " + tempAmmoMaxCapacity);
+				Debug.Log("Clean swapping objects, checking values, heres held item: " + tempName + ", " + tempItemType + ", " + tempAmmoType + ", " + tempAmmoMaxCapacity + " and heres item it is replacing " + inventoryObject.array[row, column].Objname + ", " + inventoryObject.array[row, column].itemType + ", " + inventoryObject.array[row, column].ammoType + ", " + inventoryObject.array[row, column].ammoSize);
 				//clean swap, two different objects
 				//we find the inventory slot the tempslot object is pointing to, and set it equal to the second button's data
 				tempInven.array[tempRow, tempColumn] = inventoryObject.array[row, column];
