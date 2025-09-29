@@ -457,7 +457,7 @@ public class Interact : MonoBehaviour
                                         hand.gunAnim.animOverriderState = mag.animOverriderState;
                                         hand.gunAnim.anim.runtimeAnimatorController = hand.gunAnim.gunInHandAnimOverride[mag.animOverriderState];
                                         //I am a bit confused on this ppart honestly, I dont think the hand animation states iterating is properly implemented yet. I will just leave it as it for now
-                                        //hand.animator.runtimeAnimatorController = hand.handInHandAnimOverride[mag.animOverriderState];
+                                        hand.animator.runtimeAnimatorController = hand.handInHandAnimOverride[mag.animOverriderState];
                                     }
 
                                 }

@@ -14658,6 +14658,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: -3260684701804398485, guid: 051f49a57b72a474598eaeb1f9bb472e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -2844113527849199046, guid: 051f49a57b72a474598eaeb1f9bb472e,
         type: 3}
       propertyPath: m_Layer
@@ -14941,8 +14946,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f4160dd2441e7146b5fe4491d1d42cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Ammo: []
   magazineSize: 30
-  ammoInMag: 0
   ammoCount: 500
 --- !u!114 &4336171223938694441
 MonoBehaviour:
@@ -15026,8 +15031,6 @@ MonoBehaviour:
   inBetweenBurstCooldown: 0.01
   burstCount: 2
   bursting: 0
-  bulletObj: {fileID: 4274701299776518559, guid: 787a67fee4891c04b84cacf0cd19bcf8,
-    type: 3}
   dudBulletObj: {fileID: 4274701299776518559, guid: 0a36b5dcfd1bd9a4da4a4da6b3291d3c,
     type: 3}
   bulletSpawnPos: {fileID: 2215084607671402968}

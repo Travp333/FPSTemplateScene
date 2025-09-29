@@ -61851,11 +61851,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Type 100 World Model
       objectReference: {fileID: 0}
-    - target: {fileID: 4788248433847824922, guid: 44919f97e61469649bc4bf31512cf5ac,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

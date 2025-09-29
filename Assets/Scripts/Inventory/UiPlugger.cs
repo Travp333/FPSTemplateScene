@@ -111,7 +111,7 @@ public class UiPlugger : MonoBehaviour
 				{
 					if (maxAmmo > -1)
 					{
-						Debug.Log("Made it to ChangeItem with a magazine, heres name: " + name + "heres maxAmmo: " + maxAmmo + " and Ammo: " + ammo.Count+ " and heres the ratio" + (float)ammo.Count / (float)maxAmmo);
+						//Debug.Log("Made it to ChangeItem with a magazine, heres name: " + name + "heres maxAmmo: " + maxAmmo + " and Ammo: " + ammo.Count+ " and heres the ratio" + (float)ammo.Count / (float)maxAmmo);
 						UpdateMagSlider(true, (float)ammo.Count / (float)maxAmmo);
 					}
 					else
@@ -130,7 +130,7 @@ public class UiPlugger : MonoBehaviour
     }
 	void UpdateMagSlider(bool enabled, float value)
 	{
-		Debug.Log("Running UpdateMagSlider, here are values: " + enabled + ", " + value);
+		//Debug.Log("Running UpdateMagSlider, here are values: " + enabled + ", " + value);
 		reff.slider.SetActive(enabled);
 		reff.slider.GetComponent<Slider>().value = value;
 	}
@@ -147,7 +147,7 @@ public class UiPlugger : MonoBehaviour
 				{
 					if (maxAmmo > -1)
 					{
-						Debug.Log("Made it to Update with a magazine, heres name: " + name + "heres maxAmmo: " + maxAmmo + " and Ammo: " + ammo.Count + " and heres the ratio" + (float)ammo.Count / (float)maxAmmo);
+						//Debug.Log("Made it to Update with a magazine, heres name: " + name + "heres maxAmmo: " + maxAmmo + " and Ammo: " + ammo.Count + " and heres the ratio" + (float)ammo.Count / (float)maxAmmo);
 						UpdateMagSlider(true, (float)ammo.Count / (float)maxAmmo);
 					}
 					else
