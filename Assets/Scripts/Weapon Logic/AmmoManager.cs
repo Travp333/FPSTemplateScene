@@ -1,53 +1,79 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+public class ItemStatAndCoords
+{
+    //created a class so that I can return one value with multiple values within
+    public ItemStat itemStat;
+    public int row;
+    public int column;
+}
 
 public class AmmoManager : MonoBehaviour
 {
-    //change all this shit to just be a reference to the magazine itself 
-    [SerializeField]
-    List<GameObject> Ammo = new List<GameObject>();
-    public GameObject loadedMagazine;
+    ItemStatAndCoords statAndCoord;
+    List<GameObject> tempAmmoList = new List<GameObject>();
+    public ItemStat loadedMagazine;
     Item magItem;
+    Inven playerInv;
+    int loopCounter;
+    [SerializeField]
+    string ammoType;
     // Start is called before the first frame update
     void Start()
     {
-        
+        statAndCoord = new ItemStatAndCoords();
+		foreach (Inven i in GameObject.FindObjectsByType<Inven>(FindObjectsSortMode.None))
+        {
+            if (i.gameObject.tag == "Player")
+            {
+                playerInv = i;
+            }
+        }
     }
-    public void UpdateMagazine(GameObject magazine)
+    ItemStatAndCoords GrabMagazine()
+    {
+        for (int row = 0; row < playerInv.vSize; row++)
+        {
+            //iterating through rows
+            for (int column = 0; column < playerInv.hSize; column++)
+            {
+                //is the item in this inventoryslot a magazine? is it the same ammo type? have we searched the entire inventory yet?
+                if ((playerInv.array[row, column].itemType == "Magazine") && (playerInv.array[row, column].ammoType == ammoType) && (loopCounter <= (playerInv.hSize * playerInv.vSize)))
+                {
+                    Debug.Log("Found Valid Magazine! " + playerInv.array[row, column].Objname + ", " + row + ", " + column + ", " + playerInv.array[row, column].itemType + ", " + playerInv.array[row, column].ammoType);
+                    //update class info
+                    //Debug.Log("Is this null?" + playerInv.array[row, column].Objname);
+                    statAndCoord.itemStat = playerInv.array[row, column];
+                    statAndCoord.row = row;
+                    statAndCoord.column = column;
+                    return statAndCoord;
+                }
+                else
+                {
+                    //Debug.Log("Could not find valid Magazine in inventory slot");
+                }
+            }
+        }
+        Debug.Log("Could not find valid Magazine in entire inventory");
+        return null;
+    }
+    //only need ItemStat and not item since you cant go from a world object straight into your gun, it would need to be placed in your inventory, then loaded. 
+    public void UpdateMagazine(ItemStat magazine)
     {
         //store magazine object that was loaded
         loadedMagazine = magazine;
-        //carry over ammo list from loaded in magazine
-        if (loadedMagazine != null)
-        {
-            if (loadedMagazine.GetComponent<AmmoList>() != null)
-            {
-                Ammo = loadedMagazine.GetComponent<AmmoList>().Ammo;
-            }
-            else
-            {
-                Debug.Log("Loaded a magazine without an ammolist component!");
-            }
-            if (loadedMagazine.GetComponent<pickUpableItem>() != null)
-            {
-                magItem = loadedMagazine.GetComponent<pickUpableItem>().item;
-            }
-        }
-        else
-        {
-            Debug.Log("No Magazine Loaded!");
-        }
     }
     public GameObject FireBullet()
     {
-        if (Ammo.Count > 0 && loadedMagazine != null)
+        if (loadedMagazine.Ammo.Count > 0 && loadedMagazine != null)
         {
             //store a temp for that one bullet
-            GameObject g = Ammo[Ammo.Count - 1];
+            GameObject g = loadedMagazine.Ammo[loadedMagazine.Ammo.Count - 1];
             //delete that bullet from the stack
-            Ammo.Remove(Ammo[Ammo.Count - 1]);
+            loadedMagazine.Ammo.Remove(loadedMagazine.Ammo[loadedMagazine.Ammo.Count - 1]);
             //return the temp value to the gun so it knows which round to fire.
             return g;
         }
@@ -58,7 +84,8 @@ public class AmmoManager : MonoBehaviour
     }
     public bool CanReload()
     {
-        if (Ammo.Count < magItem.ammoSize && Ammo.Count >= 1)
+        ItemStatAndCoords m = GrabMagazine();
+        if (m != null)
         {
             return true;
         }
@@ -67,46 +94,35 @@ public class AmmoManager : MonoBehaviour
             return false;
         }
     }
-    public void Reload(){
-        //is the magazine already full? do you have any ammo?
+    public void UnloadMagazine()
+    {
+        playerInv.SmartPickUp(loadedMagazine);
+        loadedMagazine = null;
+    }
+    public void LoadMagazine()
+    {
         
-        if(Ammo.Count < magItem.ammoSize && Ammo.Count >= 1){
-            //is the magazine empty? do you have enough ammo to fill your magazine?
-            if (Ammo.Count < 1 && Ammo.Count >= magItem.ammoSize)
-            {
-                //deduct a magazines worth of ammo from ammo count
-                Ammo.Count = Ammo.Count - magItem.ammoSize;
-                //refill the ammo in the magazine
-
-                //RELOADING IS BROKEN UNTIL I MAKE IT LOAD IN AMMO FROM INVEN
-
-                Ammo.Count = magItem.ammoSize;
-                Debug.Log("Reloaded!");
-            }
-            //is there ammo in your magazine still? do you have anough ammo to fill your magazine?
-            else if (Ammo.Count > 0 && Ammo.Count >= (magItem.ammoSize - Ammo.Count))
-            {
-                //deduct the amount of ammo you need to fill your magazine from your ammo count
-                Ammo.Count = Ammo.Count - (magItem.ammoSize - Ammo.Count);
-                //refill the ammo in the magazine
-
-                //RELOADING IS BROKEN UNTIL I MAKE IT LOAD IN AMMO FROM INVEN
-
-                //Ammo.Count = magItem.ammoSize;
-                Debug.Log("Reloaded!");
-            }
-            //does you not have enough ammo to completely fill your magazine?
-            else if (Ammo.Count < (magItem.ammoSize - Ammo.Count))
-            {
-                //add the remaining ammoCount to the magazine, since we know its less than enough
-
-                //RELOADING IS BROKEN UNTIL I MAKE IT LOAD IN AMMO FROM INVEN
-
-                //Ammo.Count = Ammo.Count + ammoCount;
-                //zero out ammo count since its not enough
-                Ammo.Count = 0;
-                Debug.Log("Reloaded!");
-            }
+    }
+    public void Reload()
+    {
+        //check for a valid magazine object in inventory
+        ItemStatAndCoords m = GrabMagazine();
+        // check if you got a valid return or not
+        if (m != null)
+        {
+            //clear the slot the old magazine is in
+            playerInv.NullInvenSlot(m.row, m.column);
+            //updating UI to match new change
+            playerInv.plug.ClearSlot(m.row, m.column, playerInv.temp.emptyImage);
+            //place empty magazine back in inventory
+            
+            //replace held ammo list with ammo list from new magazine and update loaded mag variable
+            UpdateMagazine(m.itemStat);
+            Debug.Log("Reloaded!");
+        }
+        else
+        {
+            Debug.Log("Failed to find magazine");
         }
     }
 

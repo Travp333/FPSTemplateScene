@@ -27,6 +27,7 @@ public class GunAnim : MonoBehaviour
 	public bool offHandIK;
 	[HideInInspector]
 	public int animOverriderState = 1;
+	public Magazine mag;
 
 	protected void Start()
 	{

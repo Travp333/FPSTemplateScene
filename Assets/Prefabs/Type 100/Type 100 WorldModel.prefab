@@ -263,9 +263,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animOverride:
+  - {fileID: 0}
   - {fileID: 22100000, guid: bb96d8522127b824f89a44eb4c5b9e50, type: 2}
   - {fileID: 22100000, guid: 2df3868e06a8c964aa9ddd2986a741ed, type: 2}
   gunAnimOverride:
+  - {fileID: 0}
   - {fileID: 22100000, guid: db804de328604dc42904ab51c6168575, type: 2}
   - {fileID: 22100000, guid: b4e13f25ae1989e41a8eb3fa7290ef0e, type: 2}
   weapon: {fileID: 11400000, guid: bf5f1ee1e7edb2545ab52c204572c4a8, type: 2}

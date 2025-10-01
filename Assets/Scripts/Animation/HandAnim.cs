@@ -241,7 +241,7 @@ public class HandAnim : MonoBehaviour
             // play gun animation fire
             gunAnim.PlayFire();
             //check if this weapon is burst fire, if so recursively call shoot again after checking some flags
-            if (gunLogic.burst && !gunLogic.bursting && ammomanager.Ammo.Count > 0)
+            if (gunLogic.burst && !gunLogic.bursting && ammomanager.loadedMagazine.Ammo.Count > 0)
             {
                 burstBlock = true;
                 Debug.Log("Starting Burst");
@@ -252,7 +252,7 @@ public class HandAnim : MonoBehaviour
                 Invoke("Shoot", gunLogic.inBetweenBurstCooldown);
             }
             // continue bursting if this was called recursively by burst
-            else if (gunLogic.burst && gunLogic.bursting && handBurstCount > 0 && ammomanager.Ammo.Count > 0)
+            else if (gunLogic.burst && gunLogic.bursting && handBurstCount > 0 && ammomanager.loadedMagazine.Ammo.Count > 0)
             {
                 Debug.Log("Continuing Burst");
                 handBurstCount--;
@@ -379,18 +379,18 @@ public class HandAnim : MonoBehaviour
                 //Full Auto
                 if (gunLogic.fullAuto && attackAction.IsPressed())
                 {
-                    if (!reloading && holdingWeapon && canShoot && ammomanager.Ammo.Count > 0)
+                    if (!reloading && holdingWeapon && canShoot && ammomanager.loadedMagazine.Ammo.Count > 0)
                     {
                         Shoot();
                         //checking to see if the mag is now empty after firing
-                        if (ammomanager.Ammo.Count == 0)
+                        if (ammomanager.loadedMagazine.Ammo.Count == 0)
                         {
                             gunAnim.anim.SetBool("OutofAmmo", true);
                             canReload = true;
                         }
                     }
                     // no ammo? do noammoshoot
-                    else if (ammomanager.Ammo.Count == 0)
+                    else if (ammomanager.loadedMagazine.Ammo.Count == 0)
                     {
 
                         if (canShoot)
@@ -412,11 +412,11 @@ public class HandAnim : MonoBehaviour
                 //Semi Auto / burst
                 if (attackAction.WasPressedThisFrame() && !gunLogic.fullAuto && !movement.moveBlocked)
                 {
-                    if (!burstBlock && !reloading && holdingWeapon && canShoot && ammomanager.Ammo.Count > 0)
+                    if (!burstBlock && !reloading && holdingWeapon && canShoot && ammomanager.loadedMagazine.Ammo.Count > 0)
                     {
                         Shoot();
                         //checking to see if the mag is now empty after firing
-                        if (ammomanager.Ammo.Count == 0)
+                        if (ammomanager.loadedMagazine.Ammo.Count == 0)
                         {
                             gunAnim.anim.SetBool("OutofAmmo", true);
                             canReload = true;
@@ -426,7 +426,7 @@ public class HandAnim : MonoBehaviour
                     {
                         Debug.Log("BLOCKED BY BURSTBLOCK");
                     }
-                    else if (ammomanager.Ammo.Count == 0)
+                    else if (ammomanager.loadedMagazine.Ammo.Count == 0)
                     {
 
                         if (canShoot)
@@ -446,44 +446,71 @@ public class HandAnim : MonoBehaviour
 			        Invoke("PunchStartR", .1f);
 		        }
 	        }
-	        
-	        if (reloadAction.WasPressedThisFrame() && !inter.isWallColliding && !movement.moveBlocked)
-	        {
-	        	if(holdingWeapon && canReload){
-		        	if(gunAnim != null){
-                        if (ammomanager.CanReload()){
+
+            if (reloadAction.WasPressedThisFrame() && !inter.isWallColliding && !movement.moveBlocked)
+            {
+                if (holdingWeapon)
+                {
+                    if (gunAnim != null)
+                    {
+                        if (ammomanager.CanReload())
+                        {
                             Debug.Log("Starting Reload");
-                            if(ammomanager.Ammo.Count == 0){
-                                burstBlock = false;
-                                CancelInvoke();
-                                Debug.Log("Doing No Ammo Reload!");
-                                canShoot = false;
-                                canReload = false;
-                                reloading = true;
-                                firing = false;
-                                animator.Play("OutOfAmmoReload");
-                                gunAnim.PlayOutOfAmmoReload();
-                                Invoke("ResetCanShoot", gunLogic.noAmmoReloadFireCooldown);
-                                Invoke("ResetCanReload", gunLogic.noAmmoReloadCooldown);  
-                                gunAnim.anim.SetBool("OutofAmmo", false);
+                            // this is WIP since i do not have anything trackign if you have a round in the chamber or not, need to do this next
+                            if (ammomanager.loadedMagazine != null)
+                            {
+                                if (ammomanager.loadedMagazine.Ammo.Count == 0)
+                                {
+                                    burstBlock = false;
+                                    CancelInvoke();
+                                    Debug.Log("Doing No Ammo Reload!");
+                                    canShoot = false;
+                                    canReload = false;
+                                    reloading = true;
+                                    firing = false;
+                                    animator.Play("OutOfAmmoReload");
+                                    gunAnim.PlayOutOfAmmoReload();
+                                    Invoke("ResetCanShoot", gunLogic.noAmmoReloadFireCooldown);
+                                    Invoke("ResetCanReload", gunLogic.noAmmoReloadCooldown);
+                                    gunAnim.anim.SetBool("OutofAmmo", false);
+                                }
+                                else
+                                {
+                                    burstBlock = false;
+                                    CancelInvoke();
+                                    Debug.Log("Doing Reload!");
+                                    canShoot = false;
+                                    canReload = false;
+                                    reloading = true;
+                                    firing = false;
+                                    animator.Play("Reload");
+                                    gunAnim.PlayReload();
+                                    Invoke("ResetCanShoot", gunLogic.reloadFireCooldown);
+                                    Invoke("ResetCanReload", gunLogic.reloadCooldown);
+                                }
                             }
-                            else{
-                                burstBlock = false;
-                                CancelInvoke();
-                                Debug.Log("Doing Reload!");
-                                canShoot = false;
-                                canReload = false;
-                                reloading = true;
-                                firing = false;
-                                animator.Play("Reload");
-                                gunAnim.PlayReload();
-                                Invoke("ResetCanShoot", gunLogic.reloadFireCooldown);
-                                Invoke("ResetCanReload", gunLogic.reloadCooldown);
+                            //there is no magazine loaded, do normal reload ? need to add a check for there being a round in the chamber or not cause that will affect if i do the outof ammo relaod or the base reload here
+                            else
+                            {
+
                             }
 
+
                         }
-		        	}
-	        	}
+                        else
+                        {
+                            Debug.Log("Failed ammomanagers canReload test");
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("GunAnim is Null");
+                    }
+                }
+                else
+                {
+                    Debug.Log("Failed holdingWeapon ");
+                }
 	        }
 
             playerSpeed = sphere.GetComponent<Rigidbody>().linearVelocity.magnitude;

@@ -96,11 +96,6 @@ public class GunLogic : MonoBehaviour
 		}
 		
     }
-    public void FinishReload()
-	{
-        //finishes reload logic, actually moves the values around
-		ammomanager.Reload();
-	}
     public void Fire(){
         //determines recoil
         recoil.DetermineHeat();

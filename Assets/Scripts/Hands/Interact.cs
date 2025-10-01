@@ -424,10 +424,11 @@ public class Interact : MonoBehaviour
                                 gun.GetComponent<GunAnim>().mag = mag;
                                 //overwrite ammo in magazine value with value stored in the gun itself. This allows you to have persistent ammo when you drop and pick back up a weapon
                                 //Debug.Log("Gun in hand has " + gun.GetComponent<AmmoManager>().ammoInMag+ " in magazine, " + "Gun picked up has " + mag.ammo + " In magazine, rewriting...");
-
                                 //
-
-                                gun.GetComponent<AmmoManager>().Ammo = mag.Ammo;
+                                if (gun.GetComponent<AmmoManager>().loadedMagazine != null)
+                                {
+                                    gun.GetComponent<AmmoManager>().loadedMagazine.Ammo = mag.Ammo;
+                                }
                                 //Debug.Log("Gun in hand now has "+ gun.GetComponent<AmmoManager>().ammoInMag + " In Magazine");
                                 //now the overrides, this basically just overwrites all the animations of the player to match whatever gun they just picked up. Anim overriders should be attached to each weapon
                                 //check that an override was included with this weapon
@@ -435,8 +436,17 @@ public class Interact : MonoBehaviour
                                 {
                                     //store it in the handanim script. It is a list so that you could potentially have multiple overrides on one weapon, in case a weapons animations goes through many different animation phases
                                     hand.handInHandAnimOverride = wep.animOverride;
-                                    //just grab the first entry for now as that will be the default. we will iterate through the others ( if they exist) later
-                                    hand.animator.runtimeAnimatorController = hand.handInHandAnimOverride[0];
+                                    //check if we have a magazine loaded in the current weapon
+                                    if (gun.GetComponent<AmmoManager>().loadedMagazine != null)
+                                    {
+                                        //we do! load default anim overrider
+                                        hand.animator.runtimeAnimatorController = hand.handInHandAnimOverride[2];
+                                    }
+                                    else
+                                    {
+                                        // we do not! load no magazine anim overider
+                                        hand.animator.runtimeAnimatorController = hand.handInHandAnimOverride[1];
+                                    }
                                 }
                                 gun.transform.rotation = origin.transform.rotation;
                                 hand.PickUpWeapon();
@@ -445,19 +455,19 @@ public class Interact : MonoBehaviour
                                 {
                                     //store it in the gunanim script via the conneciton in the hand anim script
                                     hand.gunAnim.gunInHandAnimOverride = wep.gunAnimOverride;
-                                    //apply the first in the stack as the default
                                     Debug.Log("Here is the current animOverriderState " + hand.gunAnim.animOverriderState + " it is being changed to " + mag.animOverriderState);
+                                    // is the magazine empty?
                                     if (mag.Ammo.Count <= 0)
                                     {
+                                        // yes, load outofammo state
                                         hand.gunAnim.anim.runtimeAnimatorController = hand.gunAnim.gunInHandAnimOverride[1];
                                         hand.gunAnim.GetComponent<Animator>().SetBool("OutofAmmo", true);
                                     }
                                     else
                                     {
+                                        // no, load whatever state it was in previously
                                         hand.gunAnim.animOverriderState = mag.animOverriderState;
                                         hand.gunAnim.anim.runtimeAnimatorController = hand.gunAnim.gunInHandAnimOverride[mag.animOverriderState];
-                                        //I am a bit confused on this ppart honestly, I dont think the hand animation states iterating is properly implemented yet. I will just leave it as it for now
-                                        hand.animator.runtimeAnimatorController = hand.handInHandAnimOverride[mag.animOverriderState];
                                     }
 
                                 }
@@ -485,7 +495,7 @@ public class Interact : MonoBehaviour
                     if(hand.holdingWeapon && !hand.firing && !hand.reloading){
                         hand.DropWeapon();
                         if(gun.GetComponent<AmmoManager>() != null){
-                            TempAmmoValue = gun.GetComponent<AmmoManager>().Ammo;
+                            TempAmmoValue = gun.GetComponent<AmmoManager>().loadedMagazine.Ammo;
                         }
                         Destroy(gun);
                         gun = Instantiate(hand.gunAnim.WorldModel, holdPoint.transform.position, origin.transform.rotation);

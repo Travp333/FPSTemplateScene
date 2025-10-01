@@ -14946,9 +14946,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f4160dd2441e7146b5fe4491d1d42cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Ammo: []
-  magazineSize: 30
-  ammoCount: 500
+  playerInv: {fileID: 0}
+  ammoType: 8x22
 --- !u!114 &4336171223938694441
 MonoBehaviour:
   m_ObjectHideFlags: 0
