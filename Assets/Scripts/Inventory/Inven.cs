@@ -134,6 +134,7 @@ public class Inven : MonoBehaviour
 	//Overload method for itemstat objects
 	public void CopyItemData(int row, int column, ItemStat item)
 	{
+		Debug.Log(array[row, column].Objname);
 		array[row, column].Objname = item.Objname;
 		array[row, column].weight = item.weight;
 		array[row, column].Amount = array[row, column].Amount + 1;

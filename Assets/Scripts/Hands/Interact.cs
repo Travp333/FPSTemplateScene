@@ -422,12 +422,11 @@ public class Interact : MonoBehaviour
                                 hand.canReload = true;
                                 mag = hit.transform.gameObject.GetComponent<Magazine>();
                                 gun.GetComponent<GunAnim>().mag = mag;
-                                //overwrite ammo in magazine value with value stored in the gun itself. This allows you to have persistent ammo when you drop and pick back up a weapon
-                                //Debug.Log("Gun in hand has " + gun.GetComponent<AmmoManager>().ammoInMag+ " in magazine, " + "Gun picked up has " + mag.ammo + " In magazine, rewriting...");
-                                //
-                                if (gun.GetComponent<AmmoManager>().loadedMagazine != null)
+                                //overwrite ammo in magazine value with value stored in the gun itself. This allows you to have persistent ammo when you drop and pick back up a weapon. THIS MAY NEED TO BE REDONE
+                                if (gun.GetComponent<AmmoManager>().loadedMag != false)
                                 {
-                                    gun.GetComponent<AmmoManager>().loadedMagazine.Ammo = mag.Ammo;
+                                    Debug.Log("Gun in hand has " + gun.GetComponent<AmmoManager>().LoadedMagazineAmmo.Count + " in magazine, " + "Gun picked up has " + mag.Ammo.Count + " In magazine, rewriting...");
+                                    gun.GetComponent<AmmoManager>().LoadedMagazineAmmo = mag.Ammo;
                                 }
                                 //Debug.Log("Gun in hand now has "+ gun.GetComponent<AmmoManager>().ammoInMag + " In Magazine");
                                 //now the overrides, this basically just overwrites all the animations of the player to match whatever gun they just picked up. Anim overriders should be attached to each weapon
@@ -437,7 +436,7 @@ public class Interact : MonoBehaviour
                                     //store it in the handanim script. It is a list so that you could potentially have multiple overrides on one weapon, in case a weapons animations goes through many different animation phases
                                     hand.handInHandAnimOverride = wep.animOverride;
                                     //check if we have a magazine loaded in the current weapon
-                                    if (gun.GetComponent<AmmoManager>().loadedMagazine != null)
+                                    if (gun.GetComponent<AmmoManager>().loadedMag != false)
                                     {
                                         //we do! load default anim overrider
                                         hand.animator.runtimeAnimatorController = hand.handInHandAnimOverride[2];
@@ -495,7 +494,7 @@ public class Interact : MonoBehaviour
                     if(hand.holdingWeapon && !hand.firing && !hand.reloading){
                         hand.DropWeapon();
                         if(gun.GetComponent<AmmoManager>() != null){
-                            TempAmmoValue = gun.GetComponent<AmmoManager>().loadedMagazine.Ammo;
+                            TempAmmoValue = gun.GetComponent<AmmoManager>().LoadedMagazineAmmo;
                         }
                         Destroy(gun);
                         gun = Instantiate(hand.gunAnim.WorldModel, holdPoint.transform.position, origin.transform.rotation);

@@ -167,7 +167,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.2666667
+    m_StopTime: 1.35
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -536,13 +536,6 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 1.2666667
-    functionName: FinishReload
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 1.2666667
     functionName: UnHideMagazine
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -551,6 +544,20 @@ AnimationClip:
     messageOptions: 0
   - time: 1.2666667
     functionName: HideHandMag
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.2666667
+    functionName: LoadMagazine
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.35
+    functionName: RackSlide
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
