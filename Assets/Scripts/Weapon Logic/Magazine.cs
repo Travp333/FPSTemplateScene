@@ -6,5 +6,5 @@ public class Magazine : MonoBehaviour
     public int animOverriderState = 1;
     //Tracks How much ammo is in the gun. is updated when dropped 
     [SerializeField]
-    public List<GameObject> Ammo = new List<GameObject>();
+    public Stack<GameObject> Ammo = new Stack<GameObject>();
 }

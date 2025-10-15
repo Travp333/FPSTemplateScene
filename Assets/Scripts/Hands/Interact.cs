@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 public class Interact : MonoBehaviour
 {
     [SerializeField]
-    public List<GameObject> TempAmmoValue = new List<GameObject>();
+    public Stack<GameObject> TempAmmoValue = new Stack<GameObject>();
     [SerializeField]
     GameObject wallCollisionCheckBox;
     public bool isWallColliding;

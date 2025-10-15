@@ -16,7 +16,7 @@ public class ItemStat
 	public GameObject prefab = null;
 	public Sprite img = null;
 	public string itemType;
-	public List<GameObject> Ammo = new List<GameObject>();
+	public Stack<GameObject> Ammo = new Stack<GameObject>();
 	//what is the type of the ammo? ie 9mm, 8x22, shotgun, etc
 	public string ammoType;
 	// if it is a magazine, how much ammo can this magazine hold?
@@ -118,7 +118,7 @@ public class Inven : MonoBehaviour
 	//This method just copied data from one object to another. This could be Item to ItemStat, or ItemStat to ItemStat
 	// basically this method is called when you pick up an object from the world and when you pick one up from an inventory
 	// Item is an object in the world, ItemStat is an object in an inventory. Effectively same thing, just presented differently
-	public void CopyItemData(int row, int column, Item item, List<GameObject> Ammo)
+	public void CopyItemData(int row, int column, Item item, Stack<GameObject> Ammo)
 	{
 		array[row, column].Objname = item.Objname;
 		array[row, column].weight = item.weight;
@@ -163,7 +163,7 @@ public class Inven : MonoBehaviour
 
 	//This handles picking up a new valid Inventory Item 
 	//Item Objects are items in the world attached to 3d models storing info, ie the physical coin
-	public void PickUp(Item item, List<GameObject> Ammo)
+	public void PickUp(Item item, Stack<GameObject> Ammo)
 	{
 		//iterating through colomns
 		for (int row = 0; row < vSize; row++)
@@ -266,7 +266,7 @@ public class Inven : MonoBehaviour
 		}
 	}
 	//this handles picking up new inventory items in a way that tries to prioritize existing stacks and falls back to the default pickup method if not necessary
-	public void SmartPickUp(Item item, List<GameObject> Ammo)
+	public void SmartPickUp(Item item, Stack<GameObject> Ammo)
 	{
 		//Debug.Log("Starting "+ this.gameObject.Objname + " with a " + item.Objname);
 		//iterating through colomns
@@ -352,7 +352,7 @@ public class Inven : MonoBehaviour
 
 	//used for dropping an inventory object out of your inventory into the world. currently works with item stacks forming immediatly
 	// after dropping all the items in one spot but could be cleaned up a bit
-	public GameObject SpawnItem(GameObject item, List<GameObject> ammo)
+	public GameObject SpawnItem(GameObject item, Stack<GameObject> ammo)
 	{
 		GameObject b = Instantiate(item, droppedItemSpawnPoint.position, this.transform.rotation);
 		if (b.GetComponent<AmmoList>() != null)
@@ -366,7 +366,7 @@ public class Inven : MonoBehaviour
 		return b;
 	}
 	//this drops one specific item that is found using its exact coordinates
-	public void DropSpecificItem(int row, int column, List<GameObject> Ammo)
+	public void DropSpecificItem(int row, int column, Stack<GameObject> Ammo)
 	{
 		if (!((temp.tempRow == row) && (temp.tempColumn == column)))
 		{
@@ -400,7 +400,7 @@ public class Inven : MonoBehaviour
 		}
 	}
 	//Drops entire stack of objects from given coordinates
-	public void DropWholeStack(int row, int column, List<GameObject> Ammo){
+	public void DropWholeStack(int row, int column, Stack<GameObject> Ammo){
 		//This slot does in fact have an object in it
 		if(array[row, column].Amount > 0){
 			//make the button flash grey for a second to give feedback

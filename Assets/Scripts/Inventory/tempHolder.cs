@@ -22,7 +22,7 @@ public class tempHolder : MonoBehaviour
 	// temp int holding value of int explaining max ammo capacity of this magazine, if it is one
 	int tempAmmoMaxCapacity;
 	// temp list holding list of all bullets loaded in this magazine
-	public List<GameObject> tempAmmo = new List<GameObject>();
+	public Stack<GameObject> tempAmmo = new Stack<GameObject>();
 	Inven playerInven;
 	Inven openStorageInven;
 	public int slotAmount;
@@ -79,7 +79,7 @@ public class tempHolder : MonoBehaviour
 		tempAmmo = null;
 	}
 	//Checks whether the shift click is valid, and whether it is from a player inventory into a storage inventory or vice verse
-	public void ShiftClickCheck(Inven inventoryObject, int row, int column, List<GameObject> Ammo){
+	public void ShiftClickCheck(Inven inventoryObject, int row, int column, Stack<GameObject> Ammo){
 		//Debug.Log("Shift click check #2");
 		if(!Input.GetKey(KeyCode.LeftShift)){
 			//player not holding shift
@@ -118,7 +118,7 @@ public class tempHolder : MonoBehaviour
 		}
 	}
 	//this method handles shift clicking a stack to instantly move it either from the player inventory to the storage, or vice versa. 
-	public void ShiftClick(Inven invenObj, Inven otherInven, int row, int column, UiPlugger plug, List<GameObject> Ammo){
+	public void ShiftClick(Inven invenObj, Inven otherInven, int row, int column, UiPlugger plug, Stack<GameObject> Ammo){
 		//Debug.Log("Shift click check #4");
 		//store slotAmount into variable to ensure for loop runs proper amount of times,
 		//as the amount will be edited throughout the for loop

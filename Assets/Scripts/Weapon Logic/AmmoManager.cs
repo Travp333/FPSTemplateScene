@@ -15,7 +15,7 @@ public class ItemStatAndCoords
 public class AmmoManager : MonoBehaviour
 {
     ItemStatAndCoords statAndCoord;
-    List<GameObject> tempAmmoList = new List<GameObject>();
+    Stack<GameObject> tempAmmoList = new Stack<GameObject>();
     Item magItem;
     Inven playerInv;
     int loopCounter;
@@ -30,8 +30,9 @@ public class AmmoManager : MonoBehaviour
 	public int LoadedMagazinestackSize = 0;
 	public GameObject LoadedMagazineprefab = null;
 	public Sprite LoadedMagazineimg = null;
-	public string LoadedMagazineitemType = "";
-	public List<GameObject> LoadedMagazineAmmo = new List<GameObject>();
+    public string LoadedMagazineitemType = "";
+    [SerializeField]
+	public Stack<GameObject> LoadedMagazineAmmo = new Stack<GameObject>();
 	//what is the type of the ammo? ie 9mm, 8x22, shotgun, etc
 	public string LoadedMagazineammoType = "";
     // if it is a magazine, how much ammo can this magazine hold?
@@ -39,13 +40,14 @@ public class AmmoManager : MonoBehaviour
     //-------------------------------------------------------------
     public bool loadedMag;
     ItemStat I;
+    GameObject player;
     //basically set it up to be how a real gun functions, reloading simply replaces the magazine, but racking the slide replaces the next round in the chamber.
     // now when i do OutofAmmo checks i am checking this one round, not the ammo count
     [SerializeField]
     // made it an array so that top loaded / individual loaded weapons like the DB or a SKS could still work using this logic, just put everything 
     // in the round in chamber slot and skip the magazine logic altogether. 
-    public List<GameObject> roundInChamber = new List<GameObject>();
-    
+    public Stack<GameObject> roundInChamber = new Stack<GameObject>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,21 +57,37 @@ public class AmmoManager : MonoBehaviour
             if (i.gameObject.tag == "Player")
             {
                 playerInv = i;
+                player = i.gameObject;
             }
         }
 
     }
 
-
+    // this is assuming an autoload, in the case of like a pump shotgun or a bolt action this would need to be modified / replaced
+    // something is wrong here, it is sorting the ammo stack for some reason and firing all the shotgun shells first, then the 8x22 ammo idk weird
     public GameObject FireBullet()
     {
         Debug.Log("Called Fire Bullet");
-        if (LoadedMagazineAmmo.Count > 0)
+        if (roundInChamber.Count > 0)
         {
+            Debug.Log("Firing this bullet: " + roundInChamber.Peek().name);
             //store a temp for that one bullet
-            GameObject g = LoadedMagazineAmmo[LoadedMagazineAmmo.Count - 1];
+            GameObject g = roundInChamber.Peek();
+            // GameObject g = roundInChamber[roundInChamber.Count - 1];
             //delete that bullet from the stack
-            LoadedMagazineAmmo.Remove(LoadedMagazineAmmo[LoadedMagazineAmmo.Count - 1]);
+            roundInChamber.Pop();
+            //roundInChamber.Remove(roundInChamber[roundInChamber.Count - 1]);
+            // is there another bullet in the chamber
+            if(LoadedMagazineAmmo.Count > 0)
+            {
+                Debug.Log("Loading this bullet: " + LoadedMagazineAmmo.Peek().name);
+                // take the top bullet from your magazine and place in in the chamber
+                roundInChamber.Push(LoadedMagazineAmmo.Pop());
+                //roundInChamber.Add(LoadedMagazineAmmo[LoadedMagazineAmmo.Count - 1]);
+                // delete a bullet from the magazine to simulate loading the next available round
+                //LoadedMagazineAmmo.Remove(LoadedMagazineAmmo[LoadedMagazineAmmo.Count - 1]);
+            }
+
             //return the temp value to the gun so it knows which round to fire.
             return g;
         }
@@ -90,9 +108,11 @@ public class AmmoManager : MonoBehaviour
         LoadedMagazineammoType = X.ammoType;
         LoadedMagazineammoSize = X.ammoSize;
         LoadedMagazineAmmo = X.Ammo;
+        loadedMag = true;
     }
     public void CopyLoadedMagDataToI()
     {
+        I = null;
         I.Objname = LoadedMagazineObjname;
         I.weight = LoadedMagazineweight;
         I.Amount = LoadedMagazineAmount;
@@ -114,8 +134,9 @@ public class AmmoManager : MonoBehaviour
         LoadedMagazineimg = null;
         LoadedMagazineitemType = "";
         LoadedMagazineammoType = "";
-        LoadedMagazineAmmo = new List<GameObject>();
+        LoadedMagazineAmmo = new Stack<GameObject>();
         LoadedMagazineammoSize = -1;
+        loadedMag = false;
     }
     public bool CanReload()
     {
@@ -200,7 +221,6 @@ public class AmmoManager : MonoBehaviour
             Debug.Log("Changed loadedMagazine in Update Magazine from: " + LoadedMagazineObjname + " to " + m.itemStat.Objname);
             CopyLoadedMagDataFromX(m.itemStat);
             //Debug.Log("Why is this null?? " + magazine.Ammo.Count);
-            //store magazine object that was loaded
             Debug.Log("From update Magazine " + LoadedMagazineAmmo.Count);
 
         }
@@ -213,39 +233,45 @@ public class AmmoManager : MonoBehaviour
     }
     public void RackSlide()
     {
-        Debug.Log("Called Rack Slide " + Time.deltaTime);
+        Debug.Log("Called Rack Slide ");
         
 
         if (LoadedMagazineAmmo != null)
         {
             if (LoadedMagazineAmmo.Count > 0)
             {
+
                 //store a temp for one bullet
-                GameObject g = LoadedMagazineAmmo[LoadedMagazineAmmo.Count - 1];
+                GameObject g = LoadedMagazineAmmo.Peek();
+                //GameObject g = LoadedMagazineAmmo[LoadedMagazineAmmo.Count - 1];
                 //delete that bullet from the stack
-                LoadedMagazineAmmo.Remove(LoadedMagazineAmmo[LoadedMagazineAmmo.Count - 1]);
+                LoadedMagazineAmmo.Pop();
+                //LoadedMagazineAmmo.Remove(LoadedMagazineAmmo[LoadedMagazineAmmo.Count - 1]);
                 // is there a bullet in the chamber already?
                 if (roundInChamber.Count > 0)
                 {
                     //spawn the existing bullet on the ground, idk when this would fire but thats how it would work irl so putting it here just in case. 
-                    Instantiate(roundInChamber[roundInChamber.Count - 1], this.transform.position, Quaternion.identity);
+                    Instantiate(roundInChamber.Pop(), this.transform.position, Quaternion.identity);
                     //remove that bullet from the list
-                    roundInChamber.Remove(roundInChamber[roundInChamber.Count - 1]);
+                    //roundInChamber.Remove(roundInChamber[roundInChamber.Count - 1]);
                     // add the new bullet from the top of the loaded magazine into the chamber
-                    roundInChamber.Add(g);
+                    roundInChamber.Push(g);
                 }
                 else
                 {
                     // add the new bullet from the top of the loaded magazine into the chamber
-                    roundInChamber.Add(g);
+                    roundInChamber.Push(g);
                 }
-                Debug.Log("After Calling Rack slide, here is RoundinChamber count and name of first entry: " + roundInChamber.Count + ", " + roundInChamber[0].name + ", and here is loaded magazine name and count: " + LoadedMagazineObjname +", " + LoadedMagazineAmmo.Count);
+                Debug.Log("After Calling Rack slide, here is RoundinChamber count and name of first entry: " + roundInChamber.Count + ", " + roundInChamber.Peek().name + ", and here is loaded magazine name and count: " + LoadedMagazineObjname + ", " + LoadedMagazineAmmo.Count);
+            }
+            else
+            {
+                Debug.Log("No ammo in magazine!");
             }
         }
-        
         else
         {
-            Debug.Log("LoadedMagazine.Ammo is null for some reason: " + LoadedMagazineObjname + ", " + LoadedMagazineammoType);
+            Debug.Log("LoadedMagazineAmmo is null for some reason: " + LoadedMagazineObjname + ", " + LoadedMagazineammoType);
         }
         
     }

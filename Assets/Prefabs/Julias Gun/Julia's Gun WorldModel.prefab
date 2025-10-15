@@ -172,7 +172,12 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 2fb8d556ea127b048a8dd98719c3d758, type: 2}
+      objectReference: {fileID: 2100000, guid: e853d8cc543fd1047af3f3ce07948175, type: 2}
+    - target: {fileID: 8305024964522021939, guid: a093245946530b848bd531e4e6c98b05,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e853d8cc543fd1047af3f3ce07948175, type: 2}
     - target: {fileID: 8534595328754196904, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -226,10 +231,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6942482238671944259}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 2
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -292,7 +297,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ff121fc4798c8428cbd0f32857d62e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammo: 40
+  animOverriderState: 1
+  Ammo: []
 --- !u!1 &9026682837046788480 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7936196628657420654, guid: a093245946530b848bd531e4e6c98b05,

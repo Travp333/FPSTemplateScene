@@ -255,7 +255,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 2fb8d556ea127b048a8dd98719c3d758, type: 2}
+      objectReference: {fileID: 2100000, guid: e853d8cc543fd1047af3f3ce07948175, type: 2}
     - target: {fileID: 5045676260495800678, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -340,7 +340,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 2fb8d556ea127b048a8dd98719c3d758, type: 2}
+      objectReference: {fileID: 2100000, guid: e853d8cc543fd1047af3f3ce07948175, type: 2}
     - target: {fileID: 8534595328754196904, guid: a093245946530b848bd531e4e6c98b05,
         type: 3}
       propertyPath: m_LocalRotation.w
@@ -430,10 +430,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2712949182256638126}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 2
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -494,6 +494,7 @@ MonoBehaviour:
   anim: {fileID: 0}
   offHandIK: 1
   animOverriderState: 1
+  mag: {fileID: 0}
 --- !u!114 &6365800938726413766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,9 +526,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f4160dd2441e7146b5fe4491d1d42cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magazineSize: 40
-  ammoInMag: 0
-  ammoCount: 100
+  ammoType: 
+  LoadedMagazineObjname: 
+  LoadedMagazineweight: 0
+  LoadedMagazineAmount: 0
+  LoadedMagazinestackSize: 0
+  LoadedMagazineprefab: {fileID: 0}
+  LoadedMagazineimg: {fileID: 0}
+  LoadedMagazineitemType: 
+  LoadedMagazineAmmo: []
+  LoadedMagazineammoType: 
+  LoadedMagazineammoSize: -1
+  loadedMag: 0
+  roundInChamber: []
 --- !u!114 &-1036338100096239127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -572,8 +583,6 @@ MonoBehaviour:
   inBetweenBurstCooldown: 0
   burstCount: 0
   bursting: 0
-  bulletObj: {fileID: 4274701299776518559, guid: 1909757c61b096d468be7b97472598f5,
-    type: 3}
   dudBulletObj: {fileID: 4274701299776518559, guid: 0a36b5dcfd1bd9a4da4a4da6b3291d3c,
     type: 3}
   bulletSpawnPos: {fileID: 673062548195180681}

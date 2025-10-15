@@ -97,7 +97,7 @@ public class UiPlugger : MonoBehaviour
 		//rt.anchorMax = new Vector2(0,1);
 		//rt.pivot = new Vector2(.5f, .5f);
 	}
-	public void ChangeItem(int row, int column, Sprite img, int count, string name, List<GameObject> ammo, int maxAmmo){
+	public void ChangeItem(int row, int column, Sprite img, int count, string name, Stack<GameObject> ammo, int maxAmmo){
 		//Debug.Log(slots.Count + this.gameObject.name);
 		foreach(GameObject g in slots){
 
@@ -135,7 +135,7 @@ public class UiPlugger : MonoBehaviour
 		reff.slider.GetComponent<Slider>().value = value;
 	}
 	//this is used when simply changing the amount of an inventory object.
-	public void UpdateItem(int row, int column, int count, List<GameObject> ammo, int maxAmmo)
+	public void UpdateItem(int row, int column, int count, Stack<GameObject> ammo, int maxAmmo)
 	{
 		foreach (GameObject g in slots)
 		{

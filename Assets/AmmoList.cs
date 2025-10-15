@@ -5,6 +5,15 @@ using System.Collections.Generic;
 public class AmmoList : MonoBehaviour
 {
     [SerializeField]
-    public List<GameObject> Ammo = new List<GameObject>();
-
+    public Stack<GameObject> Ammo = new Stack<GameObject>();
+    [SerializeField]
+    [Tooltip("This list will be iterated through and loaded into the magazine")]
+    public List<GameObject> startingAmmo = new List<GameObject>();
+    void Start()
+    {
+        for(var i = startingAmmo.Count - 1; i >= 0; i--){
+            Debug.Log("Pushing " + startingAmmo[i] + " into stack");
+            Ammo.Push(startingAmmo[i]);
+        }
+    }
 }
