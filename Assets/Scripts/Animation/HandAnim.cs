@@ -476,13 +476,13 @@ public class HandAnim : MonoBehaviour
                                 {
                                     burstBlock = false;
                                     CancelInvoke();
-                                    Debug.Log("Doing No Ammo Reload!");
+                                    Debug.Log("Doing No Round Reload!");
                                     canShoot = false;
                                     canReload = false;
                                     reloading = true;
                                     firing = false;
-                                    animator.Play("OutOfAmmoReload");
-                                    gunAnim.PlayOutOfAmmoReload();
+                                    animator.Play("NoRoundReload");
+                                    gunAnim.PlayNoRoundReload();
                                     Invoke("ResetCanShoot", gunLogic.noAmmoReloadFireCooldown);
                                     Invoke("ResetCanReload", gunLogic.noAmmoReloadCooldown);
                                     gunAnim.anim.SetBool("OutofAmmo", false);
@@ -492,7 +492,7 @@ public class HandAnim : MonoBehaviour
                                 {
                                     burstBlock = false;
                                     CancelInvoke();
-                                    Debug.Log("Doing Reload!");
+                                    Debug.Log("Doing Base Reload!");
                                     canShoot = false;
                                     canReload = false;
                                     reloading = true;
@@ -503,7 +503,7 @@ public class HandAnim : MonoBehaviour
                                     Invoke("ResetCanReload", gunLogic.reloadCooldown);
                                 }
                             }
-                            //there is no magazine loaded, do normal reload ? need to add a check for there being a round in the chamber or not cause that will affect if i do the outof ammo relaod or the base reload here
+                            //there is no magazine loaded
                             else
                             {
                                 //Debug.Log("There is no valid magazine loaded");
@@ -517,8 +517,8 @@ public class HandAnim : MonoBehaviour
                                     canReload = false;
                                     reloading = true;
                                     firing = false;
-                                    animator.Play("OutOfAmmoReload");
-                                    gunAnim.PlayOutOfAmmoReload();
+                                    animator.Play("NoRoundNoMagReload");
+                                    gunAnim.PlayNoRoundNoMagReload();
                                     Invoke("ResetCanShoot", gunLogic.noAmmoReloadFireCooldown);
                                     Invoke("ResetCanReload", gunLogic.noAmmoReloadCooldown);
                                     gunAnim.anim.SetBool("OutofAmmo", false);
@@ -533,8 +533,8 @@ public class HandAnim : MonoBehaviour
                                     canReload = false;
                                     reloading = true;
                                     firing = false;
-                                    animator.Play("Reload");
-                                    gunAnim.PlayReload();
+                                    animator.Play("NoMagReload");
+                                    gunAnim.PlayNoMagReload();
                                     Invoke("ResetCanShoot", gunLogic.reloadFireCooldown);
                                     Invoke("ResetCanReload", gunLogic.reloadCooldown);
                                 }

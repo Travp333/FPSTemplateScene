@@ -12,7 +12,7 @@ public class AmmoList : MonoBehaviour
     void Start()
     {
         for(var i = startingAmmo.Count - 1; i >= 0; i--){
-            Debug.Log("Pushing " + startingAmmo[i] + " into stack");
+            //Debug.Log("Pushing " + startingAmmo[i] + " into stack");
             Ammo.Push(startingAmmo[i]);
         }
     }

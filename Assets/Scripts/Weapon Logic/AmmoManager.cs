@@ -12,11 +12,10 @@ public class ItemStatAndCoords
     public int column;
 }
 
+
 public class AmmoManager : MonoBehaviour
 {
     ItemStatAndCoords statAndCoord;
-    Stack<GameObject> tempAmmoList = new Stack<GameObject>();
-    Item magItem;
     Inven playerInv;
     int loopCounter;
     [SerializeField]
@@ -39,7 +38,6 @@ public class AmmoManager : MonoBehaviour
     public int LoadedMagazineammoSize = -1;
     //-------------------------------------------------------------
     public bool loadedMag;
-    ItemStat I;
     GameObject player;
     //basically set it up to be how a real gun functions, reloading simply replaces the magazine, but racking the slide replaces the next round in the chamber.
     // now when i do OutofAmmo checks i am checking this one round, not the ammo count
@@ -110,20 +108,6 @@ public class AmmoManager : MonoBehaviour
         LoadedMagazineAmmo = X.Ammo;
         loadedMag = true;
     }
-    public void CopyLoadedMagDataToI()
-    {
-        I = null;
-        I.Objname = LoadedMagazineObjname;
-        I.weight = LoadedMagazineweight;
-        I.Amount = LoadedMagazineAmount;
-        I.stackSize = LoadedMagazinestackSize;
-        I.prefab = LoadedMagazineprefab;
-        I.img = LoadedMagazineimg;
-        I.itemType = LoadedMagazineitemType;
-        I.ammoType = LoadedMagazineammoType;
-        I.ammoSize = LoadedMagazineammoSize;
-        I.Ammo = LoadedMagazineAmmo;
-    }
     public void ClearLoadedMagData()
     {
         LoadedMagazineObjname = "";
@@ -153,29 +137,33 @@ public class AmmoManager : MonoBehaviour
     //These get called via animation, that way it can be interrupted
     public void UnloadMagazine()
     {
-        Debug.Log("Called Unload Magazine " + Time.deltaTime);
-        CopyLoadedMagDataToI();
-        playerInv.SmartPickUp(I);
+        Debug.Log("Called Unload Magazine, placing this magazine into your inventory: " + LoadedMagazineObjname + ", x" + LoadedMagazineAmmo.Count);
+        if (LoadedMagazineprefab.GetComponent<pickUpableItem>())
+        {
+            playerInv.SmartPickUpItemAtBottomOfInventory(LoadedMagazineprefab.GetComponent<pickUpableItem>().item, LoadedMagazineAmmo);
+        }
+        else
+        {
+            Debug.Log("INVALID ITEM UNLOADED!");
+        }
         Debug.Log("Changed loadedMagazine in Unload Magazine from: " + LoadedMagazineObjname + " to null");
         ClearLoadedMagData();
     }
     //These get called via animation, that way it can be interrupted
     public void LoadMagazine()
     {
-        Debug.Log("Called Load Magazine " + Time.deltaTime);
+        Debug.Log("Called Load Magazine ");
         //check for a valid magazine object in inventory
         ItemStatAndCoords m = GrabMagazine();
         // check if you got a valid return or not
         if (m != null)
         {
-            Debug.Log("??"+m.itemStat.Ammo.Count);
             UpdateMagazine(m);
             // V V below is making itemstat.ammo null before rackslide for some reason 
             //clear the slot the old magazine is in
             playerInv.NullInvenSlot(m.row, m.column);
             //updating UI to match new change
             playerInv.plug.ClearSlot(m.row, m.column, playerInv.temp.emptyImage);
-            Debug.Log("From Load Magazine " + LoadedMagazineAmmo.Count);
             Debug.Log("Reloaded!");
         }
         else
@@ -185,8 +173,8 @@ public class AmmoManager : MonoBehaviour
     }
     ItemStatAndCoords GrabMagazine()
     {
-        Debug.Log("Called Grab Magazine " + Time.deltaTime);
-        for (int row = 0; row < playerInv.vSize; row++)
+        Debug.Log("Called Grab Magazine ");
+        for (int row = playerInv.vSize-1; row >= 0; row--)
         {
             //iterating through rows
             for (int column = 0; column < playerInv.hSize; column++)
@@ -200,7 +188,6 @@ public class AmmoManager : MonoBehaviour
                     statAndCoord.itemStat = playerInv.array[row, column];
                     statAndCoord.row = row;
                     statAndCoord.column = column;
-                    Debug.Log(statAndCoord.itemStat.Ammo.Count);
                     return statAndCoord;
                 }
                 else
@@ -215,13 +202,12 @@ public class AmmoManager : MonoBehaviour
         //only need ItemStat and not item since you cant go from a world object straight into your gun, it would need to be placed in your inventory, then loaded. 
     public void UpdateMagazine(ItemStatAndCoords m)
     {
-        Debug.Log("Called Update Magazine " + Time.deltaTime);
+        Debug.Log("Called Update Magazine ");
         if (m != null)
         {
             Debug.Log("Changed loadedMagazine in Update Magazine from: " + LoadedMagazineObjname + " to " + m.itemStat.Objname);
             CopyLoadedMagDataFromX(m.itemStat);
-            //Debug.Log("Why is this null?? " + magazine.Ammo.Count);
-            Debug.Log("From update Magazine " + LoadedMagazineAmmo.Count);
+            Debug.Log("did this update properly? " + LoadedMagazineObjname);
 
         }
         else

@@ -146,6 +146,19 @@ public class Inven : MonoBehaviour
 		array[row, column].ammoSize = item.ammoSize;
 		array[row, column].Ammo = item.Ammo;
 	}
+	public void CopyItemDataNoIncrement(int row, int column, Item item, Stack<GameObject> Ammo)
+	{
+		array[row, column].Objname = item.Objname;
+		array[row, column].weight = item.weight;
+		array[row, column].Amount = array[row, column].Amount;
+		array[row, column].stackSize = item.stackSize;
+		array[row, column].prefab = item.prefab;
+		array[row, column].img = item.img;
+		array[row, column].itemType = item.itemType;
+		array[row, column].ammoType = item.ammoType;
+		array[row, column].ammoSize = item.ammoSize;
+		array[row, column].Ammo = Ammo;
+	}
 	//This method clears all the info from a given inventory slot
 	public void NullInvenSlot(int row, int column)
 	{
@@ -165,8 +178,8 @@ public class Inven : MonoBehaviour
 	//Item Objects are items in the world attached to 3d models storing info, ie the physical coin
 	public void PickUp(Item item, Stack<GameObject> Ammo)
 	{
-		//iterating through colomns
-		for (int row = 0; row < vSize; row++)
+		//iterating through columns
+		for (int row = vSize-1; row >= 0; row--)
 		{
 			//Debug.Log("Column " + i);
 			//iterating through rows
@@ -215,12 +228,13 @@ public class Inven : MonoBehaviour
 			}
 		}
 	}
-	
+
 	//Overload that allows picking up itemstat objects
 	// ItemStat Objects are inventory objects that are already stored in an inventory, ie the coin you just picked up from inside a box
-	public void PickUp(ItemStat item){
+	public void PickUp(ItemStat item)
+	{
 		//iterating through colomns
-		for (int row = 0; row < vSize; row++)
+		for (int row = vSize-1; row >= 0; row--)
 		{
 			//Debug.Log("Column " + i);
 			//iterating through rows
@@ -228,38 +242,112 @@ public class Inven : MonoBehaviour
 			{
 				//Debug.Log("Row" + column);
 				//is this slot empty?
-				if(array[row,column].Objname == ""){
+				if (array[row, column].Objname == "")
+				{
 					//yes empty, filling slot
-					//Debug.Log("Slot (" + i + " , "+ column + " ) is empty, putting " + item.Objname + " in slot");
+					Debug.Log("Slot (" + row + " , "+ column + " ) is empty, putting " + item.Objname + " in slot");
 					isPickedUp = true;
 					//Debug.Log("ispickedup set to "+ isPickedUp);
 					CopyItemData(row, column, item);
 					//updating UI to match new change
-					plug.ChangeItem(row, column, item.img, array[row,column].Amount, array[row,column].Objname, item.Ammo, array[row,column].ammoSize);
-					row=0;
-					column=0;
+					plug.ChangeItem(row, column, item.img, array[row, column].Amount, array[row, column].Objname, item.Ammo, array[row, column].ammoSize);
+					row = 0;
+					column = 0;
 					return;
 				}
 				//no theres something here
-				else{
+				else
+				{
 					//Debug.Log("Slot (" + i + " , " + column + " ) has " + array[row,column].Amount + " " + array[row,column].Objname + " in it, checking if it matches the new " + item.Objname);
 					//basically is there room for it, is it the same object
-					if(array[row,column].Objname == item.Objname && array[row,column].stackSize !>= array[row,column].Amount + 1){
+					if (array[row, column].Objname == item.Objname && array[row, column].stackSize! >= array[row, column].Amount + 1)
+					{
 						//Debug.Log("Slot (" + i + " , "+ column + " ) has room, adding " + item.Objname + " to stack");
 						//same object, room in the stack, adding to stack
 						isPickedUp = true;
 						//Debug.Log("ispickedup set to "+ isPickedUp);
-						array[row,column].Amount = array[row,column].Amount + 1;
+						array[row, column].Amount = array[row, column].Amount + 1;
 						//Debug.Log("we now have " + array[row,column].Amount + " "+ array[row,column].Objname + " in " + "Slot (" + i + " , "+ column + " ) ");
 						//updating UI to match new change
-						plug.UpdateItem(row, column, array[row,column].Amount, item.Ammo, array[row,column].ammoSize);
-						row=0;
-						column=0;
+						plug.UpdateItem(row, column, array[row, column].Amount, item.Ammo, array[row, column].ammoSize);
+						row = 0;
+						column = 0;
 						return;
 					}
-					else if(array[row,column].stackSize <= array[row,column].Amount + 1){
-						//Debug.Log("cant hold more than " + array[row,column].Amount + " " + array[row,column].Objname + " in one stack, starting new stack... ");
+					else if (array[row, column].stackSize <= array[row, column].Amount + 1)
+					{
+						Debug.Log("cant hold more than " + array[row,column].Amount + " " + array[row,column].Objname + " in one stack, starting new stack... ");
 					}
+					//otherwise theres something here but its not the same type or theres no room for it
+				}
+			}
+		}
+	}
+	public void PickUpAtBottomOfInventory(Item item, Stack<GameObject> Ammo)
+	{
+		//iterating through colomns
+		for (int row = 0; row < vSize; row++)
+		{
+			//Debug.Log("Column " + i);
+			//iterating through rows
+			for (int column = hSize-1; column >= 0; column--)
+			{
+				//Debug.Log("Row" + column);
+				//is this slot empty?
+				if (array[row, column].Objname == "")
+				{
+					//yes empty, filling slot
+					//Debug.Log("Slot (" + i + " , "+ column + " ) is empty, putting " + item.Objname + " in slot");
+					isPickedUp = true;
+					//Debug.Log("ispickedup set to "+ isPickedUp);
+					CopyItemData(row, column, item, Ammo);
+					//updating UI to match new change
+					plug.ChangeItem(row, column, item.img, array[row, column].Amount, array[row, column].Objname, Ammo, array[row,column].ammoSize);
+					row = 0;
+					column = 0;
+					return;
+				}
+				//no theres something here
+				else
+				{
+					//Debug.Log("Slot (" + i + " , " + column + " ) has " + array[row,column].Amount + " " + array[row,column].Objname + " in it, checking if it matches the new " + item.Objname);
+					//basically is there room for it, is it the same object
+					if (array[row, column].Objname == item.Objname && array[row, column].stackSize! >= array[row, column].Amount + 1)
+					{
+						//Debug.Log("Slot (" + i + " , "+ column + " ) has room, adding " + item.Objname + " to stack");
+						//same object, room in the stack, adding to stack
+						isPickedUp = true;
+						//Debug.Log("ispickedup set to "+ isPickedUp);
+						array[row, column].Amount = array[row, column].Amount + 1;
+						//Debug.Log("we now have " + array[row,column].Amount + " "+ array[row,column].Objname + " in " + "Slot (" + i + " , "+ column + " ) ");
+						//updating UI to match new change
+						plug.UpdateItem(row, column, array[row, column].Amount, Ammo, array[row, column].ammoSize);
+						row = 0;
+						column = 0;
+						return;
+					}
+					//scoot the other item over to ensure this new item is all the way at the bottom
+					else
+					{
+						Debug.Log("Scooting item at bottom of stack to top to make room for new item: " + array[row, column].Amount);
+						PickUp(array[row,column]);
+						plug.ClearSlot(row, column, temp.emptyImage);
+						//yes empty, filling slot
+						//Debug.Log("Slot (" + i + " , "+ column + " ) is empty, putting " + item.Objname + " in slot");
+						isPickedUp = true;
+						//Debug.Log("ispickedup set to "+ isPickedUp);
+						CopyItemDataNoIncrement(row, column, item, Ammo);
+						//updating UI to match new change
+						Debug.Log("After? " + array[row, column].Amount);
+						plug.ChangeItem(row, column, item.img, array[row, column].Amount, array[row, column].Objname, Ammo, array[row,column].ammoSize);
+						row = 0;
+						column = 0;
+						return;
+					}
+					//else if (array[row, column].stackSize <= array[row, column].Amount + 1)
+					//{
+						//Debug.Log("cant hold more than " + array[row,column].Amount + " " + array[row,column].Objname + " in one stack, starting new stack... ");
+					//}
 					//otherwise theres something here but its not the same type or theres no room for it
 				}
 			}
@@ -341,6 +429,45 @@ public class Inven : MonoBehaviour
 						//Debug.Log("made it to finishLine");
 						//searched whole inventory, nothing shares name, calling normal PickUp()
 						PickUp(item);
+						loopCounter = 0;
+						return;
+					}
+				}
+			}
+		}
+	}
+	public void SmartPickUpItemAtBottomOfInventory(Item item, Stack<GameObject> Ammo)
+	{
+		//Debug.Log("Starting "+ this.gameObject.Objname + " with a " + item.Objname);
+		//iterating through colomns
+		for (int row = 0; row < vSize; row++)
+		{
+			//Debug.Log("Column " + i);
+			//iterating through rows
+			for (int column = hSize-1; column >= 0; column--)
+			{
+				if ((array[row, column].Objname == item.Objname) && (loopCounter <= (hSize * vSize)) && (array[row, column].stackSize! >= array[row, column].Amount + 1))
+				{
+					//found a stack of the existing item in inventory
+					isPickedUp = true;
+					//Debug.Log("ispickedup set to "+ isPickedUp);
+					array[row, column].Amount = array[row, column].Amount + 1;
+					plug.UpdateItem(row,column,array[row,column].Amount, Ammo, array[row,column].ammoSize);
+					row = 0;
+					column = 0;
+					loopCounter = 0;
+					return;
+				}
+				else
+				{
+					//this slot doesnt have the same name or doesnt have space
+					//Debug.Log(loopCounter);
+					loopCounter++;
+					if (loopCounter >= (hSize * vSize))
+					{
+						//Debug.Log("made it to finishLine");
+						//searched whole inventory, nothing shares name, calling normal PickUp()
+						PickUpAtBottomOfInventory(item, Ammo);
 						loopCounter = 0;
 						return;
 					}

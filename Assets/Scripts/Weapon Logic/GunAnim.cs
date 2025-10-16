@@ -57,13 +57,23 @@ public class GunAnim : MonoBehaviour
 		}
 	}
 	public void PlayReload(){
-		//plays given reload animation
+		//plays base reload, assumes there is a round in the chamber and a magazine in the slot
 		anim.Play("Reload");
 	}
-	public void PlayOutOfAmmoReload(){
-		//plays given out of ammo reload animation
-		anim.Play("OutOfAmmoReload");
+	public void PlayNoRoundReload()
+	{
+		//plays animation for when there is not a round in the chamber
+		anim.Play("NoRoundReload");
 	}
+	public void PlayNoMagReload(){
+		//plays animation for when there is not a magazine in the slot
+		anim.Play("NoMagReload");
+	}
+	public void PlayNoRoundNoMagReload(){
+		//plays animation for when there is no magazine in the slot and no round in the chamber 
+		anim.Play("NoRoundNoMagReload");
+	}
+
 	public void PlayDraw(){
 		if (this.GetComponent<Animator>() != null)
 		{

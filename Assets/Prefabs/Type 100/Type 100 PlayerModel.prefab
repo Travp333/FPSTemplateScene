@@ -4795,6 +4795,8 @@ ParticleSystemRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -4816,6 +4818,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -9581,6 +9584,8 @@ ParticleSystemRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -9602,6 +9607,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -9692,13 +9698,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5964210948148545461}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.5402342, y: -0.25948352, z: 0.024281804, w: 0.8001411}
-  m_LocalPosition: {x: -1.3896195, y: -0.8672157, z: 0.862947}
-  m_LocalScale: {x: -1.5191, y: -1.5191, z: -1.5191}
+  m_LocalRotation: {x: 0.48959106, y: -0.7502018, z: 0.43862736, w: 0.07144189}
+  m_LocalPosition: {x: -0.695, y: -0.599, z: 0.373}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5143947750550346230}
-  m_LocalEulerAnglesHint: {x: -58.422, y: -57.465, z: 37.56}
+  m_LocalEulerAnglesHint: {x: 46.725, y: -208.046, z: -78.573}
 --- !u!1 &7427435276603431490
 GameObject:
   m_ObjectHideFlags: 0
@@ -14429,6 +14435,8 @@ ParticleSystemRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -14450,6 +14458,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -14847,10 +14856,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5487963341727548236}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -14946,8 +14955,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f4160dd2441e7146b5fe4491d1d42cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInv: {fileID: 0}
   ammoType: 8x22
+  LoadedMagazineObjname: 
+  LoadedMagazineweight: 0
+  LoadedMagazineAmount: 0
+  LoadedMagazinestackSize: 0
+  LoadedMagazineprefab: {fileID: 0}
+  LoadedMagazineimg: {fileID: 0}
+  LoadedMagazineitemType: 
+  LoadedMagazineammoType: 
+  LoadedMagazineammoSize: -1
+  loadedMag: 0
 --- !u!114 &4336171223938694441
 MonoBehaviour:
   m_ObjectHideFlags: 0

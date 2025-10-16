@@ -214,10 +214,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2021438723471259424}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -265,11 +265,9 @@ MonoBehaviour:
   animOverride:
   - {fileID: 0}
   - {fileID: 22100000, guid: bb96d8522127b824f89a44eb4c5b9e50, type: 2}
-  - {fileID: 22100000, guid: 2df3868e06a8c964aa9ddd2986a741ed, type: 2}
   gunAnimOverride:
   - {fileID: 0}
   - {fileID: 22100000, guid: db804de328604dc42904ab51c6168575, type: 2}
-  - {fileID: 22100000, guid: b4e13f25ae1989e41a8eb3fa7290ef0e, type: 2}
   weapon: {fileID: 11400000, guid: bf5f1ee1e7edb2545ab52c204572c4a8, type: 2}
   playerModel: {fileID: 5487963341727548236, guid: 5e7655ef130867b4696baad3dd492699,
     type: 3}
@@ -286,7 +284,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animOverriderState: 1
-  Ammo: []
 --- !u!1 &4788248433847824922 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3260684701804398485, guid: c6806a02bf8134d438d991b0e525e19a,
