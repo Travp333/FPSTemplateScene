@@ -477,14 +477,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.2666667
-    functionName: UnHideMagazine
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 1.2666667
+  - time: 1.25
     functionName: LoadMagazine
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -500,6 +493,13 @@ AnimationClip:
     messageOptions: 0
   - time: 1.2666667
     functionName: RackSlide
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.2666667
+    functionName: UnHideMagazine
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
