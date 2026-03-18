@@ -7,4 +7,6 @@ public class Magazine : MonoBehaviour
     //Tracks How much ammo is in the gun. is updated when dropped 
     [SerializeField]
     public Stack<GameObject> Ammo = new Stack<GameObject>();
+    [SerializeField]
+    public AmmoManager ammoManager;
 }

@@ -11,6 +11,8 @@ public class Interact : MonoBehaviour
     [SerializeField]
     public Stack<GameObject> TempAmmoValue = new Stack<GameObject>();
     [SerializeField]
+    public AmmoManager TempAmmoManager;
+    [SerializeField]
     GameObject wallCollisionCheckBox;
     public bool isWallColliding;
 	[SerializeField]
@@ -249,6 +251,21 @@ public class Interact : MonoBehaviour
             }
         }
     }
+    //copy all the data from the temporary magazine stored on the world model into the playermodel weapon
+    void CopyAmmoManager(AmmoManager man1, AmmoManager man2)
+    {
+        man1.LoadedMagazineObjname = man2.LoadedMagazineObjname;
+        man1.LoadedMagazineweight = man2.LoadedMagazineweight;
+        man1.LoadedMagazineAmount = man2.LoadedMagazineAmount;
+        man1.LoadedMagazinestackSize = man2.LoadedMagazinestackSize;
+        man1.LoadedMagazineprefab = man2.LoadedMagazineprefab;
+        man1.LoadedMagazineimg = man2.LoadedMagazineimg;
+        man1.LoadedMagazineitemType = man2.LoadedMagazineitemType;
+        man1.LoadedMagazineAmmo = man2.LoadedMagazineAmmo;
+        man1.LoadedMagazineammoType = man2.LoadedMagazineammoType;
+        man1.LoadedMagazineammoSize = man2.LoadedMagazineammoSize;
+        man1.loadedMag = man2.loadedMag;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -407,7 +424,7 @@ public class Interact : MonoBehaviour
                             }
                             
                             //is the thing you interacted with a weapon? can you currently hold a weapon?
-
+                            //Okay so the problem is somewhere here i believe, the problem is that when you drop and then pick back up a weapon, it is meant to store the ammomanager values so that all those stats carry over, but that value is going null somewhere in the process
                             else if (hit.transform.gameObject.GetComponent<WeaponType>() != null && !hand.holdingWeapon)
                             {
                                 WeaponType wep = hit.transform.gameObject.GetComponent<WeaponType>();
@@ -422,11 +439,23 @@ public class Interact : MonoBehaviour
                                 hand.canReload = true;
                                 mag = hit.transform.gameObject.GetComponent<Magazine>();
                                 gun.GetComponent<GunAnim>().mag = mag;
-                                //overwrite ammo in magazine value with value stored in the gun itself. This allows you to have persistent ammo when you drop and pick back up a weapon. THIS MAY NEED TO BE REDONE
-                                if (gun.GetComponent<AmmoManager>().loadedMag != false)
+                                //overwrite ammo in magazine value with value stored in the gun itself. This allows you to have persistent ammo when you drop and pick back up a weapon.
+                                if (mag.ammoManager!= null)
                                 {
-                                    Debug.Log("Gun in hand has " + gun.GetComponent<AmmoManager>().LoadedMagazineAmmo.Count + " in magazine, " + "Gun picked up has " + mag.Ammo.Count + " In magazine, rewriting...");
-                                    gun.GetComponent<AmmoManager>().LoadedMagazineAmmo = mag.Ammo;
+                                    if (mag.ammoManager.loadedMag == true)
+                                    {
+                                        Debug.Log("Copied magazine data from World Weapon to Playermodel Weapon");
+                                        CopyAmmoManager(gun.GetComponent<AmmoManager>(), mag.ammoManager);
+                                        //gun.GetComponent<AmmoManager>().LoadedMagazineAmmo = mag.Ammo;
+                                    }
+                                    else
+                                    {
+                                        Debug.Log("World Model has no magazine loaded");
+                                    }
+                                }
+                                else
+                                {
+                                    Debug.Log("World Model has no ammoManager Component");
                                 }
                                 //Debug.Log("Gun in hand now has "+ gun.GetComponent<AmmoManager>().ammoInMag + " In Magazine");
                                 //now the overrides, this basically just overwrites all the animations of the player to match whatever gun they just picked up. Anim overriders should be attached to each weapon
@@ -494,13 +523,15 @@ public class Interact : MonoBehaviour
                     if(hand.holdingWeapon && !hand.firing && !hand.reloading){
                         hand.DropWeapon();
                         if(gun.GetComponent<AmmoManager>() != null){
-                            TempAmmoValue = gun.GetComponent<AmmoManager>().LoadedMagazineAmmo;
+                            TempAmmoManager = gun.GetComponent<AmmoManager>();
                         }
                         Destroy(gun);
+                        //Gun is the world model
                         gun = Instantiate(hand.gunAnim.WorldModel, holdPoint.transform.position, origin.transform.rotation);
                         mag = gun.GetComponent<Magazine>();
-                        mag.Ammo = TempAmmoValue;
-                        
+                        Debug.Log("Copied magazine data from Playermodel Weapon to World Weapon");
+                        mag.ammoManager = TempAmmoManager;
+                        Debug.Log("TESTING VALUES, loadedMag on the newly created world model is: "+ mag.ammoManager.loadedMag);
                         //does this gun have a hand animation overide?
                         if (gun.GetComponent<WeaponType>().animOverride.Length > 0)
                         {
