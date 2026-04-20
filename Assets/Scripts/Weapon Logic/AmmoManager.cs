@@ -159,7 +159,7 @@ public class AmmoManager : MonoBehaviour
         if (m != null)
         {
             UpdateMagazine(m);
-            // V V below is making itemstat.ammo null before rackslide for some reason 
+            // V V below is making itemstat.ammo null before rackslide for some reason (is this fixed?)
             //clear the slot the old magazine is in
             playerInv.NullInvenSlot(m.row, m.column);
             //updating UI to match new change
@@ -199,7 +199,7 @@ public class AmmoManager : MonoBehaviour
         Debug.Log("Could not find valid magazine in entire inventory");
         return null;
     }
-        //only need ItemStat and not item since you cant go from a world object straight into your gun, it would need to be placed in your inventory, then loaded. 
+    //only need ItemStat and not item since you cant go from a world object straight into your gun, it would need to be placed in your inventory, then loaded. 
     public void UpdateMagazine(ItemStatAndCoords m)
     {
         Debug.Log("Called Update Magazine ");

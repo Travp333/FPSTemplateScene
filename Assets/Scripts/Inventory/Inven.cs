@@ -330,19 +330,52 @@ public class Inven : MonoBehaviour
 					else
 					{
 						Debug.Log("Scooting item at bottom of stack to top to make room for new item: " + array[row, column].Amount);
-						PickUp(array[row,column]);
-						plug.ClearSlot(row, column, temp.emptyImage);
+
+						//basically I want to write an algorithm that interates through the inven backwards, looking for an empty slot and storing inven items in a stack as it goes. If it finds an empty slot, it will 
+						//iterate through the stack once and null all of the corresponding inventory slots to make space. then start at the empty inven slot and place the item at the top of the stack into that slot, 
+						// then pop it. iterate through the inventory slots until the stack is empty, which should leave you an empty slot at the end for the magazine to slot in!
+
+						//store bottom inven item in stack
+
+						//foreach loop interating through inven backwards
+							//is the inven slot empty? 
+								//YES!
+									//null inven slot of all items in stack
+									//place item from top of stack in current inven slot
+									//pop stack
+									//end loop
+								//NO!
+									//Add current inven item to stack 
+									//continue loop
+							
+						//end of foreach loop
+
+						// is the stack empty?
+							//YES
+								//do nothing
+							//NO
+								//Null stack
+								//drop magazine on ground
+
+
+								
+
+						//Old Version, just moves to top of inven
+						//PickUp(array[row,column]);
+						//plug.ClearSlot(row, column, temp.emptyImage);
 						//yes empty, filling slot
 						//Debug.Log("Slot (" + i + " , "+ column + " ) is empty, putting " + item.Objname + " in slot");
-						isPickedUp = true;
+						//isPickedUp = true;
 						//Debug.Log("ispickedup set to "+ isPickedUp);
-						CopyItemDataNoIncrement(row, column, item, Ammo);
+						//CopyItemDataNoIncrement(row, column, item, Ammo);
 						//updating UI to match new change
-						Debug.Log("After? " + array[row, column].Amount);
-						plug.ChangeItem(row, column, item.img, array[row, column].Amount, array[row, column].Objname, Ammo, array[row,column].ammoSize);
-						row = 0;
-						column = 0;
-						return;
+						//Debug.Log("After? " + array[row, column].Amount);
+						//plug.ChangeItem(row, column, item.img, array[row, column].Amount, array[row, column].Objname, Ammo, array[row,column].ammoSize);
+						//row = 0;
+						//column = 0;
+						//return;
+
+
 					}
 					//else if (array[row, column].stackSize <= array[row, column].Amount + 1)
 					//{
